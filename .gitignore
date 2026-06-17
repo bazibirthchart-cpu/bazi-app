@@ -1,0 +1,14 @@
+.DS_Store
+Thumbs.db
+
+# Node / tooling
+node_modules/
+.wrangler/
+
+# Local debug artifacts
+edge-dom.txt
+edge-err.txt
+
+# Generated exports
+*.log
+*.tmp

@@ -1,0 +1,391 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Elements Palette - 五行宇宙</title>
+    <script src="https://cdn.jsdelivr.net/npm/china-area-data@5.0.1/dist/china-area-data.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #0d0e15;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-color: #e2e8f0;
+            --accent-color: #8b5cf6;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #0d0e15 100%);
+        }
+
+        /* 语言切换栏 */
+        .lang-switcher {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 450px;
+            justify-content: flex-end;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+        }
+
+        .container {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+        }
+
+        input[type="text"], input[type="datetime-local"], select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: white;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+        }
+
+        /* 地区下拉并排样式 */
+        .location-selects {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .switch-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #6d28d9 0%, #db2777 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* 隐私声明底栏 */
+        .privacy-disclaimer {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 11px;
+            color: #64748b;
+            text-align: center;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="lang-switcher">
+    <button class="lang-btn active" id="btn-lang-zh" onclick="switchLanguage('zh')">简体中文</button>
+    <button class="lang-btn" id="btn-lang-en" onclick="switchLanguage('en')">English</button>
+</div>
+
+<div class="container">
+    <h1 id="title">The Elements Palette</h1>
+    <p id="subtitle" class="subtitle">解锁你的核心五行能量与灵魂底色</p>
+    
+    <form id="quizForm" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+            <label id="lbl-name" for="name">姓名 / Name</label>
+            <input type="text" id="name" required placeholder="请输入您的姓名">
+        </div>
+
+        <div class="form-group">
+            <label id="lbl-gender">性别 / Gender</label>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="gender" value="female" checked> <span id="txt-female">女</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="gender" value="male"> <span id="txt-male">男</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="lbl-birth">公历出生时间 / Birth Time (Solar)</label>
+            <input type="datetime-local" id="birthTime" required>
+        </div>
+
+        <div class="form-group">
+            <div class="switch-group">
+                <label id="lbl-dst" for="dst" style="margin: 0;">是否为夏令时出生 / Daylight Saving Time</label>
+                <input type="checkbox" id="dst" style="width: 20px; height: 20px; cursor: pointer;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="lbl-location">出生地区 / Birth Location</label>
+            
+            <select id="countrySelect" onchange="handleCountryChange()" style="margin-bottom: 10px;">
+                <option value="China">中国 (China)</option>
+                <option value="Overseas">其他国家或地区 (Other Countries/Regions)</option>
+            </select>
+
+            <div id="chinaLocationGroup" class="location-selects">
+                <select id="provinceSelect" onchange="loadCities()"></select>
+                <select id="citySelect"></select>
+            </div>
+
+            <div id="overseasLocationGroup" style="display: none;">
+                <input type="text" id="overseasCity" placeholder="e.g. New York, USA / London, UK">
+            </div>
+        </div>
+
+        <button type="submit" id="btn-submit" class="submit-btn">探索我的五行宇宙 →</button>
+    </form>
+
+    <div class="privacy-disclaimer" id="privacy-text">
+        【特别声明】我们深知个人信息对您的重要性。本程序采用即时本地/阅后即焚计算机制，您输入的姓名、生日及地点仅用于本次报告的实时精密测算。我们承诺不会在服务器上以任何形式保存、留存、备份或商用您的任何隐私信息，测算完成关闭网页后数据即刻彻底销毁。
+    </div>
+</div>
+
+<script>
+    // 语料库定义
+    const i18n = {
+        zh: {
+            title: "五行宇宙",
+            subtitle: "探索你的出厂设置与灵魂底色 DNA",
+            name: "姓名",
+            namePlh: "请输入您的姓名",
+            gender: "性别",
+            female: "女",
+            male: "男",
+            birth: "公历出生时间（精确到分）",
+            dst: "是否为夏令时出生",
+            location: "出生地区（用于校准真太阳时）",
+            submit: "探索我的五行宇宙 →",
+            privacy: "【特别声明】我们深知个人信息对您的重要性。本程序采用即时加密计算机制，您输入的姓名、生日及地区数据仅用于本次报告的实时精密生成。我们承诺不会在系统后台以任何形式保存、记录、备份或二次商用您的任何隐私内容。报告一经生成或关闭网页，输入的信息将当即销毁，确保您的隐私绝对安全。"
+        },
+        en: {
+            title: "The Elements Palette",
+            subtitle: "Unveil your core energy and Soul DNA",
+            name: "Name",
+            namePlh: "Enter your name",
+            gender: "Gender",
+            female: "Female",
+            male: "Male",
+            birth: "Birth Date & Time (Solar/Gregorian)",
+            dst: "Born in Daylight Saving Time (DST)",
+            location: "Birth Location (For Solar Time Calibration)",
+            submit: "Explore My Universe →",
+            privacy: "[Privacy Disclaimer] We highly value your privacy. This program adopts a real-time ephemeral calculation mechanism. The name, birth date, and location you enter are strictly used for generating this current report. We guarantee that no personal data will be stored, saved, backed up, or utilized on our servers or by any third parties. All inputs will be permanently destroyed once the session ends."
+        }
+    };
+
+    let currentLang = 'zh';
+
+    // 页面文本渲染函数
+    function renderLanguage(lang) {
+        currentLang = lang;
+        document.getElementById('title').innerText = i18n[lang].title;
+        document.getElementById('subtitle').innerText = i18n[lang].subtitle;
+        document.getElementById('lbl-name').innerText = i18n[lang].name;
+        document.getElementById('name').placeholder = i18n[lang].namePlh;
+        document.getElementById('lbl-gender').innerText = i18n[lang].gender;
+        document.getElementById('txt-female').innerText = i18n[lang].female;
+        document.getElementById('txt-male').innerText = i18n[lang].male;
+        document.getElementById('lbl-birth').innerText = i18n[lang].birth;
+        document.getElementById('lbl-dst').innerText = i18n[lang].dst;
+        document.getElementById('lbl-location').innerText = i18n[lang].location;
+        document.getElementById('btn-submit').innerText = i18n[lang].submit;
+        document.getElementById('privacy-text').innerText = i18n[lang].privacy;
+    }
+
+    // 手动切换语言
+    function switchLanguage(lang) {
+        document.getElementById('btn-lang-zh').classList.toggle('active', lang === 'zh');
+        document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
+        renderLanguage(lang);
+    }
+
+    // 国家切换逻辑
+    function handleCountryChange() {
+        const country = document.getElementById('countrySelect').value;
+        if (country === 'China') {
+            document.getElementById('chinaLocationGroup').style.display = 'grid';
+            document.getElementById('overseasLocationGroup').style.display = 'none';
+            document.getElementById('provinceSelect').required = true;
+            document.getElementById('overseasCity').required = false;
+        } else {
+            document.getElementById('chinaLocationGroup').style.display = 'none';
+            document.getElementById('overseasLocationGroup').style.display = 'block';
+            document.getElementById('provinceSelect').required = false;
+            document.getElementById('overseasCity').required = true;
+        }
+    }
+
+    // 动态初始化中国省份数据 (使用开源数据源 china-area-data)
+    function initChinaLocation() {
+        const provinceSelect = document.getElementById('provinceSelect');
+        provinceSelect.innerHTML = '';
+        
+        // 86 代表全国省份根节点
+        const provinces = window.ChinaAreaData['86'];
+        for (let code in provinces) {
+            let opt = document.createElement('option');
+            opt.value = provinces[code];
+            opt.dataset.code = code;
+            opt.innerText = provinces[code];
+            provinceSelect.appendChild(opt);
+        }
+        loadCities();
+    }
+
+    // 根据选中的省份动态加载城市
+    function loadCities() {
+        const provinceSelect = document.getElementById('provinceSelect');
+        const citySelect = document.getElementById('citySelect');
+        const selectedOption = provinceSelect.options[provinceSelect.selectedIndex];
+        const provinceCode = selectedOption.dataset.code;
+
+        citySelect.innerHTML = '';
+        const cities = window.ChinaAreaData[provinceCode];
+        for (let code in cities) {
+            let opt = document.createElement('option');
+            opt.value = cities[code];
+            opt.innerText = cities[code];
+            citySelect.appendChild(opt);
+        }
+    }
+
+    // 初始化运行
+    window.onload = function() {
+        // 默认检测一次浏览器环境进行首选渲染
+        const userLang = navigator.language || navigator.userLanguage;
+        const defaultLang = userLang.startsWith('zh') ? 'zh' : 'en';
+        switchLanguage(defaultLang);
+        
+        // 载入省市选择器
+        if(window.ChinaAreaData) {
+            initChinaLocation();
+        }
+    };
+
+    // 表单提交处理
+    function handleSubmit(event) {
+        event.preventDefault();
+        
+        let finalLocation = "";
+        const country = document.getElementById('countrySelect').value;
+        if(country === 'China') {
+            finalLocation = "中国," + document.getElementById('provinceSelect').value + "," + document.getElementById('citySelect').value;
+        } else {
+            finalLocation = document.getElementById('overseasCity').value;
+        }
+
+        const formData = {
+            name: document.getElementById('name').value,
+            gender: document.querySelector('input[name="gender"]:checked').value,
+            birthTime: document.getElementById('birthTime').value,
+            isDST: document.getElementById('dst').checked,
+            location: finalLocation,
+            language: currentLang
+        };
+
+        console.log("即将传递给后台和支付端的数据：", formData);
+        alert(currentLang === 'zh' ? "数据准备就绪！即将唤起支付解锁您的专属AI报告。" : "Data ready! Proceeding to payment to unlock your custom AI report.");
+    }
+</script>
+</body>
+</html>

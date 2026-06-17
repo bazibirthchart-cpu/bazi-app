@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Elements Palette - 五行宇宙</title>
+    <script src="https://cdn.jsdelivr.net/npm/china-area-data@5.0.1/dist/china-area-data.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #0d0e15;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-color: #e2e8f0;
+            --accent-color: #8b5cf6;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #0d0e15 100%);
+        }
+
+        .lang-switcher {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 450px;
+            justify-content: flex-end;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+        }
+
+        .container {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+        }
+
+        input[type="text"], input[type="datetime-local"], select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: white;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: all 0.3s;
+        }
+
+        /* 核心修复：把原生日期框自带的系统字眼变透明，防止中英文冲突 */
+        .date-input-container {
+            position: relative;
+            width: 100%;
+        }
+
+        input[type="datetime-local"] {
+            color: transparent; /* 默认透明，隐藏系统自带的年/月/日 */
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 当用户选了值之后，再让文字恢复显示出来 */
+        input[type="datetime-local"].has-value {
+            color: white;
+        }
+
+        /* 纯英文/中文的手写占位符，压在底层，完美控流 */
+        .date-placeholder {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-size: 15px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+            position: relative;
+            z-index: 3;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+        }
+
+        .location-selects {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .switch-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #6d28d9 0%, #db2777 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        .privacy-disclaimer {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 11px;
+            color: #64748b;
+            text-align: center;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="lang-switcher">
+    <button class="lang-btn active" id="btn-lang-zh" onclick="switchLanguage('zh')">简体中文</button>
+    <button class="lang-btn" id="btn-lang-en" onclick="switchLanguage('en')">English</button>
+</div>
+
+<div class="container">
+    <h1 id="title">The Elements Palette</h1>
+    <p id="subtitle" class="subtitle"></p>
+    
+    <form id="quizForm" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+            <label id="lbl-name" for="name"></label>
+            <input type="text" id="name" required>
+        </div>
+
+        <div class="form-group">
+            <label id="lbl-gender"></label>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="gender" value="female" checked> <span id="txt-female"></span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="gender" value="male"> <span id="txt-male"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="lbl-birth"></label>
+            <div class="date-input-container">
+                <span class="date-placeholder" id="datePlaceholder"></span>
+                <input type="datetime-local" id="birthTime" required onchange="handleDateChange(this)">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="switch-group">
+                <label id="lbl-dst" for="dst" style="margin: 0;"></label>
+                <input type="checkbox" id="dst" style="width: 20px; height: 20px; cursor: pointer;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="lbl-location"></label>
+            <select id="countrySelect" onchange="handleCountryChange()"></select>
+
+            <div id="chinaLocationGroup" class="location-selects" style="margin-top: 10px;">
+                <select id="provinceSelect" onchange="loadCities()"></select>
+                <select id="citySelect"></select>
+            </div>
+
+            <div id="overseasLocationGroup" style="display: none; margin-top: 10px;">
+                <input type="text" id="overseasCity" required>
+            </div>
+        </div>
+
+        <button type="submit" id="btn-submit" class="submit-btn"></button>
+    </form>
+
+    <div class="privacy-disclaimer" id="privacy-text"></div>
+</div>
+
+<script>
+    const i18n = {
+        zh: {
+            title: "五行宇宙",
+            subtitle: "用东方古老科学探索你的出厂设置与灵魂底色 DNA",
+            name: "姓名",
+            namePlh: "请输入您的姓名",
+            gender: "性别",
+            female: "女",
+            male: "男",
+            birth: "公历出生时间（精确到分）",
+            birthPlh: "请选择 对应公历年月日时分",
+            dst: "是否为夏令时出生",
+            location: "出生地区（用于校准真太阳时）",
+            countryChina: "中国",
+            countryOverseas: "其他国家或地区",
+            overseasPlh: "例如：美国纽约 或 英国伦敦",
+            submit: "探索我的五行宇宙 →",
+            privacy: "【特别声明】我们深知个人信息对您的重要性。本程序采用即时加密计算机制，您输入的姓名、生日及地区数据仅用于本次报告的实时精密生成。我们承诺不会在系统后台以任何形式保存、记录、备份或二次商用您的任何隐私内容。报告一经生成或关闭网页，输入的信息将当即销毁，确保您的隐私绝对安全。"
+        },
+        en: {
+            title: "The Elements Palette",
+            subtitle: "Explore your core design and Soul DNA through ancient Eastern science",
+            name: "Name",
+            namePlh: "Enter your name",
+            gender: "Gender",
+            female: "Female",
+            male: "Male",
+            birth: "Birth Date & Time (Solar/Gregorian)",
+            birthPlh: "YYYY / MM / DD  -- : --",
+            dst: "Born in Daylight Saving Time (DST)",
+            location: "Birth Location (For Solar Time Calibration)",
+            countryChina: "China",
+            countryOverseas: "Other Countries / Regions",
+            overseasPlh: "e.g., New York, USA / London, UK",
+            submit: "Explore My Universe →",
+            privacy: "[Privacy Disclaimer] We highly value your privacy. This program adopts a real-time ephemeral calculation mechanism. The name, birth date, and location you enter are strictly used for generating this current report. We guarantee that no personal data will be stored, saved, backed up, or utilized on our servers or by any third parties. All inputs will be permanently destroyed once the session ends."
+        }
+    };
+
+    let currentLang = 'zh';
+
+    function renderLanguage(lang) {
+        currentLang = lang;
+        
+        document.getElementById('title').innerText = i18n[lang].title;
+        document.getElementById('subtitle').innerText = i18n[lang].subtitle;
+        document.getElementById('lbl-name').innerText = i18n[lang].name;
+        document.getElementById('name').placeholder = i18n[lang].namePlh;
+        document.getElementById('lbl-gender').innerText = i18n[lang].gender;
+        document.getElementById('txt-female').innerText = i18n[lang].female;
+        document.getElementById('txt-male').innerText = i18n[lang].male;
+        document.getElementById('lbl-birth').innerText = i18n[lang].birth;
+        document.getElementById('lbl-dst').innerText = i18n[lang].dst;
+        document.getElementById('lbl-location').innerText = i18n[lang].location;
+        document.getElementById('btn-submit').innerText = i18n[lang].submit;
+        document.getElementById('privacy-text').innerText = i18n[lang].privacy;
+        document.getElementById('overseasCity').placeholder = i18n[lang].overseasPlh;
+
+        // 动态修改手写占位符文字
+        const birthInput = document.getElementById('birthTime');
+        const placeholder = document.getElementById('datePlaceholder');
+        if(!birthInput.value) {
+            placeholder.innerText = i18n[lang].birthPlh;
+            placeholder.style.display = 'block';
+        } else {
+            placeholder.style.display = 'none';
+        }
+
+        const countrySelect = document.getElementById('countrySelect');
+        const previousValue = countrySelect.value || 'China';
+        countrySelect.innerHTML = `
+            <option value="China">${i18n[lang].countryChina}</option>
+            <option value="Overseas">${i18n[lang].countryOverseas}</option>
+        `;
+        countrySelect.value = previousValue;
+    }
+
+    // 处理时间选择框的值改变状态
+    function handleDateChange(input) {
+        const placeholder = document.getElementById('datePlaceholder');
+        if (input.value) {
+            input.classList.add('has-value');
+            placeholder.style.display = 'none';
+        } else {
+            input.classList.remove('has-value');
+            placeholder.innerText = i18n[currentLang].birthPlh;
+            placeholder.style.display = 'block';
+        }
+    }
+
+    function switchLanguage(lang) {
+        document.getElementById('btn-lang-zh').classList.toggle('active', lang === 'zh');
+        document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
+        renderLanguage(lang);
+        handleCountryChange();
+    }
+
+    function handleCountryChange() {
+        const country = document.getElementById('countrySelect').value;
+        const chinaGroup = document.getElementById('chinaLocationGroup');
+        const overseasGroup = document.getElementById('overseasLocationGroup');
+        
+        if (country === 'China') {
+            chinaGroup.style.display = 'grid';
+            overseasGroup.style.display = 'none';
+            document.getElementById('provinceSelect').required = true;
+            document.getElementById('overseasCity').required = false;
+        } else {
+            chinaGroup.style.display = 'none';
+            overseasGroup.style.display = 'block';
+            document.getElementById('provinceSelect').required = false;
+            document.getElementById('overseasCity').required = true;
+        }
+    }
+
+    function initChinaLocation() {
+        const provinceSelect = document.getElementById('provinceSelect');
+        provinceSelect.innerHTML = '';
+        if (window.ChinaAreaData && window.ChinaAreaData['86']) {
+            const provinces = window.ChinaAreaData['86'];
+            for (let code in provinces) {
+                let opt = document.createElement('option');
+                opt.value = provinces[code];
+                opt.dataset.code = code;
+                opt.innerText = provinces[code];
+                provinceSelect.appendChild(opt);
+            }
+            loadCities();
+        }
+    }
+
+    function loadCities() {
+        const provinceSelect = document.getElementById('provinceSelect');
+        const citySelect = document.getElementById('citySelect');
+        if (!provinceSelect.options.length) return;
+        
+        const selectedOption = provinceSelect.options[provinceSelect.selectedIndex];
+        const provinceCode = selectedOption.dataset.code;
+
+        citySelect.innerHTML = '';
+        const cities = window.ChinaAreaData[provinceCode];
+        for (let code in cities) {
+            let opt = document.createElement('option');
+            opt.value = cities[code];
+            opt.innerText = cities[code];
+            citySelect.appendChild(opt);
+        }
+    }
+
+    window.onload = function() {
+        if (window.ChinaAreaData) {
+            initChinaLocation();
+        }
+        const userLang = navigator.language || navigator.userLanguage;
+        const defaultLang = userLang.startsWith('zh') ? 'zh' : 'en';
+        switchLanguage(defaultLang);
+    };
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        let finalLocation = "";
+        const country = document.getElementById('countrySelect').value;
+        if (country === 'China') {
+            finalLocation = "中国," + document.getElementById('provinceSelect').value + "," + document.getElementById('citySelect').value;
+        } else {
+            finalLocation = document.getElementById('overseasCity').value;
+        }
+
+        const formData = {
+            name: document.getElementById('name').value,
+            gender: document.querySelector('input[name="gender"]:checked').value,
+            birthTime: document.getElementById('birthTime').value,
+            isDST: document.getElementById('dst').checked,
+            location: finalLocation,
+            language: currentLang
+        };
+        console.log("打包好的数据：", formData);
+        alert(currentLang === 'zh' ? "数据准备就绪！即将唤起支付解锁您的专属AI报告。" : "Data ready! Proceeding to payment to unlock your custom AI report.");
+    }
+</script>
+</body>
+</html>
