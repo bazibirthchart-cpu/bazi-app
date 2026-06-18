@@ -1,0 +1,8 @@
+name = "bazi-app-en"
+compatibility_date = "2026-06-16"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+APP_NAME = "The Elements Palette"
+RATE_LIMIT_MAX = "30"
+RATE_LIMIT_WINDOW_MS = "60000"

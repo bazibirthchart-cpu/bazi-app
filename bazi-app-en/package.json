@@ -1,0 +1,18 @@
+{
+  "name": "bazi-app-en",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler pages dev .",
+    "deploy": "wrangler pages deploy .",
+    "check": "node --check functions/api/calculate.js && node --check functions/api/report.js && node --check functions/api/export-pdf.js && node --check functions/api/export-image.js && node --check functions/api/share-log.js"
+  },
+  "dependencies": {
+    "lunar-javascript": "1.6.12",
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "wrangler": "^4.21.0"
+  }
+}
