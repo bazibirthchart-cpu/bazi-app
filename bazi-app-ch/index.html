@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Elements Palette - 五行宇宙</title>
-    <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.12/lunar.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="./vendor/lunar.js"></script>
+    <script src="./vendor/html2canvas.min.js"></script>
+    <script src="./vendor/jspdf.umd.min.js"></script>
     <style>
         :root {
             --bg-color: #0d0e15;
@@ -784,11 +785,6 @@
 </head>
 <body>
 
-<div class="lang-switcher">
-    <button class="lang-btn active" id="btn-lang-zh" onclick="navigateToLanguage('zh')">简体中文</button>
-    <button class="lang-btn" id="btn-lang-en" onclick="navigateToLanguage('en')">English</button>
-</div>
-
 <div class="container">
     <h1 id="title">五行宇宙</h1>
     <p id="subtitle" class="subtitle"></p>
@@ -1296,7 +1292,7 @@
     const standalonePageLang = 'zh';
     const standaloneSiteLinks = {
         zh: '/',
-        en: 'https://YOUR-ENGLISH-SITE.pages.dev/'
+        en: 'https://bazi-app-en.pages.dev/'
     };
     let currentLang = standalonePageLang;
     let selectedYear = null;
@@ -1546,8 +1542,8 @@
     }
 
     function switchLanguageLegacy(lang) {
-        document.getElementById('btn-lang-zh').classList.toggle('active', lang === 'zh');
-        document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('btn-lang-zh')?.classList.toggle('active', lang === 'zh');
+        document.getElementById('btn-lang-en')?.classList.toggle('active', lang === 'en');
         renderLanguage(lang);
         handleCountryChange();
     }
@@ -2358,8 +2354,6 @@
 
     function getT(lang){ return enhancedI18n[lang || currentLang || 'zh']; }
     function applyStandaloneMode() {
-        const switcher = document.querySelector('.lang-switcher');
-        if (switcher) switcher.style.display = 'flex';
         document.documentElement.lang = standalonePageLang === 'en' ? 'en' : 'zh-CN';
         document.title = standalonePageLang === 'en' ? 'The Elements Palette' : '五行宇宙';
     }
@@ -3338,8 +3332,8 @@
     }
     switchLanguage = function(lang) {
         lang = standalonePageLang;
-        document.getElementById('btn-lang-zh').classList.toggle('active', lang === 'zh');
-        document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('btn-lang-zh')?.classList.toggle('active', lang === 'zh');
+        document.getElementById('btn-lang-en')?.classList.toggle('active', lang === 'en');
         const activePage = getCurrentPageEnhanced();
         renderLanguageEnhanced(lang);
         handleCountryChange();

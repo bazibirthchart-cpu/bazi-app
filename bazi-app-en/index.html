@@ -873,11 +873,6 @@
 </head>
 <body>
 
-<div class="lang-switcher">
-    <button class="lang-btn" id="btn-lang-zh" onclick="navigateToLanguage('zh')">简体中文</button>
-    <button class="lang-btn active" id="btn-lang-en" onclick="navigateToLanguage('en')">English</button>
-</div>
-
 <div class="container">
     <h1 id="title">The Elements Palette</h1>
     <p id="subtitle" class="subtitle">Decode your elemental design through the language of BaZi.</p>
@@ -1386,7 +1381,7 @@
 
     const standalonePageLang = 'en';
     const standaloneSiteLinks = {
-        zh: 'https://YOUR-CHINESE-SITE.pages.dev/',
+        zh: 'https://bazi-app-ch.pages.dev/',
         en: '/'
     };
     let currentLang = standalonePageLang;
@@ -1637,8 +1632,8 @@
     }
 
     function switchLanguageLegacy(lang) {
-        document.getElementById('btn-lang-zh').classList.toggle('active', lang === 'zh');
-        document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('btn-lang-zh')?.classList.toggle('active', lang === 'zh');
+        document.getElementById('btn-lang-en')?.classList.toggle('active', lang === 'en');
         renderLanguage(lang);
         handleCountryChange();
     }
@@ -2452,8 +2447,6 @@
 
     function getT(lang){ return enhancedI18n[lang || currentLang || 'zh']; }
     function applyStandaloneMode() {
-        const switcher = document.querySelector('.lang-switcher');
-        if (switcher) switcher.style.display = 'flex';
         document.documentElement.lang = standalonePageLang === 'en' ? 'en' : 'zh-CN';
         document.title = standalonePageLang === 'en' ? 'The Elements Palette' : '五行宇宙';
     }
@@ -3530,8 +3523,8 @@
     }
     switchLanguage = function(lang) {
         lang = standalonePageLang;
-        document.getElementById('btn-lang-zh').classList.toggle('active', lang === 'zh');
-        document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('btn-lang-zh')?.classList.toggle('active', lang === 'zh');
+        document.getElementById('btn-lang-en')?.classList.toggle('active', lang === 'en');
         const activePage = getCurrentPageEnhanced();
         renderLanguageEnhanced(lang);
         handleCountryChange();
