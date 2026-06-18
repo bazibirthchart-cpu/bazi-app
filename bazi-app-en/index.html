@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Elements Palette</title>
+    <title>BaZi Five Elements Reading</title>
     <script src="./vendor/lunar.js"></script>
     <script src="./vendor/html2canvas.min.js"></script>
     <script src="./vendor/jspdf.umd.min.js"></script>
@@ -874,7 +874,7 @@
 <body>
 
 <div class="container">
-    <h1 id="title">The Elements Palette</h1>
+    <h1 id="title">BaZi Five Elements Reading</h1>
     <p id="subtitle" class="subtitle">Decode your elemental design through the language of BaZi.</p>
     
     <form id="quizForm" onsubmit="executeSubmit(event)" novalidate>
@@ -1352,7 +1352,7 @@
             }
         },
         en: {
-            title: "The Elements Palette", subtitle: "Explore your core design through ancient Eastern science",
+            title: "BaZi Five Elements Reading", subtitle: "Explore your core design through ancient Eastern science",
             name: "Name", namePlh: "Enter your name", gender: "Gender", female: "Female", male: "Male", birth: "Birth Date & Time",
             pYear: "Birth Year", pMonth: "Month", pDay: "Day", pTime: "Time", dst: "Born in Daylight Saving Time (DST)",
             location: "Birth Location", countryChina: "China", countryOverseas: "Other Countries",
@@ -2170,7 +2170,7 @@
             }
         },
         en: {
-            title: 'The Elements Palette',
+            title: 'BaZi Five Elements Reading',
             subtitle: 'Read your core design, elemental balance, and life rhythm through BaZi',
             name: 'Name',
             namePlh: 'Enter your name',
@@ -2448,7 +2448,7 @@
     function getT(lang){ return enhancedI18n[lang || currentLang || 'zh']; }
     function applyStandaloneMode() {
         document.documentElement.lang = standalonePageLang === 'en' ? 'en' : 'zh-CN';
-        document.title = standalonePageLang === 'en' ? 'The Elements Palette' : '五行宇宙';
+        document.title = standalonePageLang === 'en' ? 'BaZi Five Elements Reading' : '五行宇宙';
     }
     function navigateToLanguage(lang) {
         if (lang === 'en') {
@@ -4102,7 +4102,7 @@
         return true;
     }
     function buildSharePayload() {
-        const title = document.getElementById('title')?.textContent?.trim() || 'The Elements Palette';
+        const title = document.getElementById('title')?.textContent?.trim() || 'BaZi Five Elements Reading';
         const name = document.getElementById('nameText')?.textContent?.trim() || 'Your Reading';
         const dayMaster = document.getElementById('dayMasterText')?.textContent?.trim() || '';
         const location = document.getElementById('locationText')?.textContent?.trim() || '';
