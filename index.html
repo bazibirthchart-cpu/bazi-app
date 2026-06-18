@@ -785,8 +785,8 @@
 <body>
 
 <div class="lang-switcher">
-    <button class="lang-btn active" id="btn-lang-zh" onclick="switchLanguage('zh')">简体中文</button>
-    <button class="lang-btn" id="btn-lang-en" onclick="switchLanguage('en')">English</button>
+    <button class="lang-btn active" id="btn-lang-zh" onclick="navigateToLanguage('zh')">简体中文</button>
+    <button class="lang-btn" id="btn-lang-en" onclick="navigateToLanguage('en')">English</button>
 </div>
 
 <div class="container">
@@ -2355,9 +2355,16 @@
     function getT(lang){ return enhancedI18n[lang || currentLang || 'zh']; }
     function applyStandaloneMode() {
         const switcher = document.querySelector('.lang-switcher');
-        if (switcher) switcher.style.display = 'none';
+        if (switcher) switcher.style.display = 'flex';
         document.documentElement.lang = standalonePageLang === 'en' ? 'en' : 'zh-CN';
         document.title = standalonePageLang === 'en' ? 'The Elements Palette' : '五行宇宙';
+    }
+    function navigateToLanguage(lang) {
+        if (lang === 'en') {
+            window.location.href = '/index-en.html';
+            return;
+        }
+        window.location.href = '/';
     }
     function getDisplayNameForRegion(code, lang) {
         try {

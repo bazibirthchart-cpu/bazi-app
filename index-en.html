@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Elements Palette - 五行宇宙</title>
+    <title>The Elements Palette</title>
     <script src="./vendor/lunar.js"></script>
     <script src="./vendor/html2canvas.min.js"></script>
     <script src="./vendor/jspdf.umd.min.js"></script>
@@ -874,13 +874,13 @@
 <body>
 
 <div class="lang-switcher">
-    <button class="lang-btn active" id="btn-lang-zh" onclick="switchLanguage('zh')">简体中文</button>
-    <button class="lang-btn" id="btn-lang-en" onclick="switchLanguage('en')">English</button>
+    <button class="lang-btn" id="btn-lang-zh" onclick="navigateToLanguage('zh')">简体中文</button>
+    <button class="lang-btn active" id="btn-lang-en" onclick="navigateToLanguage('en')">English</button>
 </div>
 
 <div class="container">
-    <h1 id="title">五行宇宙</h1>
-    <p id="subtitle" class="subtitle"></p>
+    <h1 id="title">The Elements Palette</h1>
+    <p id="subtitle" class="subtitle">Decode your elemental design through the language of BaZi.</p>
     
     <form id="quizForm" onsubmit="executeSubmit(event)" novalidate>
         <div class="form-group">
@@ -1629,7 +1629,7 @@
 
     function legacyBootstrap() {
         initMonthAndDays();
-        switchLanguage('zh');
+        switchLanguage(standalonePageLang);
     }
 
     function switchLanguageLegacy(lang) {
@@ -2449,9 +2449,16 @@
     function getT(lang){ return enhancedI18n[lang || currentLang || 'zh']; }
     function applyStandaloneMode() {
         const switcher = document.querySelector('.lang-switcher');
-        if (switcher) switcher.style.display = 'none';
+        if (switcher) switcher.style.display = 'flex';
         document.documentElement.lang = standalonePageLang === 'en' ? 'en' : 'zh-CN';
         document.title = standalonePageLang === 'en' ? 'The Elements Palette' : '五行宇宙';
+    }
+    function navigateToLanguage(lang) {
+        if (lang === 'en') {
+            window.location.href = '/index-en.html';
+            return;
+        }
+        window.location.href = '/';
     }
     function getDisplayNameForRegion(code, lang) {
         try {
