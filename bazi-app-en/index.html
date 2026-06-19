@@ -4293,6 +4293,65 @@
         triggerFileDownload(blob, filename, fallbackDataUrl, kind);
         return true;
     }
+    function collectTextContent(selector) {
+        const node = typeof selector === 'string' ? document.querySelector(selector) : selector;
+        if (!node) return '';
+        return (node.innerText || node.textContent || '').replace(/\s+\n/g, '\n').replace(/\n{2,}/g, '\n').trim();
+    }
+    function buildPdfApiPayload() {
+        const latest = enhancedState.latest;
+        const formData = latest?.formData || {};
+        const pillars = {
+            year: `${document.getElementById('g-year')?.innerText?.trim() || ''}${document.getElementById('z-year')?.innerText?.trim() || ''}`.trim(),
+            month: `${document.getElementById('g-month')?.innerText?.trim() || ''}${document.getElementById('z-month')?.innerText?.trim() || ''}`.trim(),
+            day: `${document.getElementById('g-day')?.innerText?.trim() || ''}${document.getElementById('z-day')?.innerText?.trim() || ''}`.trim(),
+            time: `${document.getElementById('g-time')?.innerText?.trim() || ''}${document.getElementById('z-time')?.innerText?.trim() || ''}`.trim()
+        };
+        return {
+            language: currentLang,
+            calculation: {
+                input: {
+                    name: document.getElementById('nameText')?.innerText?.trim() || formData.name || 'Unnamed',
+                    rawBirthTime: document.getElementById('solarBirthText')?.innerText?.trim() || formData.rawBirthTime || '',
+                    adjustedBirthTime: document.getElementById('trueSolarBirthText')?.innerText?.trim() || formData.adjustedBirthTime || '',
+                    locationLabel: document.getElementById('locationText')?.innerText?.trim() || formData.locationLabel || ''
+                },
+                chart: { pillars }
+            },
+            report: {
+                lead: collectTextContent('#overviewLead') || collectTextContent('.chapter-lead'),
+                sections: {
+                    basic: collectTextContent('#page-free'),
+                    overview: collectTextContent('#page-overview'),
+                    career: collectTextContent('#page-career'),
+                    relationship: collectTextContent('#page-relationship'),
+                    yearly: collectTextContent('#page-year'),
+                    action: collectTextContent('#page-action')
+                }
+            }
+        };
+    }
+    async function exportPdfViaApi() {
+        if (window.location.protocol === 'file:') return false;
+        const response = await fetch('/api/export-pdf', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(buildPdfApiPayload())
+        });
+        if (!response.ok) {
+            throw new Error(`PDF API failed with status ${response.status}`);
+        }
+        const pdfBlob = await response.blob();
+        const filename = currentLang === 'zh' ? `五行宇宙_完整报告_${Date.now()}.pdf` : `elements-palette-full-report-${Date.now()}.pdf`;
+        const pdfDataUrl = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(pdfBlob);
+        });
+        await persistExport(pdfBlob, filename, 'application/pdf', pdfDataUrl, 'pdf');
+        return true;
+    }
     function buildSharePayload() {
         const title = document.getElementById('title')?.textContent?.trim() || 'BaZi Five Elements Reading';
         const name = document.getElementById('nameText')?.textContent?.trim() || 'Your Reading';
@@ -4404,6 +4463,12 @@
         if (!target || target.style.display === 'none') {
             alert(currentLang === 'zh' ? '请先生成报告，再保存 PDF。' : 'Please generate a report before saving the PDF.');
             return;
+        }
+        try {
+            const exported = await exportPdfViaApi();
+            if (exported) return;
+        } catch (error) {
+            console.error(error);
         }
         const { jsPDF } = window.jspdf;
         const { shell, pages, exportWidth } = buildPdfExportPages();
