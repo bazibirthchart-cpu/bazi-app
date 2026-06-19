@@ -1156,15 +1156,6 @@
             <div id="elementBars" class="element-bars"></div>
         </div>
 
-        <div id="unlockCard" class="result-card unlock-card">
-            <h2 id="unlockCardTitle">Unlock Full Report</h2>
-            <p id="unlockCardText" class="unlock-note">You can preview the basic chart first. The full reading, complete PDF, and full report sections unlock through the test payment flow.</p>
-            <p id="unlockWarningText" class="unlock-warning">Test flow notice: after successful return, this report stays unlocked only for the current visit. Refreshing the page will lock it again.</p>
-            <div class="unlock-actions">
-                <button type="button" id="unlockCtaBtn" class="unlock-btn" onclick="startUnlockFlow()">Unlock Full Report</button>
-            </div>
-            <p id="unlockStatusText" class="unlock-status" style="display:none;"></p>
-        </div>
         </div>
 
         <div id="page-overview" class="report-page">
@@ -1560,13 +1551,6 @@
     }
 
     function updatePremiumUI() {
-        const copy = getUnlockFlowCopy();
-        setText('unlockCardTitle', copy.title);
-        setText('unlockCardText', copy.note);
-        setText('unlockWarningText', copy.warning);
-        setText('unlockCtaBtn', copy.cta);
-        setText('unlockStatusText', copy.unlocked);
-
         document.querySelectorAll('.report-tab').forEach(tab => {
             const locked = !premiumUnlocked && isPremiumPage(tab.dataset.page);
             tab.classList.toggle('locked', locked);
@@ -1577,11 +1561,6 @@
         const shareReportBtn = document.getElementById('shareReportBtn');
         if (savePdfBtn) savePdfBtn.disabled = !premiumUnlocked;
         if (shareReportBtn) shareReportBtn.disabled = !premiumUnlocked;
-
-        const unlockBtn = document.getElementById('unlockCtaBtn');
-        const unlockStatus = document.getElementById('unlockStatusText');
-        if (unlockBtn) unlockBtn.style.display = premiumUnlocked ? 'none' : 'inline-flex';
-        if (unlockStatus) unlockStatus.style.display = premiumUnlocked ? 'block' : 'none';
     }
 
     function switchReportPage(pageName) {
@@ -4112,6 +4091,15 @@
         const isDST = document.getElementById('dst').checked;
         const location = getSelectedLocation();
 
+        if (!shouldUnlockAfterRender) {
+            const unlockUrl = new URL('test-unlock.html', window.location.href);
+            unlockUrl.searchParams.set('resume', encodeUnlockSnapshot(buildUnlockSnapshot()));
+            unlockUrl.searchParams.set('return', 'index.html');
+            unlockUrl.searchParams.set('page', 'overview');
+            window.location.href = unlockUrl.toString();
+            return;
+        }
+
         document.getElementById('quizForm').style.display = 'none';
         document.getElementById('loader').style.display = 'block';
         document.getElementById('loader').innerText = getT(currentLang).loading;
@@ -4463,17 +4451,6 @@
         } finally {
             shell.remove();
         }
-    };
-    window.startUnlockFlow = function() {
-        if (!enhancedState.latest) {
-            alert(currentLang === 'zh' ? '请先生成基础信息，再继续解锁。' : 'Please generate the basic result first, then continue to unlock.');
-            return;
-        }
-        const unlockUrl = new URL('test-unlock.html', window.location.href);
-        unlockUrl.searchParams.set('resume', encodeUnlockSnapshot(buildUnlockSnapshot()));
-        unlockUrl.searchParams.set('return', 'index.html');
-        unlockUrl.searchParams.set('page', 'overview');
-        window.location.href = unlockUrl.toString();
     };
     window.onload = function() {
         applyStandaloneMode();

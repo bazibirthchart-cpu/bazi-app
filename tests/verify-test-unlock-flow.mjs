@@ -12,8 +12,11 @@ const en = readFileSync(enIndexPath, 'utf8');
 assert.ok(existsSync(zhPaywallPath), 'Chinese standalone site should include a dedicated test unlock page.');
 assert.ok(existsSync(enPaywallPath), 'English standalone site should include a dedicated test unlock page.');
 
-assert.match(zh, /startUnlockFlow|unlockCtaBtn/i, 'Chinese standalone site should include an unlock action.');
-assert.match(en, /startUnlockFlow|unlockCtaBtn/i, 'English standalone site should include an unlock action.');
+assert.doesNotMatch(zh, /unlockCtaBtn|startUnlockFlow/i, 'Chinese standalone site should not wait for a second unlock button on the report page.');
+assert.doesNotMatch(en, /unlockCtaBtn|startUnlockFlow/i, 'English standalone site should not wait for a second unlock button on the report page.');
+
+assert.match(zh, /new URL\('test-unlock\.html', window\.location\.href\)|window\.location\.href = unlockUrl\.toString\(\)/i, 'Chinese standalone site should redirect to the payment page from submit flow.');
+assert.match(en, /new URL\('test-unlock\.html', window\.location\.href\)|window\.location\.href = unlockUrl\.toString\(\)/i, 'English standalone site should redirect to the payment page from submit flow.');
 
 assert.match(zh, /刷新页面后会重新锁定|刷新后会重新锁定/, 'Chinese standalone site should warn that refresh will lock the report again.');
 assert.match(en, /refreshing the page will lock it again|will lock again after refresh/i, 'English standalone site should warn that refresh will lock the report again.');

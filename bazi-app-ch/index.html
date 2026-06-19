@@ -1060,15 +1060,6 @@
             <div id="elementBars" class="element-bars"></div>
         </div>
 
-        <div id="unlockCard" class="result-card unlock-card">
-            <h2 id="unlockCardTitle">解锁完整报告</h2>
-            <p id="unlockCardText" class="unlock-note">你可以先查看基础信息。完整报告章节与完整解读属于测试解锁流程的一部分。</p>
-            <p id="unlockWarningText" class="unlock-warning">测试版说明：成功返回后，本次解锁状态仅在当前访问中有效，刷新页面后会重新锁定。</p>
-            <div class="unlock-actions">
-                <button type="button" id="unlockCtaBtn" class="unlock-btn" onclick="startUnlockFlow()">解锁完整报告</button>
-            </div>
-            <p id="unlockStatusText" class="unlock-status" style="display:none;"></p>
-        </div>
         </div>
 
         <div id="page-overview" class="report-page">
@@ -1467,23 +1458,11 @@
     }
 
     function updatePremiumUI() {
-        const copy = getUnlockFlowCopy();
-        setText('unlockCardTitle', copy.title);
-        setText('unlockCardText', copy.note);
-        setText('unlockWarningText', copy.warning);
-        setText('unlockCtaBtn', copy.cta);
-        setText('unlockStatusText', copy.unlocked);
-
         document.querySelectorAll('.report-tab').forEach(tab => {
             const locked = !premiumUnlocked && isPremiumPage(tab.dataset.page);
             tab.classList.toggle('locked', locked);
             tab.setAttribute('aria-disabled', locked ? 'true' : 'false');
         });
-
-        const unlockBtn = document.getElementById('unlockCtaBtn');
-        const unlockStatus = document.getElementById('unlockStatusText');
-        if (unlockBtn) unlockBtn.style.display = premiumUnlocked ? 'none' : 'inline-flex';
-        if (unlockStatus) unlockStatus.style.display = premiumUnlocked ? 'block' : 'none';
     }
 
     function switchReportPage(pageName) {
@@ -3887,6 +3866,15 @@
         const isDST = document.getElementById('dst').checked;
         const location = getSelectedLocation();
 
+        if (!shouldUnlockAfterRender) {
+            const unlockUrl = new URL('test-unlock.html', window.location.href);
+            unlockUrl.searchParams.set('resume', encodeUnlockSnapshot(buildUnlockSnapshot()));
+            unlockUrl.searchParams.set('return', 'index.html');
+            unlockUrl.searchParams.set('page', 'overview');
+            window.location.href = unlockUrl.toString();
+            return;
+        }
+
         document.getElementById('quizForm').style.display = 'none';
         document.getElementById('loader').style.display = 'block';
         document.getElementById('loader').innerText = getT(currentLang).loading;
@@ -3940,17 +3928,6 @@
             link.href = canvas.toDataURL();
             link.click();
         });
-    };
-    window.startUnlockFlow = function() {
-        if (!enhancedState.latest) {
-            alert(currentLang === 'zh' ? '请先生成基础信息，再继续解锁。' : 'Please generate the basic result first, then continue to unlock.');
-            return;
-        }
-        const unlockUrl = new URL('test-unlock.html', window.location.href);
-        unlockUrl.searchParams.set('resume', encodeUnlockSnapshot(buildUnlockSnapshot()));
-        unlockUrl.searchParams.set('return', 'index.html');
-        unlockUrl.searchParams.set('page', 'overview');
-        window.location.href = unlockUrl.toString();
     };
     window.onload = function() {
         applyStandaloneMode();
