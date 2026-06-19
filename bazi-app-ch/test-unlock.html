@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试解锁付款 | 五行宇宙</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #141227;
+            --panel: #282548;
+            --panel-border: rgba(255,255,255,0.08);
+            --text: #f8f7ff;
+            --muted: #c9c4e3;
+            --warning-bg: rgba(234, 179, 8, 0.14);
+            --warning-border: rgba(234, 179, 8, 0.38);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: radial-gradient(circle at top, #2d2757 0%, var(--bg) 56%);
+            color: var(--text);
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            width: min(100%, 680px);
+            background: var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+        }
+        h1 { margin: 0 0 12px; font-size: clamp(28px, 4vw, 40px); }
+        p { margin: 0 0 14px; line-height: 1.7; color: var(--muted); }
+        .warning {
+            margin-top: 18px;
+            padding: 16px 18px;
+            border-radius: 16px;
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            color: #fff4c7;
+            font-weight: 700;
+        }
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        button, a {
+            appearance: none;
+            border: none;
+            text-decoration: none;
+            border-radius: 999px;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .primary {
+            color: #fff;
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+        }
+        .secondary {
+            color: var(--text);
+            background: rgba(255,255,255,0.08);
+        }
+        .footnote {
+            margin-top: 16px;
+            font-size: 13px;
+            color: #a8a1cf;
+        }
+    </style>
+</head>
+<body>
+    <main class="card">
+        <h1>测试解锁付款</h1>
+        <p>当前页面用于模拟后续真实支付前的测试流程，先帮助我们把解锁链路完整跑通。</p>
+        <p>测试成功后，会自动返回报告页面，并直接展开完整报告内容。</p>
+        <div class="warning">重要提示：这是测试版解锁流程。成功返回后，本次解锁状态仅在当前访问中有效，刷新页面后会重新锁定。</div>
+        <div class="actions">
+            <button id="successBtn" class="primary" type="button">测试支付成功</button>
+            <a id="cancelLink" class="secondary" href="./index.html">取消并返回</a>
+        </div>
+        <p class="footnote" id="statusText"></p>
+    </main>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const resume = params.get('resume') || '';
+        const returnTarget = params.get('return') || 'index.html';
+        const page = params.get('page') || 'overview';
+        const successBtn = document.getElementById('successBtn');
+        const cancelLink = document.getElementById('cancelLink');
+        const statusText = document.getElementById('statusText');
+
+        cancelLink.href = new URL(returnTarget, window.location.href).toString();
+
+        if (!resume) {
+            successBtn.disabled = true;
+            successBtn.style.opacity = '0.45';
+            successBtn.style.cursor = 'not-allowed';
+            statusText.textContent = '缺少本次返回数据，请返回上一页重新生成基础信息。';
+        }
+
+        successBtn.addEventListener('click', () => {
+            if (!resume) return;
+            const returnUrl = new URL(returnTarget, window.location.href);
+            returnUrl.searchParams.set('resume', resume);
+            returnUrl.searchParams.set('unlock', '1');
+            returnUrl.searchParams.set('page', page);
+            window.location.href = returnUrl.toString();
+        });
+    </script>
+</body>
+</html>

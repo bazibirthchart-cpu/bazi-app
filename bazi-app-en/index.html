@@ -722,6 +722,60 @@
             white-space: nowrap;
         }
 
+        .unlock-card {
+            margin-top: 16px;
+            border: 1px solid rgba(201, 154, 58, 0.32);
+        }
+
+        .unlock-note,
+        .unlock-warning,
+        .unlock-status {
+            margin: 0;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .unlock-note {
+            color: #374151;
+        }
+
+        .unlock-warning {
+            color: #92400e;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .unlock-status {
+            color: #166534;
+            font-weight: 700;
+            margin-top: 12px;
+        }
+
+        .unlock-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-top: 14px;
+        }
+
+        .report-tab.locked {
+            opacity: 0.52;
+            cursor: not-allowed;
+        }
+
+        .report-tab.locked::after {
+            content: ' LOCK';
+            font-size: 11px;
+            margin-left: 6px;
+        }
+
+        .save-btn[disabled] {
+            opacity: 0.45;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         .technical-preview {
             display: none;
         }
@@ -1101,6 +1155,16 @@
             <h2 id="elementTitle">五行百分比</h2>
             <div id="elementBars" class="element-bars"></div>
         </div>
+
+        <div id="unlockCard" class="result-card unlock-card">
+            <h2 id="unlockCardTitle">Unlock Full Report</h2>
+            <p id="unlockCardText" class="unlock-note">You can preview the basic chart first. The full reading, complete PDF, and full report sections unlock through the test payment flow.</p>
+            <p id="unlockWarningText" class="unlock-warning">Test flow notice: after successful return, this report stays unlocked only for the current visit. Refreshing the page will lock it again.</p>
+            <div class="unlock-actions">
+                <button type="button" id="unlockCtaBtn" class="unlock-btn" onclick="startUnlockFlow()">Unlock Full Report</button>
+            </div>
+            <p id="unlockStatusText" class="unlock-status" style="display:none;"></p>
+        </div>
         </div>
 
         <div id="page-overview" class="report-page">
@@ -1392,7 +1456,139 @@
         if (element) element.innerText = value;
     }
 
+    const premiumPages = ['overview', 'career', 'relationship', 'year', 'action'];
+    let premiumUnlocked = false;
+    let pendingUnlockReturn = null;
+
+    function getUnlockFlowCopy() {
+        if (currentLang === 'zh') {
+            return {
+                title: '解锁完整报告',
+                note: '你可以先查看基础信息。完整报告章节、完整 PDF 与完整分享属于测试解锁流程的一部分。',
+                warning: '测试版说明：成功返回后，本次解锁状态仅在当前访问中有效，刷新页面后会重新锁定。',
+                cta: '解锁完整报告',
+                unlocked: '本次访问已解锁完整报告。请注意：刷新页面后会重新锁定。',
+                lockedAlert: '请先通过测试解锁流程，再查看完整报告。',
+                pdfAlert: '请先解锁完整报告，再保存完整 PDF。',
+                shareAlert: '请先解锁完整报告，再分享完整报告。',
+                resumeError: '未能恢复本次测试解锁流程，请重新生成报告后再试。'
+            };
+        }
+        return {
+            title: 'Unlock Full Report',
+            note: 'You can preview the basic chart first. The full reading, complete PDF, and full report sections unlock through the test payment flow.',
+            warning: 'Test flow notice: after successful return, this report stays unlocked only for the current visit. Refreshing the page will lock it again.',
+            cta: 'Unlock Full Report',
+            unlocked: 'The full report is unlocked for this visit. Refreshing the page will lock it again.',
+            lockedAlert: 'Please complete the test unlock flow before opening the full report.',
+            pdfAlert: 'Please unlock the full report before saving the full PDF.',
+            shareAlert: 'Please unlock the full report before sharing the full report.',
+            resumeError: 'We could not restore this test unlock return. Please generate the report again and retry.'
+        };
+    }
+
+    function isPremiumPage(pageName) {
+        return premiumPages.includes(pageName);
+    }
+
+    function encodeUnlockSnapshot(snapshot) {
+        return btoa(unescape(encodeURIComponent(JSON.stringify(snapshot))));
+    }
+
+    function decodeUnlockSnapshot(token) {
+        return JSON.parse(decodeURIComponent(escape(atob(token))));
+    }
+
+    function buildUnlockSnapshot() {
+        return {
+            name: document.getElementById('name').value.trim(),
+            gender: document.querySelector('input[name="gender"]:checked')?.value || 'female',
+            year: selectedYear,
+            month: document.getElementById('birthMonth').value,
+            day: document.getElementById('birthDay').value,
+            hour: document.getElementById('birthHour').value,
+            minute: document.getElementById('birthMinute').value,
+            isDST: document.getElementById('dst').checked,
+            country: document.getElementById('countrySelect').value || '',
+            province: document.getElementById('provinceSelect').value || '',
+            city: document.getElementById('citySelect').value || '',
+            district: document.getElementById('districtSelect').value || '',
+            overseasCountry: document.getElementById('overseasCountrySelect')?.value || '',
+            overseasRegion: document.getElementById('overseasRegionSelect')?.value || '',
+            overseasCity: document.getElementById('overseasCity')?.value || '',
+            manualCity: document.getElementById('englishCityManual')?.value || ''
+        };
+    }
+
+    function restoreUnlockSnapshot(snapshot) {
+        document.getElementById('name').value = snapshot.name || '';
+        const genderInput = document.querySelector(`input[name="gender"][value="${snapshot.gender || 'female'}"]`);
+        if (genderInput) genderInput.checked = true;
+        if (snapshot.year) {
+            selectedYear = Number(snapshot.year);
+            document.getElementById('birthYearInput').value = String(snapshot.year);
+        }
+        document.getElementById('birthMonth').value = snapshot.month || '1';
+        updateDays();
+        document.getElementById('birthDay').value = snapshot.day || '1';
+        document.getElementById('birthHour').value = snapshot.hour || '00';
+        document.getElementById('birthMinute').value = snapshot.minute || '00';
+        document.getElementById('dst').checked = Boolean(snapshot.isDST);
+
+        document.getElementById('countrySelect').value = snapshot.country || englishContinentOptions[0].value;
+        handleCountryChange();
+        loadEnglishCountries(snapshot.province || '', snapshot.city || '', snapshot.district || '');
+        document.getElementById('englishCityManual').value = snapshot.manualCity || '';
+    }
+
+    function consumeUnlockReturnState() {
+        const params = new URLSearchParams(window.location.search);
+        const resumeToken = params.get('resume');
+        if (!resumeToken) return;
+        try {
+            pendingUnlockReturn = {
+                snapshot: decodeUnlockSnapshot(resumeToken),
+                unlock: params.get('unlock') === '1',
+                page: params.get('page') || 'overview'
+            };
+        } catch (error) {
+            console.error(error);
+            alert(getUnlockFlowCopy().resumeError);
+        } finally {
+            history.replaceState({}, document.title, window.location.pathname);
+        }
+    }
+
+    function updatePremiumUI() {
+        const copy = getUnlockFlowCopy();
+        setText('unlockCardTitle', copy.title);
+        setText('unlockCardText', copy.note);
+        setText('unlockWarningText', copy.warning);
+        setText('unlockCtaBtn', copy.cta);
+        setText('unlockStatusText', copy.unlocked);
+
+        document.querySelectorAll('.report-tab').forEach(tab => {
+            const locked = !premiumUnlocked && isPremiumPage(tab.dataset.page);
+            tab.classList.toggle('locked', locked);
+            tab.setAttribute('aria-disabled', locked ? 'true' : 'false');
+        });
+
+        const savePdfBtn = document.getElementById('savePdfBtn');
+        const shareReportBtn = document.getElementById('shareReportBtn');
+        if (savePdfBtn) savePdfBtn.disabled = !premiumUnlocked;
+        if (shareReportBtn) shareReportBtn.disabled = !premiumUnlocked;
+
+        const unlockBtn = document.getElementById('unlockCtaBtn');
+        const unlockStatus = document.getElementById('unlockStatusText');
+        if (unlockBtn) unlockBtn.style.display = premiumUnlocked ? 'none' : 'inline-flex';
+        if (unlockStatus) unlockStatus.style.display = premiumUnlocked ? 'block' : 'none';
+    }
+
     function switchReportPage(pageName) {
+        if (isPremiumPage(pageName) && !premiumUnlocked) {
+            alert(getUnlockFlowCopy().lockedAlert);
+            pageName = 'free';
+        }
         document.querySelectorAll('.report-page').forEach(page => {
             page.classList.toggle('active', page.id === `page-${pageName}`);
         });
@@ -3168,6 +3364,7 @@
         setNodeText('balanceTitle', t.chapterTitles.balance);
         setNodeText('decisionTitle', t.chapterTitles.decision);
         setNodeText('keywordTitle', t.chapterTitles.keyword);
+        updatePremiumUI();
     }
     function populateTimeSelectors() {
         const hourSelect = document.getElementById('birthHour');
@@ -3874,6 +4071,7 @@
     }
     executeSubmit = function(event) {
         event.preventDefault();
+        const shouldUnlockAfterRender = Boolean(pendingUnlockReturn && pendingUnlockReturn.unlock);
         if (!selectedYear) {
             alert(currentLang === 'zh' ? '请选择您的出生年份！' : 'Please select your birth year!');
             return;
@@ -3941,7 +4139,13 @@
                 };
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('reportSection').style.display = 'block';
-                renderEnhancedResult(lunarObj, baziObj, gender, formData, 'free');
+                premiumUnlocked = false;
+                renderEnhancedResult(lunarObj, baziObj, gender, formData, shouldUnlockAfterRender ? (pendingUnlockReturn.page || 'overview') : 'free');
+                if (shouldUnlockAfterRender) {
+                    premiumUnlocked = true;
+                    pendingUnlockReturn = null;
+                }
+                updatePremiumUI();
             } catch (error) {
                 console.error(error);
                 document.getElementById('loader').style.display = 'none';
@@ -4118,6 +4322,10 @@
             alert(currentLang === 'zh' ? '请先生成报告，再分享。' : 'Please generate a report before sharing.');
             return;
         }
+        if (!premiumUnlocked) {
+            alert(getUnlockFlowCopy().shareAlert);
+            return;
+        }
         const payload = buildSharePayload();
         const copyText = [payload.title, payload.text, payload.url].filter(Boolean).join('\n');
         if (navigator.share) {
@@ -4200,6 +4408,10 @@
             alert(currentLang === 'zh' ? 'PDF 导出组件未成功加载，请稍后再试。' : 'The PDF export library did not load. Please try again.');
             return;
         }
+        if (!premiumUnlocked) {
+            alert(getUnlockFlowCopy().pdfAlert);
+            return;
+        }
         const target = document.getElementById('reportSection');
         if (!target || target.style.display === 'none') {
             alert(currentLang === 'zh' ? '请先生成报告，再保存 PDF。' : 'Please generate a report before saving the PDF.');
@@ -4252,11 +4464,29 @@
             shell.remove();
         }
     };
+    window.startUnlockFlow = function() {
+        if (!enhancedState.latest) {
+            alert(currentLang === 'zh' ? '请先生成基础信息，再继续解锁。' : 'Please generate the basic result first, then continue to unlock.');
+            return;
+        }
+        const unlockUrl = new URL('test-unlock.html', window.location.href);
+        unlockUrl.searchParams.set('resume', encodeUnlockSnapshot(buildUnlockSnapshot()));
+        unlockUrl.searchParams.set('return', 'index.html');
+        unlockUrl.searchParams.set('page', 'overview');
+        window.location.href = unlockUrl.toString();
+    };
     window.onload = function() {
         applyStandaloneMode();
         populateTimeSelectors();
         initMonthAndDays();
         switchLanguage(standalonePageLang);
+        consumeUnlockReturnState();
+        if (pendingUnlockReturn?.snapshot) {
+            restoreUnlockSnapshot(pendingUnlockReturn.snapshot);
+            setTimeout(() => executeSubmit({ preventDefault() {}, stopPropagation() {} }), 60);
+        } else {
+            updatePremiumUI();
+        }
         setupMobileViewportFixes();
         bindExportButtons();
     };
