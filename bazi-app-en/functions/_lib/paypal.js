@@ -6,6 +6,16 @@ async function readJsonSafe(response) {
   }
 }
 
+function stringifyErrorDetails(data) {
+  if (!data) return '';
+  if (typeof data === 'string') return data;
+  try {
+    return JSON.stringify(data);
+  } catch {
+    return String(data);
+  }
+}
+
 function getBaseUrl(env) {
   return env?.PAYPAL_ENV === 'live'
     ? 'https://api-m.paypal.com'
@@ -62,9 +72,14 @@ export async function createPayPalOrder(env, order, returnUrl, cancelUrl) {
   });
   const data = await readJsonSafe(response);
   if (!response.ok || !data?.id) {
-    throw new Error(`PayPal order creation failed (${response.status})`);
+    const details = stringifyErrorDetails(data);
+    throw new Error(`PayPal order creation failed (${response.status})${details ? `: ${details}` : ''}`);
   }
   const approveLink = data.links?.find(link => link.rel === 'approve')?.href || null;
+  if (!approveLink) {
+    const details = stringifyErrorDetails(data);
+    throw new Error(`PayPal order approval link missing.${details ? ` Response: ${details}` : ''}`);
+  }
   return {
     paypalOrderId: data.id,
     approvalUrl: approveLink,

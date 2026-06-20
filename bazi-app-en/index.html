@@ -1559,7 +1559,8 @@
         });
         const data = await response.json().catch(() => ({}));
         if (!response.ok || !data.ok) {
-            throw new Error(data.error || 'Unable to create the payment order.');
+            const details = data.details ? ` ${typeof data.details === 'string' ? data.details : JSON.stringify(data.details)}` : '';
+            throw new Error((data.error || 'Unable to create the payment order.') + details);
         }
         return data;
     }
@@ -3708,7 +3709,7 @@
                 label: chinaProvinceEnglish[name] || name,
                 longitude: provinceLongitudeMap[name] || 120
             }));
-            populateSelectEnhanced('citySelect', provinces, getT(currentLang).statePlh, previousRegion, false);
+            populateSelectEnhanced('citySelect', provinces, getT(currentLang).statePlh, previousRegion, !previousRegion && provinces.length > 0);
             loadEnglishCities(previousCity);
             return;
         }
@@ -3722,7 +3723,8 @@
             label: item.en,
             longitude: item.longitude
         }));
-        populateSelectEnhanced('citySelect', regions.length ? regions : fallbackRegion, getT(currentLang).statePlh, previousRegion, false);
+        const regionItems = regions.length ? regions : fallbackRegion;
+        populateSelectEnhanced('citySelect', regionItems, getT(currentLang).statePlh, previousRegion, !previousRegion && regionItems.length > 0);
         loadEnglishCities(previousCity);
     }
     function loadEnglishCities(previousCity = '') {
@@ -3769,7 +3771,8 @@
             label: region === 'Country-level calibration' ? 'Main urban area' : region,
             longitude: regionLongitude
         }] : [];
-        populateSelectEnhanced('districtSelect', mappedCities.length ? mappedCities : fallbackCities, getT(currentLang).cityPlhEn, previousCity, false);
+        const cityItems = mappedCities.length ? mappedCities : fallbackCities;
+        populateSelectEnhanced('districtSelect', cityItems, getT(currentLang).cityPlhEn, previousCity, !previousCity && cityItems.length > 0);
     }
     function initChinaLocationEnhanced() {
         const previousProvince = document.getElementById('provinceSelect').value;
