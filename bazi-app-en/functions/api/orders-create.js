@@ -98,6 +98,9 @@ export async function onRequest(context) {
       expiresAt: order.paymentWindowExpiresAt
     });
   } catch (error) {
-    return serverError(error.message || 'Unable to create the payment order.');
+    return serverError('Unable to create the payment order.', {
+      type: error?.name || 'Error',
+      message: error?.message || String(error)
+    });
   }
 }

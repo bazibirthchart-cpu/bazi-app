@@ -137,6 +137,20 @@
             primaryBtn.onclick = action;
         }
 
+        function formatApiErrorMessage(data, fallbackMessage) {
+            if (!data) return fallbackMessage;
+            if (typeof data.details === 'string' && data.details.trim()) {
+                return `${data.error || fallbackMessage} ${data.details.trim()}`;
+            }
+            if (data.details && typeof data.details === 'object') {
+                if (typeof data.details.message === 'string' && data.details.message.trim()) {
+                    return `${data.error || fallbackMessage} ${data.details.message.trim()}`;
+                }
+                return `${data.error || fallbackMessage} ${JSON.stringify(data.details)}`;
+            }
+            return data.error || fallbackMessage;
+        }
+
         async function createRetryCheckout() {
             const response = await fetch('/api/orders-create', {
                 method: 'POST',
@@ -145,7 +159,7 @@
             });
             const data = await response.json().catch(() => ({}));
             if (!response.ok || !data.ok) {
-                throw new Error(data.error || 'Unable to restart checkout.');
+                throw new Error(formatApiErrorMessage(data, 'Unable to restart checkout.'));
             }
             window.location.href = data.checkoutUrl;
         }
