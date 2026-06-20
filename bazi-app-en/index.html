@@ -2821,6 +2821,101 @@
         AR: { 'Buenos Aires': ['Buenos Aires', 'La Plata', 'Mar del Plata'], Cordoba: ['Cordoba'], Mendoza: ['Mendoza'] },
         ZA: { Gauteng: ['Johannesburg', 'Pretoria', 'Sandton'], 'Western Cape': ['Cape Town', 'Stellenbosch', 'Paarl'], 'KwaZulu-Natal': ['Durban', 'Pietermaritzburg', 'Richards Bay'] }
     };
+    const supplementalEuropeanRegions = {
+        AL: [{zh:'地拉那州',en:'Tirana',longitude:19.8187},{zh:'都拉斯州',en:'Durres',longitude:19.4414},{zh:'斯库台州',en:'Shkoder',longitude:19.5126},{zh:'发罗拉州',en:'Vlore',longitude:19.4897}],
+        AD: [{zh:'安道尔城',en:'Andorra la Vella',longitude:1.5218},{zh:'安坎普',en:'Encamp',longitude:1.5801},{zh:'莱塞斯卡尔德-恩戈尔达',en:'Escaldes-Engordany',longitude:1.5341},{zh:'拉马萨纳',en:'La Massana',longitude:1.5141}],
+        BY: [{zh:'明斯克州',en:'Minsk Region',longitude:27.5615},{zh:'布列斯特州',en:'Brest Region',longitude:23.6850},{zh:'戈梅利州',en:'Gomel Region',longitude:30.9754},{zh:'格罗德诺州',en:'Grodno Region',longitude:23.8343},{zh:'维捷布斯克州',en:'Vitebsk Region',longitude:30.2049}],
+        BA: [{zh:'萨拉热窝州',en:'Sarajevo',longitude:18.4131},{zh:'巴尼亚卢卡地区',en:'Banja Luka',longitude:17.1910},{zh:'莫斯塔尔地区',en:'Mostar',longitude:17.8078},{zh:'图兹拉地区',en:'Tuzla',longitude:18.6791}],
+        BG: [{zh:'索非亚市',en:'Sofia City',longitude:23.3219},{zh:'普罗夫迪夫州',en:'Plovdiv',longitude:24.7453},{zh:'瓦尔纳州',en:'Varna',longitude:27.9147},{zh:'布尔加斯州',en:'Burgas',longitude:27.4678},{zh:'鲁塞州',en:'Ruse',longitude:25.9540}],
+        HR: [{zh:'萨格勒布市',en:'Zagreb',longitude:15.9819},{zh:'斯普利特-达尔马提亚县',en:'Split-Dalmatia',longitude:16.4402},{zh:'滨海和山区县',en:'Primorje-Gorski Kotar',longitude:14.4422},{zh:'奥西耶克-巴拉尼亚县',en:'Osijek-Baranja',longitude:18.6955},{zh:'伊斯特拉县',en:'Istria',longitude:13.8506}],
+        CY: [{zh:'尼科西亚区',en:'Nicosia',longitude:33.3823},{zh:'利马索尔区',en:'Limassol',longitude:33.0413},{zh:'拉纳卡区',en:'Larnaca',longitude:33.6232},{zh:'帕福斯区',en:'Paphos',longitude:32.4297}],
+        CZ: [{zh:'布拉格',en:'Prague',longitude:14.4378},{zh:'南摩拉维亚州',en:'South Moravian',longitude:16.6068},{zh:'摩拉维亚-西里西亚州',en:'Moravian-Silesian',longitude:18.2625},{zh:'比尔森州',en:'Plzen',longitude:13.3736},{zh:'中央波希米亚州',en:'Central Bohemian',longitude:14.4747}],
+        DK: [{zh:'首都大区',en:'Capital Region',longitude:12.5683},{zh:'中日德兰大区',en:'Central Jutland',longitude:10.2039},{zh:'南丹麦大区',en:'Southern Denmark',longitude:10.3883},{zh:'北日德兰大区',en:'North Jutland',longitude:9.9217},{zh:'西兰大区',en:'Zealand',longitude:12.0803}],
+        EE: [{zh:'哈留县',en:'Harju County',longitude:24.7536},{zh:'塔尔图县',en:'Tartu County',longitude:26.7225},{zh:'伊达-维鲁县',en:'Ida-Viru County',longitude:27.4211},{zh:'派尔努县',en:'Parnu County',longitude:24.4971}],
+        FI: [{zh:'新地区',en:'Uusimaa',longitude:24.9384},{zh:'皮尔卡区',en:'Pirkanmaa',longitude:23.7610},{zh:'西南芬兰区',en:'Southwest Finland',longitude:22.2666},{zh:'北博滕区',en:'Northern Ostrobothnia',longitude:25.4651},{zh:'拉普兰区',en:'Lapland',longitude:25.7285}],
+        GR: [{zh:'阿提卡大区',en:'Attica',longitude:23.7275},{zh:'中马其顿大区',en:'Central Macedonia',longitude:22.9444},{zh:'克里特大区',en:'Crete',longitude:25.1442},{zh:'色萨利大区',en:'Thessaly',longitude:22.4191},{zh:'西希腊大区',en:'Western Greece',longitude:21.7346}],
+        HU: [{zh:'布达佩斯',en:'Budapest',longitude:19.0402},{zh:'佩斯州',en:'Pest',longitude:19.0402},{zh:'杰尔-莫松-肖普朗州',en:'Gyor-Moson-Sopron',longitude:17.6351},{zh:'琼格拉德-恰纳德州',en:'Csongrad-Csanad',longitude:20.1482},{zh:'豪伊杜-比豪尔州',en:'Hajdu-Bihar',longitude:21.6273}],
+        IS: [{zh:'首都区',en:'Capital Region',longitude:-21.9426},{zh:'南半岛区',en:'Southern Peninsula',longitude:-22.5667},{zh:'北部区',en:'North Iceland',longitude:-18.0878},{zh:'东部区',en:'East Iceland',longitude:-14.3948}],
+        IE: [{zh:'都柏林郡',en:'Dublin',longitude:-6.2603},{zh:'科克郡',en:'Cork',longitude:-8.4756},{zh:'戈尔韦郡',en:'Galway',longitude:-9.0568},{zh:'利默里克郡',en:'Limerick',longitude:-8.6267}],
+        LV: [{zh:'里加地区',en:'Riga',longitude:24.1052},{zh:'陶格夫匹尔斯地区',en:'Daugavpils',longitude:26.5362},{zh:'利耶帕亚地区',en:'Liepaja',longitude:21.0122},{zh:'叶尔加瓦地区',en:'Jelgava',longitude:23.7128}],
+        LI: [{zh:'瓦杜兹',en:'Vaduz',longitude:9.5215},{zh:'沙恩',en:'Schaan',longitude:9.5094},{zh:'巴尔策斯',en:'Balzers',longitude:9.5025}],
+        LT: [{zh:'维尔纽斯县',en:'Vilnius County',longitude:25.2797},{zh:'考纳斯县',en:'Kaunas County',longitude:23.9036},{zh:'克莱佩达县',en:'Klaipeda County',longitude:21.1443},{zh:'希奥利艾县',en:'Siauliai County',longitude:23.3137}],
+        LU: [{zh:'卢森堡区',en:'Luxembourg',longitude:6.1319},{zh:'埃施-叙尔-阿尔泽特区',en:'Esch-sur-Alzette',longitude:5.9806},{zh:'迪基希区',en:'Diekirch',longitude:6.1597}],
+        MT: [{zh:'北港地区',en:'Northern Harbour',longitude:14.5125},{zh:'南港地区',en:'Southern Harbour',longitude:14.5146},{zh:'北部地区',en:'Northern Region',longitude:14.4428},{zh:'戈佐地区',en:'Gozo',longitude:14.2450}],
+        MD: [{zh:'基希讷乌市',en:'Chisinau',longitude:28.8638},{zh:'伯尔茨市',en:'Balti',longitude:27.9290},{zh:'卡胡尔区',en:'Cahul',longitude:28.1949},{zh:'加告兹自治区',en:'Gagauzia',longitude:28.6577}],
+        MC: [{zh:'摩纳哥城',en:'Monaco-Ville',longitude:7.4246},{zh:'蒙特卡洛',en:'Monte Carlo',longitude:7.4297},{zh:'拉孔达明',en:'La Condamine',longitude:7.4206}],
+        ME: [{zh:'波德戈里察',en:'Podgorica',longitude:19.2626},{zh:'尼克希奇',en:'Niksic',longitude:18.9483},{zh:'布德瓦',en:'Budva',longitude:18.8400},{zh:'比耶洛波列',en:'Bijelo Polje',longitude:19.7476}],
+        MK: [{zh:'斯科普里',en:'Skopje',longitude:21.4316},{zh:'比托拉',en:'Bitola',longitude:21.3403},{zh:'泰托沃',en:'Tetovo',longitude:20.9716},{zh:'库马诺沃',en:'Kumanovo',longitude:21.7144},{zh:'奥赫里德',en:'Ohrid',longitude:20.8016}],
+        NO: [{zh:'奥斯陆',en:'Oslo',longitude:10.7522},{zh:'西挪威郡',en:'Vestland',longitude:5.3221},{zh:'特伦德拉格郡',en:'Trondelag',longitude:10.3951},{zh:'罗加兰郡',en:'Rogaland',longitude:5.7331},{zh:'特罗姆斯郡',en:'Troms',longitude:18.9553}],
+        PL: [{zh:'马佐夫舍省',en:'Masovian',longitude:21.0122},{zh:'小波兰省',en:'Lesser Poland',longitude:19.9450},{zh:'西里西亚省',en:'Silesian',longitude:19.0238},{zh:'大波兰省',en:'Greater Poland',longitude:16.9252},{zh:'波美拉尼亚省',en:'Pomeranian',longitude:18.6466},{zh:'下西里西亚省',en:'Lower Silesian',longitude:17.0385}],
+        RO: [{zh:'布加勒斯特',en:'Bucharest',longitude:26.1025},{zh:'克卢日县',en:'Cluj',longitude:23.5985},{zh:'蒂米什县',en:'Timis',longitude:21.2257},{zh:'雅西县',en:'Iasi',longitude:27.6014},{zh:'康斯坦察县',en:'Constanta',longitude:28.6348}],
+        SM: [{zh:'圣马力诺市',en:'San Marino',longitude:12.4578},{zh:'塞拉瓦莱',en:'Serravalle',longitude:12.4810},{zh:'博尔戈马焦雷',en:'Borgo Maggiore',longitude:12.4473}],
+        RS: [{zh:'贝尔格莱德',en:'Belgrade',longitude:20.4573},{zh:'伏伊伏丁那',en:'Vojvodina',longitude:19.8335},{zh:'尼沙瓦州',en:'Nisava',longitude:21.8958},{zh:'舒马迪亚州',en:'Sumadija',longitude:20.9114}],
+        SK: [{zh:'布拉迪斯拉发州',en:'Bratislava',longitude:17.1077},{zh:'科希策州',en:'Kosice',longitude:21.2611},{zh:'日利纳州',en:'Zilina',longitude:18.7388},{zh:'班斯卡-比斯特里察州',en:'Banska Bystrica',longitude:19.1462}],
+        SI: [{zh:'卢布尔雅那',en:'Ljubljana',longitude:14.5058},{zh:'马里博尔',en:'Maribor',longitude:15.6459},{zh:'科佩尔',en:'Koper',longitude:13.7302},{zh:'采列',en:'Celje',longitude:15.2677}],
+        SE: [{zh:'斯德哥尔摩省',en:'Stockholm',longitude:18.0686},{zh:'西约塔兰省',en:'Vastra Gotaland',longitude:11.9746},{zh:'斯科讷省',en:'Skane',longitude:13.0038},{zh:'乌普萨拉省',en:'Uppsala',longitude:17.6389},{zh:'北博滕省',en:'Norrbotten',longitude:22.1567}],
+        UA: [{zh:'基辅市',en:'Kyiv',longitude:30.5234},{zh:'利沃夫州',en:'Lviv',longitude:24.0316},{zh:'哈尔科夫州',en:'Kharkiv',longitude:36.2304},{zh:'敖德萨州',en:'Odesa',longitude:30.7233},{zh:'第聂伯罗州',en:'Dnipro',longitude:35.0462}],
+        VA: [{zh:'梵蒂冈城',en:'Vatican City',longitude:12.4534}]
+    };
+    const supplementalEuropeanCities = {
+        AL: { Tirana: ['Tirana'], Durres: ['Durres'], Shkoder: ['Shkoder'], Vlore: ['Vlore'] },
+        AD: { 'Andorra la Vella': ['Andorra la Vella'], Encamp: ['Encamp'], 'Escaldes-Engordany': ['Escaldes-Engordany'], 'La Massana': ['La Massana'] },
+        BY: { 'Minsk Region': ['Minsk'], 'Brest Region': ['Brest'], 'Gomel Region': ['Gomel'], 'Grodno Region': ['Grodno'], 'Vitebsk Region': ['Vitebsk'] },
+        BA: { Sarajevo: ['Sarajevo'], 'Banja Luka': ['Banja Luka'], Mostar: ['Mostar'], Tuzla: ['Tuzla'] },
+        BG: { 'Sofia City': ['Sofia'], Plovdiv: ['Plovdiv'], Varna: ['Varna'], Burgas: ['Burgas'], Ruse: ['Ruse'] },
+        HR: { Zagreb: ['Zagreb'], 'Split-Dalmatia': ['Split'], 'Primorje-Gorski Kotar': ['Rijeka'], 'Osijek-Baranja': ['Osijek'], Istria: ['Pula'] },
+        CY: { Nicosia: ['Nicosia'], Limassol: ['Limassol'], Larnaca: ['Larnaca'], Paphos: ['Paphos'] },
+        CZ: { Prague: ['Prague'], 'South Moravian': ['Brno'], 'Moravian-Silesian': ['Ostrava'], Plzen: ['Plzen'], 'Central Bohemian': ['Kladno'] },
+        DK: { 'Capital Region': ['Copenhagen'], 'Central Jutland': ['Aarhus'], 'Southern Denmark': ['Odense'], 'North Jutland': ['Aalborg'], Zealand: ['Roskilde'] },
+        EE: { 'Harju County': ['Tallinn'], 'Tartu County': ['Tartu'], 'Ida-Viru County': ['Narva'], 'Parnu County': ['Parnu'] },
+        FI: { Uusimaa: ['Helsinki'], Pirkanmaa: ['Tampere'], 'Southwest Finland': ['Turku'], 'Northern Ostrobothnia': ['Oulu'], Lapland: ['Rovaniemi'] },
+        GR: { Attica: ['Athens'], 'Central Macedonia': ['Thessaloniki'], Crete: ['Heraklion'], Thessaly: ['Larissa'], 'Western Greece': ['Patras'] },
+        HU: { Budapest: ['Budapest'], Pest: ['Budapest'], 'Gyor-Moson-Sopron': ['Gyor'], 'Csongrad-Csanad': ['Szeged'], 'Hajdu-Bihar': ['Debrecen'] },
+        IS: { 'Capital Region': ['Reykjavik'], 'Southern Peninsula': ['Keflavik'], 'North Iceland': ['Akureyri'], 'East Iceland': ['Egilsstadir'] },
+        IE: { Dublin: ['Dublin'], Cork: ['Cork'], Galway: ['Galway'], Limerick: ['Limerick'] },
+        LV: { Riga: ['Riga'], Daugavpils: ['Daugavpils'], Liepaja: ['Liepaja'], Jelgava: ['Jelgava'] },
+        LI: { Vaduz: ['Vaduz'], Schaan: ['Schaan'], Balzers: ['Balzers'] },
+        LT: { 'Vilnius County': ['Vilnius'], 'Kaunas County': ['Kaunas'], 'Klaipeda County': ['Klaipeda'], 'Siauliai County': ['Siauliai'] },
+        LU: { Luxembourg: ['Luxembourg City'], 'Esch-sur-Alzette': ['Esch-sur-Alzette'], Diekirch: ['Diekirch'] },
+        MT: { 'Northern Harbour': ['Valletta'], 'Southern Harbour': ['Cospicua'], 'Northern Region': ['Mosta'], Gozo: ['Victoria'] },
+        MD: { Chisinau: ['Chisinau'], Balti: ['Balti'], Cahul: ['Cahul'], Gagauzia: ['Comrat'] },
+        MC: { 'Monaco-Ville': ['Monaco'], 'Monte Carlo': ['Monte Carlo'], 'La Condamine': ['La Condamine'] },
+        ME: { Podgorica: ['Podgorica'], Niksic: ['Niksic'], Budva: ['Budva'], 'Bijelo Polje': ['Bijelo Polje'] },
+        MK: { Skopje: ['Skopje'], Bitola: ['Bitola'], Tetovo: ['Tetovo'], Kumanovo: ['Kumanovo'], Ohrid: ['Ohrid'] },
+        NO: { Oslo: ['Oslo'], Vestland: ['Bergen'], Trondelag: ['Trondheim'], Rogaland: ['Stavanger'], Troms: ['Tromso'] },
+        PL: { Masovian: ['Warsaw'], 'Lesser Poland': ['Krakow'], Silesian: ['Katowice'], 'Greater Poland': ['Poznan'], Pomeranian: ['Gdansk'], 'Lower Silesian': ['Wroclaw'] },
+        RO: { Bucharest: ['Bucharest'], Cluj: ['Cluj-Napoca'], Timis: ['Timisoara'], Iasi: ['Iasi'], Constanta: ['Constanta'] },
+        SM: { 'San Marino': ['San Marino'], Serravalle: ['Serravalle'], 'Borgo Maggiore': ['Borgo Maggiore'] },
+        RS: { Belgrade: ['Belgrade'], Vojvodina: ['Novi Sad'], Nisava: ['Nis'], Sumadija: ['Kragujevac'] },
+        SK: { Bratislava: ['Bratislava'], Kosice: ['Kosice'], Zilina: ['Zilina'], 'Banska Bystrica': ['Banska Bystrica'] },
+        SI: { Ljubljana: ['Ljubljana'], Maribor: ['Maribor'], Koper: ['Koper'], Celje: ['Celje'] },
+        SE: { Stockholm: ['Stockholm'], 'Vastra Gotaland': ['Gothenburg'], Skane: ['Malmo'], Uppsala: ['Uppsala'], Norrbotten: ['Lulea'] },
+        UA: { Kyiv: ['Kyiv'], Lviv: ['Lviv'], Kharkiv: ['Kharkiv'], Odesa: ['Odesa'], Dnipro: ['Dnipro'] },
+        VA: { 'Vatican City': ['Vatican City'] }
+    };
+    const capitalCityFallbackByCountry = {
+        AG: 'St. John\'s', BS: 'Nassau', BB: 'Bridgetown', BZ: 'Belmopan', CR: 'San Jose', CU: 'Havana', DM: 'Roseau', DO: 'Santo Domingo',
+        SV: 'San Salvador', GD: 'St. George\'s', GT: 'Guatemala City', HT: 'Port-au-Prince', HN: 'Tegucigalpa', JM: 'Kingston', KN: 'Basseterre',
+        LC: 'Castries', VC: 'Kingstown', NI: 'Managua', PA: 'Panama City', BO: 'La Paz', CL: 'Santiago', CO: 'Bogota', EC: 'Quito', GY: 'Georgetown',
+        PY: 'Asuncion', PE: 'Lima', SR: 'Paramaribo', UY: 'Montevideo', VE: 'Caracas', AF: 'Kabul', AM: 'Yerevan', AZ: 'Baku', BH: 'Manama',
+        BD: 'Dhaka', BT: 'Thimphu', BN: 'Bandar Seri Begawan', KH: 'Phnom Penh', GE: 'Tbilisi', HK: 'Hong Kong', IR: 'Tehran', IQ: 'Baghdad',
+        IL: 'Jerusalem', JO: 'Amman', KZ: 'Astana', KW: 'Kuwait City', KG: 'Bishkek', LA: 'Vientiane', LB: 'Beirut', MV: 'Male', MN: 'Ulaanbaatar',
+        MM: 'Naypyidaw', NP: 'Kathmandu', KP: 'Pyongyang', OM: 'Muscat', PK: 'Islamabad', QA: 'Doha', LK: 'Colombo', SY: 'Damascus', TW: 'Taipei',
+        TJ: 'Dushanbe', TL: 'Dili', TM: 'Ashgabat', UZ: 'Tashkent', YE: 'Sanaa', MO: 'Macau', FJ: 'Suva', KI: 'Tarawa', MH: 'Majuro', FM: 'Palikir',
+        NR: 'Yaren', PW: 'Ngerulmud', PG: 'Port Moresby', WS: 'Apia', SB: 'Honiara', TO: 'Nuku\'alofa', TV: 'Funafuti', VU: 'Port Vila',
+        DZ: 'Algiers', AO: 'Luanda', BJ: 'Porto-Novo', BW: 'Gaborone', BF: 'Ouagadougou', BI: 'Gitega', CV: 'Praia', CM: 'Yaounde', CF: 'Bangui',
+        TD: 'N\'Djamena', KM: 'Moroni', CG: 'Brazzaville', CD: 'Kinshasa', CI: 'Yamoussoukro', DJ: 'Djibouti', EG: 'Cairo', GQ: 'Malabo',
+        ER: 'Asmara', ET: 'Addis Ababa', SZ: 'Mbabane', GA: 'Libreville', GM: 'Banjul', GH: 'Accra', GN: 'Conakry', GW: 'Bissau', KE: 'Nairobi',
+        LS: 'Maseru', LR: 'Monrovia', LY: 'Tripoli', MG: 'Antananarivo', MW: 'Lilongwe', ML: 'Bamako', MR: 'Nouakchott', MU: 'Port Louis',
+        MA: 'Rabat', MZ: 'Maputo', NA: 'Windhoek', NE: 'Niamey', NG: 'Abuja', RW: 'Kigali', ST: 'Sao Tome', SN: 'Dakar', SC: 'Victoria',
+        SL: 'Freetown', SO: 'Mogadishu', SS: 'Juba', SD: 'Khartoum', TZ: 'Dodoma', TG: 'Lome', TN: 'Tunis', UG: 'Kampala', ZM: 'Lusaka', ZW: 'Harare'
+    };
+    Object.entries(supplementalEuropeanRegions).forEach(([code, regions]) => {
+        if (!enhancedRegions[code]) enhancedRegions[code] = regions;
+    });
+    Object.entries(supplementalEuropeanCities).forEach(([code, regionMap]) => {
+        englishCitiesByCountryRegion[code] = { ...(englishCitiesByCountryRegion[code] || {}), ...regionMap };
+    });
     const chinaProvinceEnglish = {
         '北京市': 'Beijing', '上海市': 'Shanghai', '天津市': 'Tianjin', '重庆市': 'Chongqing',
         '广东省': 'Guangdong', '江苏省': 'Jiangsu', '浙江省': 'Zhejiang', '山东省': 'Shandong',
@@ -3689,6 +3784,28 @@
         const previousContinent = document.getElementById('countrySelect').value;
         populateSelectEnhanced('countrySelect', englishContinentOptions, getT(currentLang).continentPlh, previousContinent, false);
     }
+    function buildCapitalFallbackRegion(countryCode) {
+        const capital = capitalCityFallbackByCountry[countryCode];
+        if (!capital) return [];
+        return [{
+            value: `${capital} Capital Region`,
+            label: `${capital} Capital Region`,
+            longitude: 120
+        }];
+    }
+    function buildCapitalFallbackCities(countryCode, regionLongitude = 120) {
+        const capital = capitalCityFallbackByCountry[countryCode];
+        if (!capital) return [];
+        return [{
+            value: capital,
+            label: capital,
+            longitude: regionLongitude
+        }, {
+            value: '__OTHER__',
+            label: 'Other / Not listed',
+            longitude: regionLongitude
+        }];
+    }
     function loadEnglishCountries(previousCountry = '', previousRegion = '', previousCity = '') {
         const continent = document.getElementById('countrySelect').value;
         const countryCodes = englishCountriesByContinent[continent] || [];
@@ -3713,11 +3830,7 @@
             loadEnglishCities(previousCity);
             return;
         }
-        const fallbackRegion = countryCode ? [{
-            value: 'Country-level calibration',
-            label: 'Country-level calibration',
-            longitude: 120
-        }] : [];
+        const fallbackRegion = countryCode ? buildCapitalFallbackRegion(countryCode) : [];
         const regions = (enhancedRegions[countryCode] || []).map(item => ({
             value: item.en,
             label: item.en,
@@ -3766,11 +3879,15 @@
                 longitude: regionLongitude
             });
         }
-        const fallbackCities = region ? [{
-            value: region === 'Country-level calibration' ? 'Main urban area' : region,
-            label: region === 'Country-level calibration' ? 'Main urban area' : region,
-            longitude: regionLongitude
-        }] : [];
+        const fallbackCities = region
+            ? (buildCapitalFallbackCities(countryCode, regionLongitude).length
+                ? buildCapitalFallbackCities(countryCode, regionLongitude)
+                : [{
+                    value: region,
+                    label: region,
+                    longitude: regionLongitude
+                }])
+            : [];
         const cityItems = mappedCities.length ? mappedCities : fallbackCities;
         populateSelectEnhanced('districtSelect', cityItems, getT(currentLang).cityPlhEn, previousCity, !previousCity && cityItems.length > 0);
     }

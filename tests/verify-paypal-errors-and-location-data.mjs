@@ -6,10 +6,43 @@ import { createPayPalOrder } from '../bazi-app-en/functions/_lib/paypal.js';
 const html = readFileSync(new URL('../bazi-app-en/index.html', import.meta.url), 'utf8');
 
 function extractObjectLiteral(source, variableName, nextMarker) {
-  const pattern = new RegExp(`const ${variableName} = (\\{[\\s\\S]*?\\n    \\});\\n    const ${nextMarker}`, 'm');
-  const match = source.match(pattern);
-  assert.ok(match, `Could not locate ${variableName} in index.html`);
-  return vm.runInNewContext(`(${match[1]})`);
+  const startToken = `const ${variableName} = `;
+  const startIndex = source.indexOf(startToken);
+  assert.ok(startIndex >= 0, `Could not locate ${variableName} in index.html`);
+  const objectStart = source.indexOf('{', startIndex);
+  assert.ok(objectStart >= 0, `Could not locate start of ${variableName}`);
+  let depth = 0;
+  let inString = false;
+  let stringChar = '';
+  let escaped = false;
+  for (let index = objectStart; index < source.length; index += 1) {
+    const char = source[index];
+    if (inString) {
+      if (escaped) {
+        escaped = false;
+      } else if (char === '\\') {
+        escaped = true;
+      } else if (char === stringChar) {
+        inString = false;
+        stringChar = '';
+      }
+      continue;
+    }
+    if (char === '\'' || char === '"' || char === '`') {
+      inString = true;
+      stringChar = char;
+      continue;
+    }
+    if (char === '{') depth += 1;
+    if (char === '}') {
+      depth -= 1;
+      if (depth === 0) {
+        const literal = source.slice(objectStart, index + 1);
+        return vm.runInNewContext(`(${literal})`);
+      }
+    }
+  }
+  assert.fail(`Could not locate end of ${variableName}`);
 }
 
 const enhancedRegions = extractObjectLiteral(html, 'enhancedRegions', 'englishContinentOptions');
