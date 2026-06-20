@@ -3,6 +3,10 @@ compatibility_date = "2026-06-16"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
-APP_NAME = "The Elements Palette"
+APP_NAME = "BaZi Five Elements Reading"
 RATE_LIMIT_MAX = "30"
 RATE_LIMIT_WINDOW_MS = "60000"
+PAYMENT_WINDOW_MINUTES = "30"
+PAYPAL_ENV = "sandbox"
+PAYPAL_CURRENCY = "EUR"
+PAYPAL_AMOUNT = "9.99"

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | BaZi Five Elements Reading</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #141227;
+            --panel: #282548;
+            --panel-border: rgba(255,255,255,0.08);
+            --text: #f8f7ff;
+            --muted: #c9c4e3;
+            --warning-bg: rgba(234, 179, 8, 0.14);
+            --warning-border: rgba(234, 179, 8, 0.38);
+            --success-bg: rgba(34, 197, 94, 0.12);
+            --success-border: rgba(34, 197, 94, 0.28);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: radial-gradient(circle at top, #2d2757 0%, var(--bg) 56%);
+            color: var(--text);
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            width: min(100%, 720px);
+            background: var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+        }
+        h1 { margin: 0 0 12px; font-size: clamp(28px, 4vw, 40px); }
+        p { margin: 0 0 14px; line-height: 1.7; color: var(--muted); }
+        .warning, .success {
+            margin-top: 18px;
+            padding: 16px 18px;
+            border-radius: 16px;
+            font-weight: 700;
+        }
+        .warning {
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            color: #fff4c7;
+        }
+        .success {
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: #d1fae5;
+        }
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        button, a {
+            appearance: none;
+            border: none;
+            text-decoration: none;
+            border-radius: 999px;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .primary {
+            color: #fff;
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+        }
+        .secondary {
+            color: var(--text);
+            background: rgba(255,255,255,0.08);
+        }
+        .muted-link {
+            color: #d8cff6;
+            text-decoration: underline;
+        }
+        .hidden { display: none !important; }
+        .linkbox {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            word-break: break-word;
+        }
+        .footnote {
+            margin-top: 16px;
+            font-size: 13px;
+            color: #a8a1cf;
+        }
+    </style>
+</head>
+<body>
+    <main class="card">
+        <h1 id="title">Preparing your checkout</h1>
+        <p id="lead">We are setting up your payment session.</p>
+        <p id="statusText"></p>
+        <div id="warningBox" class="warning">Your unpaid order stays reusable for 30 minutes. If payment is cancelled or fails, you can retry from this page without refilling your full birth data.</div>
+        <div id="successBox" class="success hidden">Payment confirmed. Your permanent report link is ready below.</div>
+        <div id="linkBox" class="linkbox hidden"></div>
+        <div class="actions" id="actions">
+            <button id="primaryBtn" class="primary hidden" type="button"></button>
+            <button id="retryBtn" class="secondary hidden" type="button">Try payment again</button>
+            <a id="reportLinkBtn" class="primary hidden" href="./index.html">Open full report</a>
+            <button id="copyBtn" class="secondary hidden" type="button">Copy permanent link</button>
+            <a id="backBtn" class="secondary" href="./index.html">Back to form</a>
+        </div>
+        <p class="footnote" id="footnote">If email is not available or delivery is delayed, save your permanent report link before leaving this page.</p>
+    </main>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const orderId = params.get('orderId') || '';
+        const mode = params.get('mode') || 'test';
+        const approvalUrl = params.get('approvalUrl') || '';
+        const title = document.getElementById('title');
+        const lead = document.getElementById('lead');
+        const statusText = document.getElementById('statusText');
+        const warningBox = document.getElementById('warningBox');
+        const successBox = document.getElementById('successBox');
+        const linkBox = document.getElementById('linkBox');
+        const primaryBtn = document.getElementById('primaryBtn');
+        const retryBtn = document.getElementById('retryBtn');
+        const reportLinkBtn = document.getElementById('reportLinkBtn');
+        const copyBtn = document.getElementById('copyBtn');
+
+        function setPrimary(label, action) {
+            primaryBtn.textContent = label;
+            primaryBtn.classList.remove('hidden');
+            primaryBtn.onclick = action;
+        }
+
+        async function createRetryCheckout() {
+            const response = await fetch('/api/orders-create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ existingOrderId: orderId })
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok || !data.ok) {
+                throw new Error(data.error || 'Unable to restart checkout.');
+            }
+            window.location.href = data.checkoutUrl;
+        }
+
+        async function confirmPayment(payload) {
+            const response = await fetch('/api/payments-confirm', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok || !data.ok) {
+                throw new Error(data.error || 'Unable to confirm payment.');
+            }
+            return data;
+        }
+
+        function showSuccess(data) {
+            title.textContent = 'Payment confirmed';
+            lead.textContent = 'Your full reading is now available.';
+            statusText.textContent = data.payerEmail
+                ? `We will also send this permanent link to ${data.payerEmail}.`
+                : 'No payment email was returned, so please save this permanent link now.';
+            warningBox.classList.add('hidden');
+            successBox.classList.remove('hidden');
+            linkBox.classList.remove('hidden');
+            linkBox.textContent = data.reportUrl;
+            reportLinkBtn.href = data.reportUrl;
+            reportLinkBtn.classList.remove('hidden');
+            copyBtn.classList.remove('hidden');
+            copyBtn.onclick = async () => {
+                await navigator.clipboard.writeText(data.reportUrl);
+                copyBtn.textContent = 'Copied';
+            };
+            primaryBtn.classList.add('hidden');
+            retryBtn.classList.add('hidden');
+        }
+
+        async function handleMode() {
+            if (!orderId) {
+                title.textContent = 'Missing order';
+                lead.textContent = 'This checkout page needs a valid order reference.';
+                statusText.textContent = 'Please return to the form and generate a new order.';
+                return;
+            }
+
+            retryBtn.classList.remove('hidden');
+            retryBtn.onclick = async () => {
+                retryBtn.disabled = true;
+                retryBtn.textContent = 'Restarting...';
+                try {
+                    await createRetryCheckout();
+                } catch (error) {
+                    retryBtn.disabled = false;
+                    retryBtn.textContent = 'Try payment again';
+                    statusText.textContent = error.message;
+                }
+            };
+
+            if (mode === 'test') {
+                title.textContent = 'Test payment page';
+                lead.textContent = 'This simulates the future PayPal payment step while we finish the production connection.';
+                statusText.textContent = 'Use the success button below to continue the paid report flow.';
+                setPrimary('Test payment success', async () => {
+                    primaryBtn.disabled = true;
+                    primaryBtn.textContent = 'Confirming...';
+                    try {
+                        const data = await confirmPayment({ orderId, provider: 'test', success: true });
+                        showSuccess(data);
+                    } catch (error) {
+                        primaryBtn.disabled = false;
+                        primaryBtn.textContent = 'Test payment success';
+                        statusText.textContent = error.message;
+                    }
+                });
+                return;
+            }
+
+            if (mode === 'paypal') {
+                title.textContent = 'Redirecting to secure PayPal checkout';
+                lead.textContent = 'If the PayPal page does not open automatically, use the button below.';
+                statusText.textContent = 'Do not close this order window if you still want to keep the same 30-minute payment session.';
+                setPrimary('Continue to PayPal', () => {
+                    if (approvalUrl) {
+                        window.location.href = approvalUrl;
+                    }
+                });
+                if (approvalUrl) {
+                    setTimeout(() => {
+                        window.location.href = approvalUrl;
+                    }, 700);
+                }
+                return;
+            }
+
+            if (mode === 'paypal-return') {
+                title.textContent = 'Confirming your PayPal payment';
+                lead.textContent = 'Please wait while we verify the transaction and unlock your report.';
+                statusText.textContent = 'This can take a few seconds.';
+                const paypalOrderId = params.get('token') || params.get('paypalOrderId') || '';
+                try {
+                    const data = await confirmPayment({ orderId, provider: 'paypal', paypalOrderId });
+                    showSuccess(data);
+                } catch (error) {
+                    title.textContent = 'We could not verify the payment yet';
+                    lead.textContent = 'Your order is still available during the active payment window.';
+                    statusText.textContent = error.message;
+                }
+                return;
+            }
+
+            if (mode === 'paypal-cancel') {
+                title.textContent = 'Payment not completed';
+                lead.textContent = 'Your order is still open for 30 minutes, so you can try again without starting from zero.';
+                statusText.textContent = 'When the payment window expires, you will need to create a new order.';
+                setPrimary('Retry PayPal payment', async () => {
+                    primaryBtn.disabled = true;
+                    primaryBtn.textContent = 'Reopening...';
+                    try {
+                        await createRetryCheckout();
+                    } catch (error) {
+                        primaryBtn.disabled = false;
+                        primaryBtn.textContent = 'Retry PayPal payment';
+                        statusText.textContent = error.message;
+                    }
+                });
+            }
+        }
+
+        handleMode().catch(error => {
+            title.textContent = 'Checkout error';
+            lead.textContent = 'Something interrupted the payment flow.';
+            statusText.textContent = error.message;
+        });
+    </script>
+</body>
+</html>

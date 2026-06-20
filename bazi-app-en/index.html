@@ -1392,11 +1392,11 @@
             eraTitle: "选择所处年代", yearTitle: "选择具体年份", backText: "返回年代",
             freeTitle: "免费基础信息", elementTitle: "五行百分比", promptTitle: "后台 Prompt 打包预览", aiTitle: "AI 深度报告",
             rawBirth: "用户提交时间：", solarBirth: "算法入参时间：", locationUsed: "出生地区：", dayMaster: "日柱天干（日元）：",
-            paidNote: "测试版已跳过支付：正式版应先展示免费五行图，用户支付成功后，再把 Prompt 发送给 AI 生成完整报告。",
-            aiSample: "你的日元是 {dayMaster}，五行中 {topElement} 的能量最突出。测试版报告会先给出方向性解读；正式版可扩展为性格、关系、事业、财务节奏和年度提醒。",
+            paidNote: "当前流程会先进入付款页面。付款成功后，系统再开放完整报告、完整 PDF 与后续分享入口。",
+            aiSample: "你的日元是 {dayMaster}，五行中 {topElement} 的能量最突出。付款成功后，系统会生成更完整的性格、关系、事业、财务节奏与年度提醒内容。",
             tabs: ["免费预览", "命盘总览", "事业财富", "感情关系", "年度趋势", "行动指南"],
-            unlockOverview: "测试版已解锁完整报告。正式版可在支付成功后开放本页内容。",
-            unlockCareer: "事业与财富属于深度报告核心内容，正式版建议放在付费解锁后。",
+            unlockOverview: "付款成功后，这一页会直接开放完整内容。",
+            unlockCareer: "事业与财富属于完整付费报告的核心章节。",
             unlocked: "已解锁", testView: "测试查看",
             chapterTitles: {
                 overview: "命盘总览", soul: "灵魂底色", elementInsight: "五行结构", strength: "性格优势", challenge: "容易卡住的地方",
@@ -1418,11 +1418,11 @@
             eraTitle: "Select Era", yearTitle: "Select Year", backText: "Back",
             freeTitle: "Free Basic Result", elementTitle: "Five Element Percentages", promptTitle: "Backend Prompt Preview", aiTitle: "AI Deep Report",
             rawBirth: "Submitted birth time: ", solarBirth: "Algorithm input time: ", locationUsed: "Birth location: ", dayMaster: "Day Master: ",
-            paidNote: "Test mode skips payment. In production, show the free element chart first, then call AI only after payment succeeds.",
-            aiSample: "Your Day Master is {dayMaster}, and {topElement} is the strongest element in this chart. The test report gives a directional reading; production can expand it into personality, relationships, career, money rhythm, and annual guidance.",
+            paidNote: "This flow now sends the user to checkout first. Full report sections, full PDF, and sharing open after payment succeeds.",
+            aiSample: "Your Day Master is {dayMaster}, and {topElement} is the strongest element in this chart. After payment, the system can open the deeper reading on personality, relationships, career, money rhythm, and yearly guidance.",
             tabs: ["Free Preview", "Chart Overview", "Career & Money", "Love & Relations", "Year Outlook", "Action Guide"],
-            unlockOverview: "Test mode unlocks the full report. In production, this page can open only after payment succeeds.",
-            unlockCareer: "Career and money are core paid-report sections. In production, place this behind payment.",
+            unlockOverview: "This page opens fully after payment succeeds.",
+            unlockCareer: "Career and money are core sections inside the paid report.",
             unlocked: "Unlocked", testView: "Test View",
             chapterTitles: {
                 overview: "Chart Overview", soul: "Core Nature", elementInsight: "Five Element Pattern", strength: "Strengths", challenge: "Growth Edges",
@@ -1449,45 +1449,37 @@
 
     const premiumPages = ['overview', 'career', 'relationship', 'year', 'action'];
     let premiumUnlocked = false;
-    let pendingUnlockReturn = null;
+    let paidReportToken = null;
 
     function getUnlockFlowCopy() {
         if (currentLang === 'zh') {
             return {
-                title: '解锁完整报告',
-                note: '你可以先查看基础信息。完整报告章节、完整 PDF 与完整分享属于测试解锁流程的一部分。',
-                warning: '测试版说明：成功返回后，本次解锁状态仅在当前访问中有效，刷新页面后会重新锁定。',
-                cta: '解锁完整报告',
-                unlocked: '本次访问已解锁完整报告。请注意：刷新页面后会重新锁定。',
-                lockedAlert: '请先通过测试解锁流程，再查看完整报告。',
-                pdfAlert: '请先解锁完整报告，再保存完整 PDF。',
-                shareAlert: '请先解锁完整报告，再分享完整报告。',
-                resumeError: '未能恢复本次测试解锁流程，请重新生成报告后再试。'
+                title: '完成付款后查看完整报告',
+                note: '基础信息与主盘可先查看。完整报告章节、完整 PDF 与完整分享会在付款成功后开放。',
+                warning: '付款成功后，系统会提供一个可长期使用的专属报告链接。请保存该链接；若邮箱未收到，也可直接用该链接再次打开。',
+                cta: '前往付款',
+                unlocked: '付款已确认。当前报告可以直接查看，也可以通过专属链接再次打开。',
+                lockedAlert: '请先完成付款，再查看完整报告。',
+                pdfAlert: '请先完成付款，再保存完整 PDF。',
+                shareAlert: '请先完成付款，再分享完整报告。',
+                resumeError: '未能恢复已付款报告，请重新打开你的专属报告链接。'
             };
         }
         return {
-            title: 'Unlock Full Report',
-            note: 'You can preview the basic chart first. The full reading, complete PDF, and full report sections unlock through the test payment flow.',
-            warning: 'Test flow notice: after successful return, this report stays unlocked only for the current visit. Refreshing the page will lock it again.',
-            cta: 'Unlock Full Report',
-            unlocked: 'The full report is unlocked for this visit. Refreshing the page will lock it again.',
-            lockedAlert: 'Please complete the test unlock flow before opening the full report.',
-            pdfAlert: 'Please unlock the full report before saving the full PDF.',
-            shareAlert: 'Please unlock the full report before sharing the full report.',
-            resumeError: 'We could not restore this test unlock return. Please generate the report again and retry.'
+            title: 'Complete payment to open the full report',
+            note: 'You can preview the basic chart first. Full report sections, full PDF, and full sharing open after payment succeeds.',
+            warning: 'After payment, you will receive a permanent report link. Save that link in case your email does not arrive right away.',
+            cta: 'Continue to payment',
+            unlocked: 'Payment confirmed. This report is open, and the permanent link can reopen it later.',
+            lockedAlert: 'Please complete payment before opening the full report.',
+            pdfAlert: 'Please complete payment before saving the full PDF.',
+            shareAlert: 'Please complete payment before sharing the full report.',
+            resumeError: 'We could not restore this paid report. Please reopen it from your permanent report link.'
         };
     }
 
     function isPremiumPage(pageName) {
         return premiumPages.includes(pageName);
-    }
-
-    function encodeUnlockSnapshot(snapshot) {
-        return btoa(unescape(encodeURIComponent(JSON.stringify(snapshot))));
-    }
-
-    function decodeUnlockSnapshot(token) {
-        return JSON.parse(decodeURIComponent(escape(atob(token))));
     }
 
     function buildUnlockSnapshot() {
@@ -1532,22 +1524,92 @@
         document.getElementById('englishCityManual').value = snapshot.manualCity || '';
     }
 
-    function consumeUnlockReturnState() {
+    function getTokenFromUrl() {
         const params = new URLSearchParams(window.location.search);
-        const resumeToken = params.get('resume');
-        if (!resumeToken) return;
-        try {
-            pendingUnlockReturn = {
-                snapshot: decodeUnlockSnapshot(resumeToken),
-                unlock: params.get('unlock') === '1',
-                page: params.get('page') || 'overview'
-            };
-        } catch (error) {
-            console.error(error);
-            alert(getUnlockFlowCopy().resumeError);
-        } finally {
-            history.replaceState({}, document.title, window.location.pathname);
+        return params.get('token') || '';
+    }
+
+    function clearQueryWithoutReload() {
+        history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    function buildOrderPayloadFromSnapshot(snapshot, location) {
+        const year = Number(snapshot.year);
+        const month = String(snapshot.month || '1').padStart(2, '0');
+        const day = String(snapshot.day || '1').padStart(2, '0');
+        const hour = String(snapshot.hour || '00').padStart(2, '0');
+        const minute = String(snapshot.minute || '00').padStart(2, '0');
+        return {
+            formSnapshot: snapshot,
+            name: snapshot.name || 'Unnamed',
+            gender: snapshot.gender || 'female',
+            birthDate: `${year}-${month}-${day}`,
+            birthTime: `${hour}:${minute}`,
+            isDST: Boolean(snapshot.isDST),
+            longitude: Number(location.longitude),
+            locationLabel: location.label
+        };
+    }
+
+    async function createPaymentOrder(payload) {
+        const response = await fetch('/api/orders-create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) {
+            throw new Error(data.error || 'Unable to create the payment order.');
         }
+        return data;
+    }
+
+    function renderReportFromSnapshot(snapshot, activePage = 'overview') {
+        const month = parseInt(snapshot.month || '1', 10);
+        const day = parseInt(snapshot.day || '1', 10);
+        const hour = parseInt(snapshot.hour || '00', 10);
+        const minute = parseInt(snapshot.minute || '00', 10);
+        const gender = snapshot.gender || 'female';
+        const isDST = Boolean(snapshot.isDST);
+        const location = getSelectedLocation();
+        const rawDate = new Date(Number(snapshot.year), month - 1, day, hour, minute, 0);
+        const solarResult = getTrueSolarDate(rawDate, location, isDST);
+        if (!window.Lunar) throw new Error('lunar-javascript failed to load.');
+        const lunarObj = getLunarFromAdjustedDate(solarResult.adjusted);
+        const baziObj = lunarObj.getEightChar();
+        const formData = {
+            name: snapshot.name || 'Unnamed',
+            gender,
+            isDST,
+            rawBirthTime: formatDateTime(rawDate),
+            adjustedBirthTime: formatDateTime(solarResult.adjusted),
+            solarOffsetMinutes: solarResult.solarOffsetMinutes,
+            longitudeOffsetMinutes: solarResult.longitudeOffsetMinutes,
+            equationOfTimeMinutes: solarResult.equationOfTimeMinutes,
+            locationLabel: location.label,
+            longitude: location.longitude,
+            locationNote: location.note,
+            rawDate
+        };
+        renderEnhancedResult(lunarObj, baziObj, gender, formData, activePage);
+    }
+
+    async function loadPaidReportFromToken(token) {
+        const response = await fetch(`/api/report-by-token?token=${encodeURIComponent(token)}`);
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) {
+            throw new Error(data.error || getUnlockFlowCopy().resumeError);
+        }
+        const snapshot = data.formSnapshot || {};
+        restoreUnlockSnapshot(snapshot);
+        premiumUnlocked = true;
+        paidReportToken = token;
+        document.getElementById('quizForm').style.display = 'none';
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('reportSection').style.display = 'block';
+        renderReportFromSnapshot(snapshot, 'overview');
+        updatePremiumUI();
+        return data;
     }
 
     function updatePremiumUI() {
@@ -2290,8 +2352,8 @@
             customNoteText: '如果你想继续往下看，也可以延伸做更细的个人命盘解读、关系合盘，或结合喜用方向设计更贴合日常佩戴的能量饰品方案。',
             customNoteLink: '微信咨询入口',
             tabs: ['基础信息', '命盘总览', '事业财富', '感情关系', '年度趋势', '行动指南'],
-            unlockOverview: '测试版已直接开放完整报告，正式版可以在支付成功后解锁本页。',
-            unlockCareer: '事业与财富属于深度报告核心内容，正式版建议放在付费解锁后。',
+            unlockOverview: '付款成功后，这一页会直接开放完整内容。',
+            unlockCareer: '事业与财富属于完整付费报告的核心章节。',
             unlocked: '已解锁',
             testView: '测试查看',
             fields: {
@@ -2389,8 +2451,8 @@
             customNoteText: 'If you want to go further, you can continue with a deeper personal reading, relationship compatibility analysis, or a more tailored energy-support accessory plan based on your useful elements.',
             customNoteLink: 'Instagram Entry',
             tabs: ['Basic Info', 'Chart Overview', 'Career & Wealth', 'Love & Relationships', 'Yearly Outlook', 'Action Guide'],
-            unlockOverview: 'The test version opens the full report directly. In production, this page can unlock after payment.',
-            unlockCareer: 'Career and wealth belong to the premium report. In production, keep this behind payment.',
+            unlockOverview: 'This page opens fully after payment succeeds.',
+            unlockCareer: 'Career and wealth belong to the paid report.',
             unlocked: 'Unlocked',
             testView: 'Preview',
             fields: {
@@ -2460,10 +2522,125 @@
         JP: [{zh:'东京都',en:'Tokyo',longitude:139.6917},{zh:'大阪府',en:'Osaka',longitude:135.5023},{zh:'北海道',en:'Hokkaido',longitude:141.3469},{zh:'福冈县',en:'Fukuoka',longitude:130.4017}],
         KR: [{zh:'首尔',en:'Seoul',longitude:126.9780},{zh:'釜山',en:'Busan',longitude:129.0756},{zh:'京畿道',en:'Gyeonggi',longitude:127.5183}],
         BE: [{zh:'布鲁塞尔首都大区',en:'Brussels-Capital',longitude:4.3517},{zh:'佛兰德大区',en:'Flanders',longitude:4.4025},{zh:'瓦隆大区',en:'Wallonia',longitude:4.8718}],
-        FR: [{zh:'法兰西岛',en:'Ile-de-France',longitude:2.6370},{zh:'普罗旺斯',en:'Provence-Alpes-Cote d\'Azur',longitude:5.3698},{zh:'奥弗涅-罗讷-阿尔卑斯',en:'Auvergne-Rhone-Alpes',longitude:4.8357}],
-        DE: [{zh:'柏林州',en:'Berlin',longitude:13.4050},{zh:'巴伐利亚州',en:'Bavaria',longitude:11.4979},{zh:'北莱茵-威斯特法伦州',en:'North Rhine-Westphalia',longitude:7.6616}],
-        IT: [{zh:'拉齐奥大区',en:'Lazio',longitude:12.4964},{zh:'伦巴第大区',en:'Lombardy',longitude:9.19},{zh:'托斯卡纳大区',en:'Tuscany',longitude:11.2558}],
-        ES: [{zh:'马德里自治区',en:'Community of Madrid',longitude:-3.7038},{zh:'加泰罗尼亚',en:'Catalonia',longitude:2.1734},{zh:'安达卢西亚',en:'Andalusia',longitude:-5.9845}],
+        FR: [
+            {zh:'法兰西岛',en:'Ile-de-France',longitude:2.6370},
+            {zh:'普罗旺斯-阿尔卑斯-蓝色海岸',en:'Provence-Alpes-Cote d\'Azur',longitude:5.3698},
+            {zh:'奥弗涅-罗讷-阿尔卑斯',en:'Auvergne-Rhone-Alpes',longitude:4.8357},
+            {zh:'新阿基坦',en:'Nouvelle-Aquitaine',longitude:-0.5792},
+            {zh:'奥克西塔尼',en:'Occitanie',longitude:1.4442},
+            {zh:'大东部',en:'Grand Est',longitude:7.7521},
+            {zh:'上法兰西',en:'Hauts-de-France',longitude:3.0573},
+            {zh:'布列塔尼',en:'Brittany',longitude:-1.6778},
+            {zh:'诺曼底',en:'Normandy',longitude:0.1079},
+            {zh:'卢瓦尔河地区',en:'Pays de la Loire',longitude:-1.5536},
+            {zh:'勃艮第-弗朗什-孔泰',en:'Bourgogne-Franche-Comte',longitude:5.0415},
+            {zh:'中央-卢瓦尔河谷',en:'Centre-Val de Loire',longitude:1.9090},
+            {zh:'科西嘉',en:'Corsica',longitude:8.7386}
+        ],
+        DE: [
+            {zh:'巴登-符腾堡州',en:'Baden-Wurttemberg',longitude:9.1829},
+            {zh:'巴伐利亚州',en:'Bavaria',longitude:11.4979},
+            {zh:'柏林州',en:'Berlin',longitude:13.4050},
+            {zh:'勃兰登堡州',en:'Brandenburg',longitude:13.0645},
+            {zh:'不来梅州',en:'Bremen',longitude:8.8017},
+            {zh:'汉堡州',en:'Hamburg',longitude:9.9937},
+            {zh:'黑森州',en:'Hesse',longitude:8.6821},
+            {zh:'下萨克森州',en:'Lower Saxony',longitude:9.7320},
+            {zh:'梅克伦堡-前波莫瑞州',en:'Mecklenburg-Vorpommern',longitude:12.0991},
+            {zh:'北莱茵-威斯特法伦州',en:'North Rhine-Westphalia',longitude:7.6616},
+            {zh:'莱茵兰-普法尔茨州',en:'Rhineland-Palatinate',longitude:8.2473},
+            {zh:'萨尔州',en:'Saarland',longitude:6.9969},
+            {zh:'萨克森州',en:'Saxony',longitude:13.7373},
+            {zh:'萨克森-安哈尔特州',en:'Saxony-Anhalt',longitude:11.6276},
+            {zh:'石勒苏益格-荷尔斯泰因州',en:'Schleswig-Holstein',longitude:10.1228},
+            {zh:'图林根州',en:'Thuringia',longitude:11.0299}
+        ],
+        IT: [
+            {zh:'拉齐奥大区',en:'Lazio',longitude:12.4964},
+            {zh:'伦巴第大区',en:'Lombardy',longitude:9.1900},
+            {zh:'托斯卡纳大区',en:'Tuscany',longitude:11.2558},
+            {zh:'皮埃蒙特大区',en:'Piedmont',longitude:7.6869},
+            {zh:'威尼托大区',en:'Veneto',longitude:12.3155},
+            {zh:'艾米利亚-罗马涅大区',en:'Emilia-Romagna',longitude:11.3426},
+            {zh:'坎帕尼亚大区',en:'Campania',longitude:14.2681},
+            {zh:'西西里大区',en:'Sicily',longitude:13.3615},
+            {zh:'普利亚大区',en:'Apulia',longitude:16.8719},
+            {zh:'利古里亚大区',en:'Liguria',longitude:8.9463},
+            {zh:'撒丁大区',en:'Sardinia',longitude:9.1217},
+            {zh:'卡拉布里亚大区',en:'Calabria',longitude:16.5944},
+            {zh:'翁布里亚大区',en:'Umbria',longitude:12.3888},
+            {zh:'阿布鲁佐大区',en:'Abruzzo',longitude:14.2142},
+            {zh:'特伦蒂诺-上阿迪杰大区',en:'Trentino-Alto Adige',longitude:11.1217},
+            {zh:'弗留利-威尼斯朱利亚大区',en:'Friuli-Venezia Giulia',longitude:13.7768},
+            {zh:'马尔凯大区',en:'Marche',longitude:13.5189},
+            {zh:'巴西利卡塔大区',en:'Basilicata',longitude:15.8055},
+            {zh:'莫利塞大区',en:'Molise',longitude:14.6592},
+            {zh:'瓦莱达奥斯塔大区',en:'Aosta Valley',longitude:7.3172}
+        ],
+        ES: [
+            {zh:'马德里自治区',en:'Community of Madrid',longitude:-3.7038},
+            {zh:'加泰罗尼亚',en:'Catalonia',longitude:2.1734},
+            {zh:'安达卢西亚',en:'Andalusia',longitude:-5.9845},
+            {zh:'瓦伦西亚自治区',en:'Valencian Community',longitude:-0.3763},
+            {zh:'加利西亚',en:'Galicia',longitude:-8.5448},
+            {zh:'巴斯克自治区',en:'Basque Country',longitude:-2.9350},
+            {zh:'卡斯蒂利亚-莱昂',en:'Castile and Leon',longitude:-4.7286},
+            {zh:'卡斯蒂利亚-拉曼恰',en:'Castile-La Mancha',longitude:-3.1619},
+            {zh:'加那利群岛',en:'Canary Islands',longitude:-15.4314},
+            {zh:'巴利阿里群岛',en:'Balearic Islands',longitude:2.6502},
+            {zh:'阿拉贡',en:'Aragon',longitude:-0.8773},
+            {zh:'穆尔西亚',en:'Murcia',longitude:-1.1307},
+            {zh:'阿斯图里亚斯',en:'Asturias',longitude:-5.8494},
+            {zh:'纳瓦拉',en:'Navarre',longitude:-1.6440},
+            {zh:'埃斯特雷马杜拉',en:'Extremadura',longitude:-6.9707},
+            {zh:'坎塔布里亚',en:'Cantabria',longitude:-3.8044},
+            {zh:'拉里奥哈',en:'La Rioja',longitude:-2.4457}
+        ],
+        NL: [
+            {zh:'北荷兰省',en:'North Holland',longitude:4.9041},
+            {zh:'南荷兰省',en:'South Holland',longitude:4.3007},
+            {zh:'乌得勒支省',en:'Utrecht',longitude:5.1214},
+            {zh:'北布拉班特省',en:'North Brabant',longitude:5.3037},
+            {zh:'海尔德兰省',en:'Gelderland',longitude:5.8987},
+            {zh:'上艾瑟尔省',en:'Overijssel',longitude:6.0944},
+            {zh:'林堡省',en:'Limburg',longitude:5.6910},
+            {zh:'格罗宁根省',en:'Groningen',longitude:6.5665},
+            {zh:'弗里斯兰省',en:'Friesland',longitude:5.7999},
+            {zh:'泽兰省',en:'Zealand',longitude:3.6135},
+            {zh:'弗莱福兰省',en:'Flevoland',longitude:5.4714},
+            {zh:'德伦特省',en:'Drenthe',longitude:6.5625}
+        ],
+        AT: [
+            {zh:'维也纳州',en:'Vienna',longitude:16.3738},
+            {zh:'下奥地利州',en:'Lower Austria',longitude:15.6382},
+            {zh:'上奥地利州',en:'Upper Austria',longitude:14.2858},
+            {zh:'施蒂利亚州',en:'Styria',longitude:15.4395},
+            {zh:'萨尔茨堡州',en:'Salzburg',longitude:13.0550},
+            {zh:'蒂罗尔州',en:'Tyrol',longitude:11.4041},
+            {zh:'克恩顿州',en:'Carinthia',longitude:14.3122},
+            {zh:'福拉尔贝格州',en:'Vorarlberg',longitude:9.7423},
+            {zh:'布尔根兰州',en:'Burgenland',longitude:16.5279}
+        ],
+        CH: [
+            {zh:'苏黎世州',en:'Zurich',longitude:8.5417},
+            {zh:'伯尔尼州',en:'Bern',longitude:7.4474},
+            {zh:'沃州',en:'Vaud',longitude:6.6323},
+            {zh:'日内瓦州',en:'Geneva',longitude:6.1432},
+            {zh:'阿尔高州',en:'Aargau',longitude:8.0442},
+            {zh:'圣加仑州',en:'St. Gallen',longitude:9.3767},
+            {zh:'提契诺州',en:'Ticino',longitude:8.9511},
+            {zh:'巴塞尔城市州',en:'Basel-Stadt',longitude:7.5886}
+        ],
+        PT: [
+            {zh:'里斯本区',en:'Lisbon',longitude:-9.1393},
+            {zh:'波尔图区',en:'Porto',longitude:-8.6291},
+            {zh:'布拉加区',en:'Braga',longitude:-8.4211},
+            {zh:'阿威罗区',en:'Aveiro',longitude:-8.6538},
+            {zh:'科英布拉区',en:'Coimbra',longitude:-8.4292},
+            {zh:'法鲁区',en:'Faro',longitude:-7.9352},
+            {zh:'马德拉',en:'Madeira',longitude:-16.9241},
+            {zh:'亚速尔群岛',en:'Azores',longitude:-25.6756}
+        ],
         IN: [{zh:'马哈拉施特拉邦',en:'Maharashtra',longitude:72.8777},{zh:'德里国家首都辖区',en:'Delhi',longitude:77.1025},{zh:'卡纳塔克邦',en:'Karnataka',longitude:77.5946}],
         MY: [{zh:'吉隆坡',en:'Kuala Lumpur',longitude:101.6869},{zh:'雪兰莪',en:'Selangor',longitude:101.5183},{zh:'槟城',en:'Penang',longitude:100.3340}],
         TH: [{zh:'曼谷',en:'Bangkok',longitude:100.5018},{zh:'清迈',en:'Chiang Mai',longitude:98.9931},{zh:'普吉',en:'Phuket',longitude:98.3381}],
@@ -2509,10 +2686,125 @@
         SG: { Central: ['Singapore'], East: ['Singapore'], West: ['Singapore'] },
         JP: { Tokyo: ['Shinjuku', 'Shibuya', 'Setagaya'], Osaka: ['Osaka', 'Sakai', 'Higashiosaka'], Hokkaido: ['Sapporo', 'Hakodate', 'Asahikawa'] },
         KR: { Seoul: ['Seoul'], Busan: ['Busan'], Gyeonggi: ['Suwon', 'Seongnam', 'Yongin'] },
-        FR: { 'Ile-de-France': ['Paris', 'Boulogne-Billancourt', 'Versailles'], Provence: ['Marseille', 'Nice', 'Aix-en-Provence'], Auvergne: ['Lyon', 'Clermont-Ferrand', 'Villeurbanne'] },
-        DE: { Bavaria: ['Munich', 'Nuremberg', 'Augsburg'], Berlin: ['Berlin'], Hamburg: ['Hamburg'] },
-        IT: { Lazio: ['Rome', 'Latina', 'Fiumicino'], Lombardy: ['Milan', 'Bergamo', 'Brescia'], Tuscany: ['Florence', 'Pisa', 'Siena'] },
-        ES: { Madrid: ['Madrid', 'Mostoles', 'Alcala de Henares'], Catalonia: ['Barcelona', 'Girona', 'Tarragona'], Andalusia: ['Seville', 'Malaga', 'Granada'] },
+        FR: {
+            'Ile-de-France': ['Paris', 'Boulogne-Billancourt', 'Versailles'],
+            'Provence-Alpes-Cote d\'Azur': ['Marseille', 'Nice', 'Aix-en-Provence'],
+            'Auvergne-Rhone-Alpes': ['Lyon', 'Clermont-Ferrand', 'Grenoble'],
+            'Nouvelle-Aquitaine': ['Bordeaux', 'Limoges', 'Poitiers'],
+            Occitanie: ['Toulouse', 'Montpellier', 'Nimes'],
+            'Grand Est': ['Strasbourg', 'Reims', 'Metz'],
+            'Hauts-de-France': ['Lille', 'Amiens', 'Roubaix'],
+            Brittany: ['Rennes', 'Brest', 'Quimper'],
+            Normandy: ['Rouen', 'Caen', 'Le Havre'],
+            'Pays de la Loire': ['Nantes', 'Angers', 'Le Mans'],
+            'Bourgogne-Franche-Comte': ['Dijon', 'Besancon', 'Auxerre'],
+            'Centre-Val de Loire': ['Orleans', 'Tours', 'Bourges'],
+            Corsica: ['Ajaccio', 'Bastia']
+        },
+        DE: {
+            'Baden-Wurttemberg': ['Stuttgart', 'Karlsruhe', 'Mannheim'],
+            Bavaria: ['Munich', 'Nuremberg', 'Augsburg'],
+            Berlin: ['Berlin', 'Spandau'],
+            Brandenburg: ['Potsdam', 'Cottbus', 'Brandenburg an der Havel'],
+            Bremen: ['Bremen', 'Bremerhaven'],
+            Hamburg: ['Hamburg', 'Harburg'],
+            Hesse: ['Frankfurt', 'Wiesbaden', 'Kassel'],
+            'Lower Saxony': ['Hanover', 'Braunschweig', 'Oldenburg'],
+            'Mecklenburg-Vorpommern': ['Rostock', 'Schwerin', 'Neubrandenburg'],
+            'North Rhine-Westphalia': ['Cologne', 'Dusseldorf', 'Dortmund'],
+            'Rhineland-Palatinate': ['Mainz', 'Ludwigshafen', 'Koblenz'],
+            Saarland: ['Saarbrucken', 'Neunkirchen'],
+            Saxony: ['Dresden', 'Leipzig', 'Chemnitz'],
+            'Saxony-Anhalt': ['Magdeburg', 'Halle', 'Dessau-Rosslau'],
+            'Schleswig-Holstein': ['Kiel', 'Lubeck', 'Flensburg'],
+            Thuringia: ['Erfurt', 'Jena', 'Gera']
+        },
+        IT: {
+            Lazio: ['Rome', 'Latina', 'Fiumicino'],
+            Lombardy: ['Milan', 'Bergamo', 'Brescia'],
+            Tuscany: ['Florence', 'Pisa', 'Siena'],
+            Piedmont: ['Turin', 'Novara', 'Alessandria'],
+            Veneto: ['Venice', 'Verona', 'Padua'],
+            'Emilia-Romagna': ['Bologna', 'Parma', 'Rimini'],
+            Campania: ['Naples', 'Salerno', 'Caserta'],
+            Sicily: ['Palermo', 'Catania', 'Messina'],
+            Apulia: ['Bari', 'Lecce', 'Taranto'],
+            Liguria: ['Genoa', 'La Spezia', 'Savona'],
+            Sardinia: ['Cagliari', 'Sassari', 'Olbia'],
+            Calabria: ['Reggio Calabria', 'Catanzaro', 'Cosenza'],
+            Umbria: ['Perugia', 'Terni'],
+            Abruzzo: ['Pescara', 'L\'Aquila', 'Chieti'],
+            'Trentino-Alto Adige': ['Trento', 'Bolzano'],
+            'Friuli-Venezia Giulia': ['Trieste', 'Udine', 'Pordenone'],
+            Marche: ['Ancona', 'Pesaro', 'Macerata'],
+            Basilicata: ['Potenza', 'Matera'],
+            Molise: ['Campobasso', 'Isernia'],
+            'Aosta Valley': ['Aosta', 'Saint-Vincent']
+        },
+        ES: {
+            'Community of Madrid': ['Madrid', 'Mostoles', 'Alcala de Henares'],
+            Catalonia: ['Barcelona', 'Girona', 'Tarragona'],
+            Andalusia: ['Seville', 'Malaga', 'Granada'],
+            'Valencian Community': ['Valencia', 'Alicante', 'Castellon de la Plana'],
+            Galicia: ['Santiago de Compostela', 'Vigo', 'A Coruna'],
+            'Basque Country': ['Bilbao', 'San Sebastian', 'Vitoria-Gasteiz'],
+            'Castile and Leon': ['Valladolid', 'Salamanca', 'Burgos'],
+            'Castile-La Mancha': ['Toledo', 'Albacete', 'Ciudad Real'],
+            'Canary Islands': ['Las Palmas de Gran Canaria', 'Santa Cruz de Tenerife'],
+            'Balearic Islands': ['Palma', 'Ibiza', 'Mahon'],
+            Aragon: ['Zaragoza', 'Huesca', 'Teruel'],
+            Murcia: ['Murcia', 'Cartagena', 'Lorca'],
+            Asturias: ['Oviedo', 'Gijon', 'Aviles'],
+            Navarre: ['Pamplona', 'Tudela'],
+            Extremadura: ['Merida', 'Badajoz', 'Caceres'],
+            Cantabria: ['Santander', 'Torrelavega'],
+            'La Rioja': ['Logrono', 'Calahorra']
+        },
+        NL: {
+            'North Holland': ['Amsterdam', 'Haarlem', 'Alkmaar'],
+            'South Holland': ['The Hague', 'Rotterdam', 'Leiden'],
+            Utrecht: ['Utrecht', 'Amersfoort', 'Nieuwegein'],
+            'North Brabant': ['Eindhoven', 'Tilburg', '\'s-Hertogenbosch'],
+            Gelderland: ['Arnhem', 'Nijmegen', 'Apeldoorn'],
+            Overijssel: ['Zwolle', 'Enschede', 'Deventer'],
+            Limburg: ['Maastricht', 'Venlo', 'Sittard'],
+            Groningen: ['Groningen', 'Winschoten'],
+            Friesland: ['Leeuwarden', 'Sneek'],
+            Zealand: ['Middelburg', 'Vlissingen'],
+            Flevoland: ['Almere', 'Lelystad'],
+            Drenthe: ['Assen', 'Emmen']
+        },
+        AT: {
+            Vienna: ['Vienna', 'Floridsdorf'],
+            'Lower Austria': ['Sankt Polten', 'Wiener Neustadt', 'Krems'],
+            'Upper Austria': ['Linz', 'Wels', 'Steyr'],
+            Styria: ['Graz', 'Leoben', 'Kapfenberg'],
+            Salzburg: ['Salzburg', 'Hallein'],
+            Tyrol: ['Innsbruck', 'Kufstein'],
+            Carinthia: ['Klagenfurt', 'Villach'],
+            Vorarlberg: ['Bregenz', 'Dornbirn'],
+            Burgenland: ['Eisenstadt', 'Oberwart']
+        },
+        CH: {
+            Zurich: ['Zurich', 'Winterthur', 'Uster'],
+            Bern: ['Bern', 'Thun', 'Biel/Bienne'],
+            Vaud: ['Lausanne', 'Yverdon-les-Bains', 'Montreux'],
+            Geneva: ['Geneva', 'Carouge'],
+            Aargau: ['Aarau', 'Baden', 'Wettingen'],
+            'St. Gallen': ['St. Gallen', 'Wil', 'Rapperswil-Jona'],
+            Ticino: ['Lugano', 'Bellinzona', 'Locarno'],
+            'Basel-Stadt': ['Basel', 'Riehen']
+        },
+        PT: {
+            Lisbon: ['Lisbon', 'Sintra', 'Cascais'],
+            Porto: ['Porto', 'Vila Nova de Gaia', 'Matosinhos'],
+            Braga: ['Braga', 'Guimaraes'],
+            Aveiro: ['Aveiro', 'Ilhavo'],
+            Coimbra: ['Coimbra', 'Figueira da Foz'],
+            Faro: ['Faro', 'Portimao', 'Albufeira'],
+            Madeira: ['Funchal', 'Camara de Lobos'],
+            Azores: ['Ponta Delgada', 'Angra do Heroismo']
+        },
         IN: { Maharashtra: ['Mumbai', 'Pune', 'Nagpur'], Delhi: ['New Delhi', 'Delhi'], Karnataka: ['Bengaluru', 'Mysuru', 'Mangalore'] },
         MY: { Selangor: ['Shah Alam', 'Petaling Jaya', 'Subang Jaya'], 'Kuala Lumpur': ['Kuala Lumpur'], Penang: ['George Town', 'Butterworth', 'Bayan Lepas'] },
         TH: { Bangkok: ['Bangkok'], ChiangMai: ['Chiang Mai'], Phuket: ['Phuket Town'] },
@@ -4048,9 +4340,8 @@
         switchReportPage(activePage || 'free');
         enhancedState.latest = { lunarObj, baziObj, gender, formData };
     }
-    executeSubmit = function(event) {
+    executeSubmit = async function(event) {
         event.preventDefault();
-        const shouldUnlockAfterRender = Boolean(pendingUnlockReturn && pendingUnlockReturn.unlock);
         if (!selectedYear) {
             alert(currentLang === 'zh' ? '请选择您的出生年份！' : 'Please select your birth year!');
             return;
@@ -4087,60 +4378,26 @@
         const day = parseInt(document.getElementById('birthDay').value, 10);
         const hour = parseInt(document.getElementById('birthHour').value || '00', 10);
         const minute = parseInt(document.getElementById('birthMinute').value || '00', 10);
-        const gender = document.querySelector('input[name="gender"]:checked').value;
         const isDST = document.getElementById('dst').checked;
         const location = getSelectedLocation();
 
-        if (!shouldUnlockAfterRender) {
-            const unlockUrl = new URL('test-unlock.html', window.location.href);
-            unlockUrl.searchParams.set('resume', encodeUnlockSnapshot(buildUnlockSnapshot()));
-            unlockUrl.searchParams.set('return', 'index.html');
-            unlockUrl.searchParams.set('page', 'overview');
-            window.location.href = unlockUrl.toString();
-            return;
-        }
-
         document.getElementById('quizForm').style.display = 'none';
         document.getElementById('loader').style.display = 'block';
-        document.getElementById('loader').innerText = getT(currentLang).loading;
+        document.getElementById('loader').innerText = currentLang === 'zh'
+            ? '正在创建订单并跳转付款页面...'
+            : 'Creating your order and preparing secure checkout...';
 
-        setTimeout(() => {
-            try {
-                const rawDate = new Date(selectedYear, month - 1, day, hour, minute, 0);
-                const solarResult = getTrueSolarDate(rawDate, location, isDST);
-                if (!window.Lunar) throw new Error(currentLang === 'zh' ? 'lunar-javascript 未成功加载。' : 'lunar-javascript failed to load.');
-                const lunarObj = getLunarFromAdjustedDate(solarResult.adjusted);
-                const baziObj = lunarObj.getEightChar();
-                const formData = {
-                    name: document.getElementById('name').value.trim() || (currentLang === 'zh' ? '未命名' : 'Unnamed'),
-                    gender,
-                    isDST,
-                    rawBirthTime: formatDateTime(rawDate),
-                    adjustedBirthTime: formatDateTime(solarResult.adjusted),
-                    solarOffsetMinutes: solarResult.solarOffsetMinutes,
-                    longitudeOffsetMinutes: solarResult.longitudeOffsetMinutes,
-                    equationOfTimeMinutes: solarResult.equationOfTimeMinutes,
-                    locationLabel: location.label,
-                    longitude: location.longitude,
-                    locationNote: location.note,
-                    rawDate
-                };
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('reportSection').style.display = 'block';
-                premiumUnlocked = false;
-                renderEnhancedResult(lunarObj, baziObj, gender, formData, shouldUnlockAfterRender ? (pendingUnlockReturn.page || 'overview') : 'free');
-                if (shouldUnlockAfterRender) {
-                    premiumUnlocked = true;
-                    pendingUnlockReturn = null;
-                }
-                updatePremiumUI();
-            } catch (error) {
-                console.error(error);
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('quizForm').style.display = 'block';
-                alert(currentLang === 'zh' ? `生成失败：${error.message}` : `Generation failed: ${error.message}`);
-            }
-        }, 800);
+        try {
+            const snapshot = buildUnlockSnapshot();
+            const orderPayload = buildOrderPayloadFromSnapshot(snapshot, location);
+            const payment = await createPaymentOrder(orderPayload);
+            window.location.href = payment.checkoutUrl;
+        } catch (error) {
+            console.error(error);
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('quizForm').style.display = 'block';
+            alert(currentLang === 'zh' ? `创建付款失败：${error.message}` : `Unable to start checkout: ${error.message}`);
+        }
     };
     window.captureAndSaveChart = function() {
         if (!window.html2canvas) {
@@ -4522,11 +4779,23 @@
         populateTimeSelectors();
         initMonthAndDays();
         switchLanguage(standalonePageLang);
-        consumeUnlockReturnState();
-        if (pendingUnlockReturn?.snapshot) {
-            restoreUnlockSnapshot(pendingUnlockReturn.snapshot);
-            setTimeout(() => executeSubmit({ preventDefault() {}, stopPropagation() {} }), 60);
+        const token = getTokenFromUrl();
+        if (token) {
+            document.getElementById('quizForm').style.display = 'none';
+            document.getElementById('loader').style.display = 'block';
+            document.getElementById('loader').innerText = currentLang === 'zh'
+                ? '正在恢复已付款报告...'
+                : 'Restoring your paid report...';
+            loadPaidReportFromToken(token).catch(error => {
+                console.error(error);
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('quizForm').style.display = 'block';
+                alert(currentLang === 'zh' ? `恢复报告失败：${error.message}` : `Unable to restore the report: ${error.message}`);
+                clearQueryWithoutReload();
+            });
         } else {
+            premiumUnlocked = false;
+            paidReportToken = null;
             updatePremiumUI();
         }
         setupMobileViewportFixes();

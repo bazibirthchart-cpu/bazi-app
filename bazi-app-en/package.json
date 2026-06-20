@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "wrangler pages dev .",
     "deploy": "wrangler pages deploy .",
-    "check": "node --check functions/api/calculate.js && node --check functions/api/report.js && node --check functions/api/export-pdf.js && node --check functions/api/export-image.js && node --check functions/api/share-log.js"
+    "check": "node --check functions/api/calculate.js && node --check functions/api/report.js && node --check functions/api/export-pdf.js && node --check functions/api/export-image.js && node --check functions/api/share-log.js && node --check functions/api/orders-create.js && node --check functions/api/payments-confirm.js && node --check functions/api/report-by-token.js && node --check functions/_lib/orders.js && node --check functions/_lib/paypal.js && node --check functions/_lib/email.js"
   },
   "dependencies": {
     "lunar-javascript": "1.6.12",

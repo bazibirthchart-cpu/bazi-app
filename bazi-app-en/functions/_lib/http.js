@@ -47,10 +47,25 @@ export function badRequest(message, details = null) {
   return json({ ok: false, error: message, details }, { status: 400 });
 }
 
+export function notFound(message = 'Not found.', details = null) {
+  return json({ ok: false, error: message, details }, { status: 404 });
+}
+
+export function serverError(message = 'Server error.', details = null) {
+  return json({ ok: false, error: message, details }, { status: 500 });
+}
+
 export function methodNotAllowed() {
   return text('', { status: 405 });
 }
 
 export function handleOptions() {
   return text('', { status: 204 });
+}
+
+export function redirect(location, status = 302) {
+  return withCors(new Response(null, {
+    status,
+    headers: { Location: location }
+  }));
 }
