@@ -52,7 +52,9 @@ const supplementalEuropeanCities = extractObjectLiteral(html, 'supplementalEurop
 const supplementalAsiaRegions = extractObjectLiteral(html, 'supplementalAsiaRegions', 'supplementalAsiaCities');
 const supplementalAsiaCities = extractObjectLiteral(html, 'supplementalAsiaCities', 'supplementalAfricaRegions');
 const supplementalAfricaRegions = extractObjectLiteral(html, 'supplementalAfricaRegions', 'supplementalAfricaCities');
-const supplementalAfricaCities = extractObjectLiteral(html, 'supplementalAfricaCities', 'capitalCityFallbackByCountry');
+const supplementalAfricaCities = extractObjectLiteral(html, 'supplementalAfricaCities', 'supplementalOceaniaRegions');
+const supplementalOceaniaRegions = extractObjectLiteral(html, 'supplementalOceaniaRegions', 'supplementalOceaniaCities');
+const supplementalOceaniaCities = extractObjectLiteral(html, 'supplementalOceaniaCities', 'capitalCityFallbackByCountry');
 const capitalCityFallbackByCountry = extractObjectLiteral(html, 'capitalCityFallbackByCountry', 'yinyangByStem');
 
 for (const [code, regions] of Object.entries(supplementalEuropeanRegions)) {
@@ -70,6 +72,12 @@ assert.ok(supplementalEuropeanCities.SE.Skane.length >= 2, 'Sweden should expose
 
 for (const [code, regions] of Object.entries(supplementalAsiaRegions)) {
   assert.ok(regions.length >= 1, `${code} should expose at least one supplemental Asia region.`);
+}
+
+for (const [code, regionMap] of Object.entries(supplementalAsiaCities)) {
+  for (const [region, cities] of Object.entries(regionMap)) {
+    assert.ok(cities.length >= 2, `${code} ${region} should expose at least two city choices.`);
+  }
 }
 
 assert.ok(supplementalAsiaRegions.PK.length >= 4, 'Pakistan should expose multiple real regions.');
@@ -99,6 +107,21 @@ assert.ok(supplementalAfricaCities.CD.Kinshasa.length >= 1, 'DR Congo Kinshasa s
 assert.ok(supplementalAfricaCities.GA.Estuaire.length >= 1, 'Gabon Estuaire should expose a city choice.');
 assert.ok(supplementalAfricaCities.ML.Bamako.length >= 1, 'Mali Bamako should expose a city choice.');
 
+for (const [code, regions] of Object.entries(supplementalOceaniaRegions)) {
+  assert.ok(regions.length >= 4, `${code} should expose multiple Oceania regions.`);
+}
+
+for (const [code, regionMap] of Object.entries(supplementalOceaniaCities)) {
+  for (const [region, cities] of Object.entries(regionMap)) {
+    assert.ok(cities.length >= 2, `${code} ${region} should expose at least two city choices.`);
+  }
+}
+
+assert.ok(supplementalOceaniaCities.FJ['Central Division'].includes('Suva'), 'Fiji central division should include Suva.');
+assert.ok(supplementalOceaniaCities.PG['National Capital District'].includes('Port Moresby'), 'Papua New Guinea should include Port Moresby.');
+assert.ok(supplementalOceaniaCities.WS.Tuamasaga.includes('Apia'), 'Samoa Tuamasaga should include Apia.');
+assert.ok(supplementalOceaniaCities.VU.Shefa.includes('Port Vila'), 'Vanuatu Shefa should include Port Vila.');
+
 const europeCodes = englishCountriesByContinent.Europe;
 const unsupportedEurope = europeCodes.filter(code => !enhancedRegions[code] && !supplementalEuropeanRegions[code] && !capitalCityFallbackByCountry[code]);
 assert.equal(unsupportedEurope.length, 0, `Every European country should have explicit regions or at least a capital fallback. Missing: ${unsupportedEurope.join(', ')}`);
@@ -107,6 +130,11 @@ const asiaCodes = englishCountriesByContinent.Asia;
 const unsupportedAsia = asiaCodes
   .filter(code => !enhancedRegions[code] && !supplementalAsiaRegions[code] && !capitalCityFallbackByCountry[code] && code !== 'CN');
 assert.equal(unsupportedAsia.length, 0, `Every selectable Asian country should have explicit regions or at least a capital fallback. Missing: ${unsupportedAsia.join(', ')}`);
+
+const oceaniaCodes = englishCountriesByContinent.Oceania;
+const unsupportedOceania = oceaniaCodes
+  .filter(code => !enhancedRegions[code] && !supplementalOceaniaRegions[code] && !capitalCityFallbackByCountry[code]);
+assert.equal(unsupportedOceania.length, 0, `Every selectable Oceania country should have explicit regions or at least a capital fallback. Missing: ${unsupportedOceania.join(', ')}`);
 
 const unsupportedGlobal = Object.values(englishCountriesByContinent)
   .flat()
