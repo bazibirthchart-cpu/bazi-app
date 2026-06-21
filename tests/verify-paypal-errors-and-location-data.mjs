@@ -48,17 +48,34 @@ function extractObjectLiteral(source, variableName, nextMarker) {
 const enhancedRegions = extractObjectLiteral(html, 'enhancedRegions', 'englishContinentOptions');
 const englishCountriesByContinent = extractObjectLiteral(html, 'englishCountriesByContinent', 'englishCitiesByCountryRegion');
 const englishCitiesByCountryRegion = extractObjectLiteral(html, 'englishCitiesByCountryRegion', 'chinaProvinceEnglish');
+const supplementalAsiaRegions = extractObjectLiteral(html, 'supplementalAsiaRegions', 'supplementalAsiaCities');
 
 assert.ok(englishCountriesByContinent.Europe.includes('DE'), 'Europe should include Germany.');
 assert.ok(englishCountriesByContinent.Europe.includes('FR'), 'Europe should include France.');
 assert.ok(englishCountriesByContinent.Europe.includes('IT'), 'Europe should include Italy.');
+assert.ok(englishCountriesByContinent.Asia.includes('PK'), 'Asia should include Pakistan.');
+assert.ok(englishCountriesByContinent.Asia.includes('HK'), 'Asia should include Hong Kong.');
+assert.ok(englishCountriesByContinent.Asia.includes('TW'), 'Asia should include Taiwan.');
 
 assert.ok(enhancedRegions.DE.length >= 16, 'Germany should expose major states.');
 assert.ok(enhancedRegions.FR.length >= 13, 'France should expose major regions.');
 assert.ok(enhancedRegions.IT.length >= 20, 'Italy should expose major regions.');
+assert.ok(supplementalAsiaRegions.PK.length >= 4, 'Pakistan should expose major regions.');
+assert.ok(supplementalAsiaRegions.TW.length >= 5, 'Taiwan should expose major regions.');
 
 for (const [countryCode, minimumStates] of [['DE', 16], ['FR', 13], ['IT', 20], ['BE', 3]]) {
   const states = enhancedRegions[countryCode];
+  const citiesByState = englishCitiesByCountryRegion[countryCode] || {};
+  assert.ok(states.length >= minimumStates, `${countryCode} should expose enough state/region options.`);
+  states.forEach(({ en }) => {
+    if (citiesByState[en]) {
+      assert.ok(citiesByState[en].length >= 1, `${countryCode}/${en} should provide at least one city.`);
+    }
+  });
+}
+
+for (const [countryCode, minimumStates] of [['PK', 4], ['HK', 3], ['TW', 5], ['BD', 5]]) {
+  const states = supplementalAsiaRegions[countryCode];
   const citiesByState = englishCitiesByCountryRegion[countryCode] || {};
   assert.ok(states.length >= minimumStates, `${countryCode} should expose enough state/region options.`);
   states.forEach(({ en }) => {

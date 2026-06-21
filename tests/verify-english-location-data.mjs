@@ -48,7 +48,9 @@ const enhancedRegions = extractObjectLiteral(html, 'enhancedRegions', 'englishCo
 const englishCountriesByContinent = extractObjectLiteral(html, 'englishCountriesByContinent', 'englishCitiesByCountryRegion');
 const englishCitiesByCountryRegion = extractObjectLiteral(html, 'englishCitiesByCountryRegion', 'supplementalEuropeanRegions');
 const supplementalEuropeanRegions = extractObjectLiteral(html, 'supplementalEuropeanRegions', 'supplementalEuropeanCities');
-const supplementalEuropeanCities = extractObjectLiteral(html, 'supplementalEuropeanCities', 'capitalCityFallbackByCountry');
+const supplementalEuropeanCities = extractObjectLiteral(html, 'supplementalEuropeanCities', 'supplementalAsiaRegions');
+const supplementalAsiaRegions = extractObjectLiteral(html, 'supplementalAsiaRegions', 'supplementalAsiaCities');
+const supplementalAsiaCities = extractObjectLiteral(html, 'supplementalAsiaCities', 'capitalCityFallbackByCountry');
 const capitalCityFallbackByCountry = extractObjectLiteral(html, 'capitalCityFallbackByCountry', 'yinyangByStem');
 
 for (const [code, regions] of Object.entries(supplementalEuropeanRegions)) {
@@ -64,9 +66,24 @@ assert.ok(supplementalEuropeanCities.GR.Attica.length >= 2, 'Greece should expos
 assert.ok(supplementalEuropeanCities.PL.Masovian.length >= 2, 'Poland should expose multiple city choices for Masovian.');
 assert.ok(supplementalEuropeanCities.SE.Skane.length >= 2, 'Sweden should expose multiple city choices for Skane.');
 
+for (const [code, regions] of Object.entries(supplementalAsiaRegions)) {
+  assert.ok(regions.length >= 1, `${code} should expose at least one supplemental Asia region.`);
+}
+
+assert.ok(supplementalAsiaRegions.PK.length >= 4, 'Pakistan should expose multiple real regions.');
+assert.ok(supplementalAsiaCities.PK.Punjab.length >= 3, 'Pakistan Punjab should expose multiple city choices.');
+assert.ok(supplementalAsiaCities.HK['Hong Kong Island'].length >= 2, 'Hong Kong Island should expose multiple city choices.');
+assert.ok(supplementalAsiaCities.TW['New Taipei'].length >= 2, 'Taiwan New Taipei should expose multiple city choices.');
+assert.ok(supplementalAsiaCities.BD.Dhaka.length >= 2, 'Bangladesh Dhaka should expose multiple city choices.');
+
 const europeCodes = englishCountriesByContinent.Europe;
 const unsupportedEurope = europeCodes.filter(code => !enhancedRegions[code] && !supplementalEuropeanRegions[code] && !capitalCityFallbackByCountry[code]);
 assert.equal(unsupportedEurope.length, 0, `Every European country should have explicit regions or at least a capital fallback. Missing: ${unsupportedEurope.join(', ')}`);
+
+const asiaCodes = englishCountriesByContinent.Asia;
+const unsupportedAsia = asiaCodes
+  .filter(code => !enhancedRegions[code] && !supplementalAsiaRegions[code] && !capitalCityFallbackByCountry[code] && code !== 'CN');
+assert.equal(unsupportedAsia.length, 0, `Every selectable Asian country should have explicit regions or at least a capital fallback. Missing: ${unsupportedAsia.join(', ')}`);
 
 const unsupportedGlobal = Object.values(englishCountriesByContinent)
   .flat()

@@ -2906,6 +2906,82 @@
         UA: { Kyiv: ['Kyiv', 'Bila Tserkva'], Lviv: ['Lviv', 'Drohobych'], Kharkiv: ['Kharkiv'], Odesa: ['Odesa'], Dnipro: ['Dnipro', 'Kryvyi Rih'] },
         VA: { 'Vatican City': ['Vatican City'] }
     };
+    const supplementalAsiaRegions = {
+        AF: [{zh:'喀布尔省',en:'Kabul',longitude:69.2075},{zh:'赫拉特省',en:'Herat',longitude:62.2040},{zh:'巴尔赫省',en:'Balkh',longitude:67.1109},{zh:'坎大哈省',en:'Kandahar',longitude:65.7053}],
+        AM: [{zh:'埃里温',en:'Yerevan',longitude:44.5152},{zh:'希拉克州',en:'Shirak',longitude:43.8475},{zh:'洛里州',en:'Lori',longitude:44.5533},{zh:'休尼克州',en:'Syunik',longitude:46.1458}],
+        AZ: [{zh:'巴库市',en:'Baku',longitude:49.8671},{zh:'占贾市',en:'Ganja',longitude:46.3606},{zh:'苏姆盖特市',en:'Sumqayit',longitude:49.6686},{zh:'连科兰区',en:'Lankaran',longitude:48.8506}],
+        BH: [{zh:'首都省',en:'Capital Governorate',longitude:50.5860},{zh:'穆哈拉格省',en:'Muharraq',longitude:50.6126},{zh:'北方省',en:'Northern',longitude:50.5200},{zh:'南方省',en:'Southern',longitude:50.5560}],
+        BD: [{zh:'达卡专区',en:'Dhaka',longitude:90.4125},{zh:'吉大港专区',en:'Chattogram',longitude:91.7832},{zh:'库尔纳专区',en:'Khulna',longitude:89.5672},{zh:'拉杰沙希专区',en:'Rajshahi',longitude:88.6042},{zh:'锡尔赫特专区',en:'Sylhet',longitude:91.8687}],
+        BT: [{zh:'廷布宗',en:'Thimphu',longitude:89.6390},{zh:'帕罗宗',en:'Paro',longitude:89.4133},{zh:'楚卡宗',en:'Chukha',longitude:89.5350},{zh:'萨姆德鲁琼卡尔宗',en:'Samdrup Jongkhar',longitude:91.8830}],
+        BN: [{zh:'文莱摩拉县',en:'Brunei-Muara',longitude:114.9422},{zh:'马来奕县',en:'Belait',longitude:114.3167},{zh:'都东县',en:'Tutong',longitude:114.6667},{zh:'淡布隆县',en:'Temburong',longitude:115.1415}],
+        KH: [{zh:'金边',en:'Phnom Penh',longitude:104.9282},{zh:'暹粒省',en:'Siem Reap',longitude:103.8500},{zh:'马德望省',en:'Battambang',longitude:103.2022},{zh:'西哈努克省',en:'Sihanoukville',longitude:103.5234}],
+        GE: [{zh:'第比利斯',en:'Tbilisi',longitude:44.7930},{zh:'伊梅列季州',en:'Imereti',longitude:42.7030},{zh:'阿扎尔自治共和国',en:'Adjara',longitude:41.6410},{zh:'卡赫季州',en:'Kakheti',longitude:45.8011}],
+        HK: [{zh:'香港岛',en:'Hong Kong Island',longitude:114.1694},{zh:'九龙',en:'Kowloon',longitude:114.1830},{zh:'新界',en:'New Territories',longitude:114.1747}],
+        IR: [{zh:'德黑兰省',en:'Tehran',longitude:51.3890},{zh:'伊斯法罕省',en:'Isfahan',longitude:51.6776},{zh:'法尔斯省',en:'Fars',longitude:52.5311},{zh:'礼萨呼罗珊省',en:'Razavi Khorasan',longitude:59.6062},{zh:'东阿塞拜疆省',en:'East Azerbaijan',longitude:46.2919}],
+        IQ: [{zh:'巴格达省',en:'Baghdad',longitude:44.3661},{zh:'巴士拉省',en:'Basra',longitude:47.7804},{zh:'埃尔比勒省',en:'Erbil',longitude:44.0092},{zh:'尼尼微省',en:'Nineveh',longitude:43.1300}],
+        IL: [{zh:'耶路撒冷区',en:'Jerusalem',longitude:35.2137},{zh:'特拉维夫区',en:'Tel Aviv',longitude:34.7818},{zh:'海法区',en:'Haifa',longitude:34.9896},{zh:'南部区',en:'Southern',longitude:34.7913}],
+        JO: [{zh:'安曼省',en:'Amman',longitude:35.9304},{zh:'伊尔比德省',en:'Irbid',longitude:35.8581},{zh:'扎尔卡省',en:'Zarqa',longitude:36.0880},{zh:'亚喀巴省',en:'Aqaba',longitude:35.0078}],
+        KZ: [{zh:'阿斯塔纳市',en:'Astana',longitude:71.4304},{zh:'阿拉木图市',en:'Almaty',longitude:76.8860},{zh:'卡拉干达州',en:'Karaganda',longitude:73.0840},{zh:'奇姆肯特市',en:'Shymkent',longitude:69.5901}],
+        KW: [{zh:'首都省',en:'Capital',longitude:47.9783},{zh:'哈瓦利省',en:'Hawalli',longitude:48.0288},{zh:'法尔瓦尼亚省',en:'Farwaniya',longitude:47.9586},{zh:'艾哈迈迪省',en:'Ahmadi',longitude:48.0839}],
+        KG: [{zh:'比什凯克市',en:'Bishkek',longitude:74.5698},{zh:'奥什州',en:'Osh',longitude:72.8039},{zh:'楚河州',en:'Chuy',longitude:74.1111},{zh:'贾拉拉巴德州',en:'Jalal-Abad',longitude:72.9789}],
+        LA: [{zh:'万象市',en:'Vientiane',longitude:102.6331},{zh:'琅勃拉邦省',en:'Luang Prabang',longitude:102.1350},{zh:'沙湾拿吉省',en:'Savannakhet',longitude:104.7622},{zh:'占巴塞省',en:'Champasak',longitude:105.7833}],
+        LB: [{zh:'贝鲁特省',en:'Beirut',longitude:35.5018},{zh:'黎巴嫩山省',en:'Mount Lebanon',longitude:35.5860},{zh:'北黎巴嫩省',en:'North Lebanon',longitude:35.8489},{zh:'南黎巴嫩省',en:'South Lebanon',longitude:35.3681}],
+        MV: [{zh:'马累',en:'Male',longitude:73.5093},{zh:'阿杜市',en:'Addu City',longitude:73.0877},{zh:'富瓦穆拉',en:'Fuvahmulah',longitude:73.4320},{zh:'库鲁胡杜富士',en:'Kulhudhuffushi',longitude:73.0678}],
+        MN: [{zh:'乌兰巴托',en:'Ulaanbaatar',longitude:106.9057},{zh:'鄂尔浑省',en:'Orkhon',longitude:104.0447},{zh:'达尔汗乌勒省',en:'Darkhan-Uul',longitude:105.9228},{zh:'科布多省',en:'Khovd',longitude:91.6419}],
+        MM: [{zh:'仰光省',en:'Yangon',longitude:96.1735},{zh:'曼德勒省',en:'Mandalay',longitude:96.0891},{zh:'内比都联邦区',en:'Naypyidaw',longitude:96.1150},{zh:'掸邦',en:'Shan',longitude:97.0336}],
+        NP: [{zh:'巴格马蒂省',en:'Bagmati',longitude:85.3240},{zh:'甘达基省',en:'Gandaki',longitude:83.9856},{zh:'蓝毗尼省',en:'Lumbini',longitude:83.4520},{zh:'科西省',en:'Koshi',longitude:87.2718},{zh:'马德西省',en:'Madhesh',longitude:85.3131}],
+        KP: [{zh:'平壤直辖市',en:'Pyongyang',longitude:125.7625},{zh:'平安南道',en:'South Pyongan',longitude:125.8200},{zh:'咸镜北道',en:'North Hamgyong',longitude:129.7500},{zh:'罗先特别市',en:'Rason',longitude:130.3756}],
+        OM: [{zh:'马斯喀特省',en:'Muscat',longitude:58.4059},{zh:'佐法尔省',en:'Dhofar',longitude:54.0913},{zh:'北巴提奈省',en:'North Al Batinah',longitude:57.5270},{zh:'内地省',en:'Al Dakhiliyah',longitude:57.5330}],
+        PK: [{zh:'旁遮普省',en:'Punjab',longitude:74.3587},{zh:'信德省',en:'Sindh',longitude:67.0011},{zh:'开伯尔-普赫图赫瓦省',en:'Khyber Pakhtunkhwa',longitude:71.5249},{zh:'伊斯兰堡首都区',en:'Islamabad Capital Territory',longitude:73.0479}],
+        QA: [{zh:'多哈市',en:'Doha',longitude:51.5310},{zh:'赖扬市',en:'Al Rayyan',longitude:51.4244},{zh:'沃克拉市',en:'Al Wakrah',longitude:51.6034},{zh:'豪尔市',en:'Al Khor',longitude:51.5050}],
+        LK: [{zh:'西部省',en:'Western',longitude:79.8612},{zh:'中央省',en:'Central',longitude:80.6337},{zh:'南部省',en:'Southern',longitude:80.2170},{zh:'北部省',en:'Northern',longitude:80.0255}],
+        SY: [{zh:'大马士革省',en:'Damascus',longitude:36.2765},{zh:'阿勒颇省',en:'Aleppo',longitude:37.1586},{zh:'霍姆斯省',en:'Homs',longitude:36.7181},{zh:'拉塔基亚省',en:'Latakia',longitude:35.7860}],
+        TW: [{zh:'台北市',en:'Taipei',longitude:121.5654},{zh:'新北市',en:'New Taipei',longitude:121.4627},{zh:'台中市',en:'Taichung',longitude:120.6736},{zh:'高雄市',en:'Kaohsiung',longitude:120.3014},{zh:'台南市',en:'Tainan',longitude:120.2270}],
+        TJ: [{zh:'杜尚别',en:'Dushanbe',longitude:68.7739},{zh:'粟特州',en:'Sughd',longitude:69.6222},{zh:'哈特隆州',en:'Khatlon',longitude:68.7864},{zh:'戈尔诺-巴达赫尚自治州',en:'Gorno-Badakhshan',longitude:71.5530}],
+        TL: [{zh:'帝力市',en:'Dili',longitude:125.5603},{zh:'包考市',en:'Baucau',longitude:126.4583},{zh:'埃尔梅拉市',en:'Ermera',longitude:125.3969},{zh:'博博纳罗市',en:'Bobonaro',longitude:125.2560}],
+        TM: [{zh:'阿什哈巴德市',en:'Ashgabat',longitude:58.3838},{zh:'阿哈尔州',en:'Ahal',longitude:58.3261},{zh:'巴尔坎州',en:'Balkan',longitude:54.3671},{zh:'马雷州',en:'Mary',longitude:61.8383}],
+        UZ: [{zh:'塔什干市',en:'Tashkent',longitude:69.2401},{zh:'撒马尔罕州',en:'Samarkand',longitude:66.9597},{zh:'布哈拉州',en:'Bukhara',longitude:64.4286},{zh:'费尔干纳州',en:'Fergana',longitude:71.7864}],
+        YE: [{zh:'萨那省',en:'Sanaa',longitude:44.2075},{zh:'亚丁省',en:'Aden',longitude:45.0336},{zh:'哈德拉毛省',en:'Hadhramaut',longitude:49.1320},{zh:'塔伊兹省',en:'Taiz',longitude:44.0095}],
+        MO: [{zh:'澳门半岛',en:'Macau Peninsula',longitude:113.5439},{zh:'氹仔',en:'Taipa',longitude:113.5610},{zh:'路环',en:'Coloane',longitude:113.5650},{zh:'路氹城',en:'Cotai',longitude:113.5688}]
+    };
+    const supplementalAsiaCities = {
+        AF: { Kabul: ['Kabul'], Herat: ['Herat'], Balkh: ['Mazar-i-Sharif'], Kandahar: ['Kandahar'] },
+        AM: { Yerevan: ['Yerevan'], Shirak: ['Gyumri'], Lori: ['Vanadzor'], Syunik: ['Kapan', 'Goris'] },
+        AZ: { Baku: ['Baku'], Ganja: ['Ganja'], Sumqayit: ['Sumqayit'], Lankaran: ['Lankaran'] },
+        BH: { 'Capital Governorate': ['Manama'], Muharraq: ['Muharraq'], Northern: ['A\'ali', 'Madinat Hamad'], Southern: ['Riffa', 'Isa Town'] },
+        BD: { Dhaka: ['Dhaka', 'Gazipur', 'Narayanganj'], Chattogram: ['Chattogram', 'Cox\'s Bazar'], Khulna: ['Khulna'], Rajshahi: ['Rajshahi'], Sylhet: ['Sylhet'] },
+        BT: { Thimphu: ['Thimphu'], Paro: ['Paro'], Chukha: ['Phuntsholing'], 'Samdrup Jongkhar': ['Samdrup Jongkhar'] },
+        BN: { 'Brunei-Muara': ['Bandar Seri Begawan'], Belait: ['Kuala Belait', 'Seria'], Tutong: ['Tutong'], Temburong: ['Bangar'] },
+        KH: { 'Phnom Penh': ['Phnom Penh'], 'Siem Reap': ['Siem Reap'], Battambang: ['Battambang'], Sihanoukville: ['Sihanoukville'] },
+        GE: { Tbilisi: ['Tbilisi'], Imereti: ['Kutaisi'], Adjara: ['Batumi'], Kakheti: ['Telavi'] },
+        HK: { 'Hong Kong Island': ['Central', 'Wan Chai', 'Causeway Bay'], Kowloon: ['Tsim Sha Tsui', 'Mong Kok', 'Kwun Tong'], 'New Territories': ['Sha Tin', 'Tsuen Wan', 'Tuen Mun'] },
+        IR: { Tehran: ['Tehran', 'Karaj'], Isfahan: ['Isfahan'], Fars: ['Shiraz'], 'Razavi Khorasan': ['Mashhad'], 'East Azerbaijan': ['Tabriz'] },
+        IQ: { Baghdad: ['Baghdad'], Basra: ['Basra'], Erbil: ['Erbil'], Nineveh: ['Mosul'] },
+        IL: { Jerusalem: ['Jerusalem'], 'Tel Aviv': ['Tel Aviv', 'Holon'], Haifa: ['Haifa'], Southern: ['Beersheba', 'Eilat'] },
+        JO: { Amman: ['Amman'], Irbid: ['Irbid'], Zarqa: ['Zarqa'], Aqaba: ['Aqaba'] },
+        KZ: { Astana: ['Astana'], Almaty: ['Almaty'], Karaganda: ['Karaganda'], Shymkent: ['Shymkent'] },
+        KW: { Capital: ['Kuwait City'], Hawalli: ['Hawalli', 'Salmiya'], Farwaniya: ['Farwaniya'], Ahmadi: ['Ahmadi', 'Fahaheel'] },
+        KG: { Bishkek: ['Bishkek'], Osh: ['Osh'], Chuy: ['Tokmok'], 'Jalal-Abad': ['Jalal-Abad'] },
+        LA: { Vientiane: ['Vientiane'], 'Luang Prabang': ['Luang Prabang'], Savannakhet: ['Savannakhet'], Champasak: ['Pakse'] },
+        LB: { Beirut: ['Beirut'], 'Mount Lebanon': ['Jounieh', 'Baalchmay'], 'North Lebanon': ['Tripoli'], 'South Lebanon': ['Sidon', 'Tyre'] },
+        MV: { Male: ['Male'], 'Addu City': ['Hithadhoo'], Fuvahmulah: ['Fuvahmulah'], Kulhudhuffushi: ['Kulhudhuffushi'] },
+        MN: { Ulaanbaatar: ['Ulaanbaatar'], Orkhon: ['Erdenet'], 'Darkhan-Uul': ['Darkhan'], Khovd: ['Khovd'] },
+        MM: { Yangon: ['Yangon'], Mandalay: ['Mandalay'], Naypyidaw: ['Naypyidaw'], Shan: ['Taunggyi', 'Lashio'] },
+        NP: { Bagmati: ['Kathmandu', 'Lalitpur', 'Bhaktapur'], Gandaki: ['Pokhara'], Lumbini: ['Butwal'], Koshi: ['Biratnagar'], Madhesh: ['Janakpur'] },
+        KP: { Pyongyang: ['Pyongyang'], 'South Pyongan': ['Nampo'], 'North Hamgyong': ['Chongjin'], Rason: ['Rason'] },
+        OM: { Muscat: ['Muscat'], Dhofar: ['Salalah'], 'North Al Batinah': ['Sohar'], 'Al Dakhiliyah': ['Nizwa'] },
+        PK: { Punjab: ['Lahore', 'Rawalpindi', 'Faisalabad'], Sindh: ['Karachi', 'Hyderabad'], 'Khyber Pakhtunkhwa': ['Peshawar'], 'Islamabad Capital Territory': ['Islamabad'] },
+        QA: { Doha: ['Doha'], 'Al Rayyan': ['Al Rayyan'], 'Al Wakrah': ['Al Wakrah'], 'Al Khor': ['Al Khor'] },
+        LK: { Western: ['Colombo', 'Negombo'], Central: ['Kandy'], Southern: ['Galle', 'Matara'], Northern: ['Jaffna'] },
+        SY: { Damascus: ['Damascus'], Aleppo: ['Aleppo'], Homs: ['Homs'], Latakia: ['Latakia'] },
+        TW: { Taipei: ['Taipei'], 'New Taipei': ['Banqiao', 'Xinzhuang'], Taichung: ['Taichung'], Kaohsiung: ['Kaohsiung'], Tainan: ['Tainan'] },
+        TJ: { Dushanbe: ['Dushanbe'], Sughd: ['Khujand'], Khatlon: ['Bokhtar'], 'Gorno-Badakhshan': ['Khorugh'] },
+        TL: { Dili: ['Dili'], Baucau: ['Baucau'], Ermera: ['Gleno'], Bobonaro: ['Maliana'] },
+        TM: { Ashgabat: ['Ashgabat'], Ahal: ['Anau'], Balkan: ['Turkmenbashi'], Mary: ['Mary'] },
+        UZ: { Tashkent: ['Tashkent'], Samarkand: ['Samarkand'], Bukhara: ['Bukhara'], Fergana: ['Fergana', 'Kokand'] },
+        YE: { Sanaa: ['Sanaa'], Aden: ['Aden'], Hadhramaut: ['Mukalla'], Taiz: ['Taiz'] },
+        MO: { 'Macau Peninsula': ['Macau'], Taipa: ['Taipa'], Coloane: ['Coloane'], Cotai: ['Cotai'] }
+    };
     const capitalCityFallbackByCountry = {
         AG: 'St. John\'s', BS: 'Nassau', BB: 'Bridgetown', BZ: 'Belmopan', CR: 'San Jose', CU: 'Havana', DM: 'Roseau', DO: 'Santo Domingo',
         SV: 'San Salvador', GD: 'St. George\'s', GT: 'Guatemala City', HT: 'Port-au-Prince', HN: 'Tegucigalpa', JM: 'Kingston', KN: 'Basseterre',
@@ -2927,6 +3003,12 @@
         if (!enhancedRegions[code]) enhancedRegions[code] = regions;
     });
     Object.entries(supplementalEuropeanCities).forEach(([code, regionMap]) => {
+        englishCitiesByCountryRegion[code] = { ...(englishCitiesByCountryRegion[code] || {}), ...regionMap };
+    });
+    Object.entries(supplementalAsiaRegions).forEach(([code, regions]) => {
+        if (!enhancedRegions[code]) enhancedRegions[code] = regions;
+    });
+    Object.entries(supplementalAsiaCities).forEach(([code, regionMap]) => {
         englishCitiesByCountryRegion[code] = { ...(englishCitiesByCountryRegion[code] || {}), ...regionMap };
     });
     const chinaProvinceEnglish = {
