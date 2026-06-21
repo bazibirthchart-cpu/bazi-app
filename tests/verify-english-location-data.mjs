@@ -50,7 +50,9 @@ const englishCitiesByCountryRegion = extractObjectLiteral(html, 'englishCitiesBy
 const supplementalEuropeanRegions = extractObjectLiteral(html, 'supplementalEuropeanRegions', 'supplementalEuropeanCities');
 const supplementalEuropeanCities = extractObjectLiteral(html, 'supplementalEuropeanCities', 'supplementalAsiaRegions');
 const supplementalAsiaRegions = extractObjectLiteral(html, 'supplementalAsiaRegions', 'supplementalAsiaCities');
-const supplementalAsiaCities = extractObjectLiteral(html, 'supplementalAsiaCities', 'capitalCityFallbackByCountry');
+const supplementalAsiaCities = extractObjectLiteral(html, 'supplementalAsiaCities', 'supplementalAfricaRegions');
+const supplementalAfricaRegions = extractObjectLiteral(html, 'supplementalAfricaRegions', 'supplementalAfricaCities');
+const supplementalAfricaCities = extractObjectLiteral(html, 'supplementalAfricaCities', 'capitalCityFallbackByCountry');
 const capitalCityFallbackByCountry = extractObjectLiteral(html, 'capitalCityFallbackByCountry', 'yinyangByStem');
 
 for (const [code, regions] of Object.entries(supplementalEuropeanRegions)) {
@@ -80,6 +82,17 @@ assert.ok(supplementalAsiaCities.IL['Tel Aviv'].length >= 3, 'Israel Tel Aviv di
 assert.ok(supplementalAsiaCities.OM.Muscat.length >= 2, 'Oman Muscat should expose multiple city choices.');
 assert.ok(supplementalAsiaCities.UZ.Fergana.length >= 3, 'Uzbekistan Fergana should expose multiple city choices.');
 assert.ok(supplementalAsiaCities.NP.Bagmati.length >= 3, 'Nepal Bagmati should expose multiple city choices.');
+
+for (const [code, regions] of Object.entries(supplementalAfricaRegions)) {
+  assert.ok(regions.length >= 4, `${code} should expose multiple African regions.`);
+}
+
+assert.ok(supplementalAfricaCities.NG.Lagos.length >= 2, 'Nigeria Lagos should expose multiple city choices.');
+assert.ok(supplementalAfricaCities.EG.Cairo.length >= 2, 'Egypt Cairo should expose multiple city choices.');
+assert.ok(supplementalAfricaCities.KE.Nairobi.length >= 1, 'Kenya Nairobi should expose a city choice.');
+assert.ok(supplementalAfricaCities.MA['Casablanca-Settat'].length >= 2, 'Morocco Casablanca-Settat should expose multiple city choices.');
+assert.ok(supplementalAfricaCities.TZ['Dar es Salaam'].length >= 1, 'Tanzania Dar es Salaam should expose a city choice.');
+assert.ok(supplementalAfricaCities.UG.Wakiso.length >= 2, 'Uganda Wakiso should expose multiple city choices.');
 
 const europeCodes = englishCountriesByContinent.Europe;
 const unsupportedEurope = europeCodes.filter(code => !enhancedRegions[code] && !supplementalEuropeanRegions[code] && !capitalCityFallbackByCountry[code]);

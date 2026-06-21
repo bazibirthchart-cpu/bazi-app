@@ -2982,6 +2982,40 @@
         YE: { Sanaa: ['Sanaa'], Aden: ['Aden'], Hadhramaut: ['Mukalla'], Taiz: ['Taiz'] },
         MO: { 'Macau Peninsula': ['Macau'], Taipa: ['Taipa'], Coloane: ['Coloane'], Cotai: ['Cotai'] }
     };
+    const supplementalAfricaRegions = {
+        AO: [{zh:'罗安达省',en:'Luanda',longitude:13.2343},{zh:'本格拉省',en:'Benguela',longitude:13.4050},{zh:'韦拉省',en:'Huila',longitude:13.4925},{zh:'瓦姆博省',en:'Huambo',longitude:15.7390}],
+        CM: [{zh:'中央区',en:'Centre',longitude:11.5021},{zh:'滨海区',en:'Littoral',longitude:9.7043},{zh:'西部区',en:'West',longitude:10.4170},{zh:'西北区',en:'Northwest',longitude:10.1591}],
+        CI: [{zh:'阿比让区',en:'Abidjan',longitude:-4.0083},{zh:'亚穆苏克罗区',en:'Yamoussoukro',longitude:-5.2767},{zh:'下萨桑德拉区',en:'Bas-Sassandra',longitude:-6.6000},{zh:'瓦莱迪班达马区',en:'Vallee du Bandama',longitude:-4.7485}],
+        DZ: [{zh:'阿尔及尔省',en:'Algiers',longitude:3.0588},{zh:'奥兰省',en:'Oran',longitude:-0.6417},{zh:'君士坦丁省',en:'Constantine',longitude:6.6147},{zh:'安纳巴省',en:'Annaba',longitude:7.7667}],
+        EG: [{zh:'开罗省',en:'Cairo',longitude:31.2357},{zh:'吉萨省',en:'Giza',longitude:31.1313},{zh:'亚历山大省',en:'Alexandria',longitude:29.9187},{zh:'红海省',en:'Red Sea',longitude:33.8116}],
+        ET: [{zh:'亚的斯亚贝巴',en:'Addis Ababa',longitude:38.7578},{zh:'奥罗米亚州',en:'Oromia',longitude:38.7525},{zh:'阿姆哈拉州',en:'Amhara',longitude:37.3906},{zh:'提格雷州',en:'Tigray',longitude:39.4699}],
+        GH: [{zh:'大阿克拉区',en:'Greater Accra',longitude:-0.1869},{zh:'阿散蒂区',en:'Ashanti',longitude:-1.6244},{zh:'西部区',en:'Western',longitude:-1.7480},{zh:'北部区',en:'Northern',longitude:-0.8393}],
+        KE: [{zh:'内罗毕郡',en:'Nairobi',longitude:36.8219},{zh:'蒙巴萨郡',en:'Mombasa',longitude:39.6682},{zh:'基苏木郡',en:'Kisumu',longitude:34.7617},{zh:'纳库鲁郡',en:'Nakuru',longitude:36.0667}],
+        MA: [{zh:'卡萨布兰卡-塞塔特大区',en:'Casablanca-Settat',longitude:-7.5898},{zh:'拉巴特-萨累-盖尼特拉大区',en:'Rabat-Sale-Kenitra',longitude:-6.8498},{zh:'马拉喀什-萨菲大区',en:'Marrakesh-Safi',longitude:-8.0089},{zh:'非斯-梅克内斯大区',en:'Fes-Meknes',longitude:-5.0000}],
+        MZ: [{zh:'马普托市',en:'Maputo',longitude:32.5732},{zh:'楠普拉省',en:'Nampula',longitude:39.2666},{zh:'索法拉省',en:'Sofala',longitude:34.8389},{zh:'赞比西亚省',en:'Zambezia',longitude:36.8883}],
+        NG: [{zh:'拉各斯州',en:'Lagos',longitude:3.3792},{zh:'联邦首都区',en:'Federal Capital Territory',longitude:7.3986},{zh:'卡诺州',en:'Kano',longitude:8.5167},{zh:'河流州',en:'Rivers',longitude:6.9981},{zh:'奥约州',en:'Oyo',longitude:3.9470}],
+        RW: [{zh:'基加利市',en:'Kigali',longitude:30.0619},{zh:'南部省',en:'Southern',longitude:29.7566},{zh:'西部省',en:'Western',longitude:29.3499},{zh:'东部省',en:'Eastern',longitude:30.4336}],
+        SN: [{zh:'达喀尔区',en:'Dakar',longitude:-17.4677},{zh:'捷斯区',en:'Thies',longitude:-16.9256},{zh:'圣路易区',en:'Saint-Louis',longitude:-16.4896},{zh:'济金绍尔区',en:'Ziguinchor',longitude:-16.2719}],
+        TZ: [{zh:'达累斯萨拉姆区',en:'Dar es Salaam',longitude:39.2083},{zh:'阿鲁沙区',en:'Arusha',longitude:36.6829},{zh:'姆万扎区',en:'Mwanza',longitude:32.9175},{zh:'多多马区',en:'Dodoma',longitude:35.7460}],
+        UG: [{zh:'坎帕拉区',en:'Kampala',longitude:32.5825},{zh:'瓦基索区',en:'Wakiso',longitude:32.4789},{zh:'姆巴莱区',en:'Mbale',longitude:34.1750},{zh:'古卢区',en:'Gulu',longitude:32.2990}]
+    };
+    const supplementalAfricaCities = {
+        AO: { Luanda: ['Luanda', 'Talatona'], Benguela: ['Benguela', 'Lobito'], Huila: ['Lubango'], Huambo: ['Huambo', 'Caala'] },
+        CM: { Centre: ['Yaounde', 'Mbalmayo'], Littoral: ['Douala', 'Nkongsamba'], West: ['Bafoussam', 'Dschang'], Northwest: ['Bamenda'] },
+        CI: { Abidjan: ['Abidjan'], Yamoussoukro: ['Yamoussoukro'], 'Bas-Sassandra': ['San-Pedro', 'Sassandra'], 'Vallee du Bandama': ['Bouake'] },
+        DZ: { Algiers: ['Algiers', 'Bab Ezzouar'], Oran: ['Oran', 'Bir El Djir'], Constantine: ['Constantine'], Annaba: ['Annaba'] },
+        EG: { Cairo: ['Cairo', 'Nasr City'], Giza: ['Giza', '6th of October City'], Alexandria: ['Alexandria'], 'Red Sea': ['Hurghada'] },
+        ET: { 'Addis Ababa': ['Addis Ababa'], Oromia: ['Adama', 'Jimma'], Amhara: ['Bahir Dar', 'Gondar'], Tigray: ['Mekelle'] },
+        GH: { 'Greater Accra': ['Accra', 'Tema'], Ashanti: ['Kumasi', 'Obuasi'], Western: ['Takoradi'], Northern: ['Tamale'] },
+        KE: { Nairobi: ['Nairobi'], Mombasa: ['Mombasa'], Kisumu: ['Kisumu'], Nakuru: ['Nakuru', 'Naivasha'] },
+        MA: { 'Casablanca-Settat': ['Casablanca', 'Settat'], 'Rabat-Sale-Kenitra': ['Rabat', 'Sale'], 'Marrakesh-Safi': ['Marrakesh', 'Safi'], 'Fes-Meknes': ['Fes', 'Meknes'] },
+        MZ: { Maputo: ['Maputo', 'Matola'], Nampula: ['Nampula', 'Nacala'], Sofala: ['Beira'], Zambezia: ['Quelimane'] },
+        NG: { Lagos: ['Lagos', 'Ikeja'], 'Federal Capital Territory': ['Abuja'], Kano: ['Kano'], Rivers: ['Port Harcourt'], Oyo: ['Ibadan'] },
+        RW: { Kigali: ['Kigali'], Southern: ['Huye'], Western: ['Rubavu'], Eastern: ['Rwamagana'] },
+        SN: { Dakar: ['Dakar', 'Pikine'], Thies: ['Thies', 'Mbour'], 'Saint-Louis': ['Saint-Louis'], Ziguinchor: ['Ziguinchor'] },
+        TZ: { 'Dar es Salaam': ['Dar es Salaam'], Arusha: ['Arusha'], Mwanza: ['Mwanza'], Dodoma: ['Dodoma'] },
+        UG: { Kampala: ['Kampala'], Wakiso: ['Entebbe', 'Nansana'], Mbale: ['Mbale'], Gulu: ['Gulu'] }
+    };
     const capitalCityFallbackByCountry = {
         AG: 'St. John\'s', BS: 'Nassau', BB: 'Bridgetown', BZ: 'Belmopan', CR: 'San Jose', CU: 'Havana', DM: 'Roseau', DO: 'Santo Domingo',
         SV: 'San Salvador', GD: 'St. George\'s', GT: 'Guatemala City', HT: 'Port-au-Prince', HN: 'Tegucigalpa', JM: 'Kingston', KN: 'Basseterre',
@@ -3009,6 +3043,12 @@
         if (!enhancedRegions[code]) enhancedRegions[code] = regions;
     });
     Object.entries(supplementalAsiaCities).forEach(([code, regionMap]) => {
+        englishCitiesByCountryRegion[code] = { ...(englishCitiesByCountryRegion[code] || {}), ...regionMap };
+    });
+    Object.entries(supplementalAfricaRegions).forEach(([code, regions]) => {
+        if (!enhancedRegions[code]) enhancedRegions[code] = regions;
+    });
+    Object.entries(supplementalAfricaCities).forEach(([code, regionMap]) => {
         englishCitiesByCountryRegion[code] = { ...(englishCitiesByCountryRegion[code] || {}), ...regionMap };
     });
     const chinaProvinceEnglish = {
