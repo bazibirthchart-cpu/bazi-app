@@ -57,6 +57,12 @@ for (const [code, regions] of Object.entries(supplementalEuropeanRegions)) {
 
 assert.ok(supplementalEuropeanRegions.BG.length >= 5, 'Bulgaria should expose multiple real regions.');
 assert.equal(supplementalEuropeanCities.BG['Sofia City'][0], 'Sofia');
+assert.ok(supplementalEuropeanCities.BG['Sofia City'].length >= 2, 'Bulgaria capital region should expose multiple city choices.');
+assert.ok(supplementalEuropeanCities.CZ['South Moravian'].length >= 2, 'Czechia should expose multiple city choices for South Moravian.');
+assert.ok(supplementalEuropeanCities.DK['Central Jutland'].length >= 2, 'Denmark should expose multiple city choices for Central Jutland.');
+assert.ok(supplementalEuropeanCities.GR.Attica.length >= 2, 'Greece should expose multiple city choices for Attica.');
+assert.ok(supplementalEuropeanCities.PL.Masovian.length >= 2, 'Poland should expose multiple city choices for Masovian.');
+assert.ok(supplementalEuropeanCities.SE.Skane.length >= 2, 'Sweden should expose multiple city choices for Skane.');
 
 const europeCodes = englishCountriesByContinent.Europe;
 const unsupportedEurope = europeCodes.filter(code => !enhancedRegions[code] && !supplementalEuropeanRegions[code] && !capitalCityFallbackByCountry[code]);
