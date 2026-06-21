@@ -93,6 +93,11 @@ assert.ok(supplementalAfricaCities.KE.Nairobi.length >= 1, 'Kenya Nairobi should
 assert.ok(supplementalAfricaCities.MA['Casablanca-Settat'].length >= 2, 'Morocco Casablanca-Settat should expose multiple city choices.');
 assert.ok(supplementalAfricaCities.TZ['Dar es Salaam'].length >= 1, 'Tanzania Dar es Salaam should expose a city choice.');
 assert.ok(supplementalAfricaCities.UG.Wakiso.length >= 2, 'Uganda Wakiso should expose multiple city choices.');
+assert.ok(supplementalAfricaCities.CM.Centre.length >= 2, 'Cameroon Centre should expose multiple city choices.');
+assert.ok(supplementalAfricaCities.DZ.Algiers.length >= 2, 'Algeria Algiers should expose multiple city choices.');
+assert.ok(supplementalAfricaCities.CD.Kinshasa.length >= 1, 'DR Congo Kinshasa should expose a city choice.');
+assert.ok(supplementalAfricaCities.GA.Estuaire.length >= 1, 'Gabon Estuaire should expose a city choice.');
+assert.ok(supplementalAfricaCities.ML.Bamako.length >= 1, 'Mali Bamako should expose a city choice.');
 
 const europeCodes = englishCountriesByContinent.Europe;
 const unsupportedEurope = europeCodes.filter(code => !enhancedRegions[code] && !supplementalEuropeanRegions[code] && !capitalCityFallbackByCountry[code]);
