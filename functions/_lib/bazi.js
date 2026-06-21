@@ -1,7 +1,6 @@
-import { createRequire } from 'module';
+import lunar from './lunar.cjs';
 
-const require = createRequire(import.meta.url);
-const { Solar } = require('./lunar.cjs');
+const { Solar } = lunar;
 
 export const elementMeta = {
   '甲': { name: 'Wood' }, '乙': { name: 'Wood' },
