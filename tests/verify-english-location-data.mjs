@@ -75,6 +75,11 @@ assert.ok(supplementalAsiaCities.PK.Punjab.length >= 3, 'Pakistan Punjab should 
 assert.ok(supplementalAsiaCities.HK['Hong Kong Island'].length >= 2, 'Hong Kong Island should expose multiple city choices.');
 assert.ok(supplementalAsiaCities.TW['New Taipei'].length >= 2, 'Taiwan New Taipei should expose multiple city choices.');
 assert.ok(supplementalAsiaCities.BD.Dhaka.length >= 2, 'Bangladesh Dhaka should expose multiple city choices.');
+assert.ok(supplementalAsiaCities.KZ.Astana.length >= 2, 'Kazakhstan Astana should expose multiple city choices.');
+assert.ok(supplementalAsiaCities.IL['Tel Aviv'].length >= 3, 'Israel Tel Aviv district should expose multiple city choices.');
+assert.ok(supplementalAsiaCities.OM.Muscat.length >= 2, 'Oman Muscat should expose multiple city choices.');
+assert.ok(supplementalAsiaCities.UZ.Fergana.length >= 3, 'Uzbekistan Fergana should expose multiple city choices.');
+assert.ok(supplementalAsiaCities.NP.Bagmati.length >= 3, 'Nepal Bagmati should expose multiple city choices.');
 
 const europeCodes = englishCountriesByContinent.Europe;
 const unsupportedEurope = europeCodes.filter(code => !enhancedRegions[code] && !supplementalEuropeanRegions[code] && !capitalCityFallbackByCountry[code]);
