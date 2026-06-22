@@ -2687,8 +2687,8 @@
         'Africa': ['DZ','AO','BJ','BW','BF','BI','CV','CM','CF','TD','KM','CG','CD','CI','DJ','EG','GQ','ER','ET','SZ','GA','GM','GH','GN','GW','KE','LS','LR','LY','MG','MW','ML','MR','MU','MA','MZ','NA','NE','NG','RW','ST','SN','SC','SL','SO','ZA','SS','SD','TZ','TG','TN','UG','ZM','ZW']
     };
     const englishCitiesByCountryRegion = {
-        US: { California: ['Los Angeles', 'San Francisco', 'San Diego'], 'New York': ['New York City', 'Buffalo', 'Albany'], Texas: ['Houston', 'Dallas', 'Austin'] },
-        CA: { Ontario: ['Toronto', 'Ottawa', 'Mississauga'], Quebec: ['Montreal', 'Quebec City', 'Laval'], 'British Columbia': ['Vancouver', 'Victoria', 'Burnaby'] },
+        US: { California: ['Los Angeles', 'San Francisco', 'San Diego'], 'New York': ['New York City', 'Buffalo', 'Albany'], Texas: ['Houston', 'Dallas', 'Austin'], Washington: ['Seattle', 'Spokane', 'Tacoma'], Florida: ['Miami', 'Orlando', 'Tampa'] },
+        CA: { Ontario: ['Toronto', 'Ottawa', 'Mississauga'], Quebec: ['Montreal', 'Quebec City', 'Laval'], 'British Columbia': ['Vancouver', 'Victoria', 'Burnaby'], Alberta: ['Calgary', 'Edmonton', 'Red Deer'] },
         GB: { England: ['London', 'Manchester', 'Birmingham'], Scotland: ['Edinburgh', 'Glasgow', 'Aberdeen'], Wales: ['Cardiff', 'Swansea', 'Newport'] },
         AU: { 'New South Wales': ['Sydney', 'Newcastle', 'Wollongong'], Victoria: ['Melbourne', 'Geelong', 'Ballarat'], Queensland: ['Brisbane', 'Gold Coast', 'Cairns'] },
         BE: {
@@ -2829,9 +2829,9 @@
         SA: { Riyadh: ['Riyadh'], Makkah: ['Jeddah', 'Mecca', 'Taif'], 'Eastern Province': ['Dammam', 'Khobar', 'Dhahran'] },
         TR: { Istanbul: ['Istanbul'], Ankara: ['Ankara'], Izmir: ['Izmir'] },
         RU: { Moscow: ['Moscow'], 'Saint Petersburg': ['Saint Petersburg'], Novosibirsk: ['Novosibirsk'] },
-        BR: { 'Sao Paulo': ['Sao Paulo', 'Campinas', 'Santos'], 'Rio de Janeiro': ['Rio de Janeiro', 'Niteroi', 'Petropolis'], 'Federal District': ['Brasilia'] },
-        MX: { 'Mexico City': ['Mexico City'], 'Nuevo Leon': ['Monterrey', 'San Nicolas', 'Guadalupe'], Jalisco: ['Guadalajara', 'Zapopan', 'Tlaquepaque'] },
-        AR: { 'Buenos Aires': ['Buenos Aires', 'La Plata', 'Mar del Plata'], Cordoba: ['Cordoba'], Mendoza: ['Mendoza'] },
+        BR: { 'Sao Paulo': ['Sao Paulo', 'Campinas', 'Santos'], 'Rio de Janeiro': ['Rio de Janeiro', 'Niteroi', 'Petropolis'], 'Federal District': ['Brasilia', 'Taguatinga', 'Ceilandia'] },
+        MX: { 'Mexico City': ['Mexico City', 'Coyoacan', 'Iztapalapa'], 'Nuevo Leon': ['Monterrey', 'San Nicolas', 'Guadalupe'], Jalisco: ['Guadalajara', 'Zapopan', 'Tlaquepaque'] },
+        AR: { 'Buenos Aires': ['Buenos Aires', 'La Plata', 'Mar del Plata'], Cordoba: ['Cordoba', 'Villa Carlos Paz', 'Rio Cuarto'], Mendoza: ['Mendoza', 'San Rafael', 'Godoy Cruz'] },
         ZA: { Gauteng: ['Johannesburg', 'Pretoria', 'Sandton'], 'Western Cape': ['Cape Town', 'Stellenbosch', 'Paarl'], 'KwaZulu-Natal': ['Durban', 'Pietermaritzburg', 'Richards Bay'] }
     };
     const supplementalEuropeanRegions = {
@@ -3012,6 +3012,25 @@
         ML: [{zh:'巴马科区',en:'Bamako',longitude:-7.9922},{zh:'锡卡索区',en:'Sikasso',longitude:-5.6667},{zh:'莫普提区',en:'Mopti',longitude:-4.1821},{zh:'塞古区',en:'Segou',longitude:-6.2667}],
         MA: [{zh:'卡萨布兰卡-塞塔特大区',en:'Casablanca-Settat',longitude:-7.5898},{zh:'拉巴特-萨累-盖尼特拉大区',en:'Rabat-Sale-Kenitra',longitude:-6.8498},{zh:'马拉喀什-萨菲大区',en:'Marrakesh-Safi',longitude:-8.0089},{zh:'非斯-梅克内斯大区',en:'Fes-Meknes',longitude:-5.0000}],
         MZ: [{zh:'马普托市',en:'Maputo',longitude:32.5732},{zh:'楠普拉省',en:'Nampula',longitude:39.2666},{zh:'索法拉省',en:'Sofala',longitude:34.8389},{zh:'赞比西亚省',en:'Zambezia',longitude:36.8883}],
+        TD: [{zh:'恩贾梅纳区',en:"N'Djamena",longitude:15.0444},{zh:'洛贡西方区',en:'Logone Occidental',longitude:15.8100},{zh:'西拉区',en:'Sila',longitude:20.7122},{zh:'瓦达伊区',en:'Ouaddai',longitude:20.8500}],
+        KM: [{zh:'大科摩罗岛',en:'Grande Comore',longitude:43.2551},{zh:'昂儒昂岛',en:'Anjouan',longitude:44.4571},{zh:'莫埃利岛',en:'Moheli',longitude:43.7520},{zh:'首都地区',en:'Moroni',longitude:43.2551}],
+        SZ: [{zh:'霍霍区',en:'Hhohho',longitude:31.1367},{zh:'曼齐尼区',en:'Manzini',longitude:31.3792},{zh:'卢邦博区',en:'Lubombo',longitude:31.9470},{zh:'希塞卢韦尼区',en:'Shiselweni',longitude:31.7195}],
+        GW: [{zh:'比绍自治区',en:'Bissau',longitude:-15.5984},{zh:'巴法塔区',en:'Bafata',longitude:-14.6667},{zh:'加布区',en:'Gabu',longitude:-14.2222},{zh:'卡谢乌区',en:'Cacheu',longitude:-16.1650}],
+        MW: [{zh:'中央区',en:'Central Region',longitude:33.7741},{zh:'南部区',en:'Southern Region',longitude:34.9558},{zh:'北部区',en:'Northern Region',longitude:33.7900},{zh:'利隆圭区',en:'Lilongwe',longitude:33.7741}],
+        MR: [{zh:'努瓦克肖特西区',en:'Nouakchott-Ouest',longitude:-15.9785},{zh:'努瓦迪布区',en:'Dakhlet Nouadhibou',longitude:-17.0347},{zh:'卜拉克纳区',en:'Brakna',longitude:-14.4160},{zh:'胡德东区',en:'Hodh Ech Chargui',longitude:-7.4360}],
+        MU: [{zh:'路易港区',en:'Port Louis',longitude:57.5012},{zh:'黑河区',en:'Black River',longitude:57.4070},{zh:'大港区',en:'Grand Port',longitude:57.7190},{zh:'莫卡区',en:'Moka',longitude:57.4960}],
+        NA: [{zh:'霍马斯区',en:'Khomas',longitude:17.0832},{zh:'埃龙戈区',en:'Erongo',longitude:14.5053},{zh:'奥沙纳区',en:'Oshana',longitude:15.9090},{zh:'卡万戈东区',en:'Kavango East',longitude:19.7660}],
+        NE: [{zh:'尼亚美区',en:'Niamey',longitude:2.1157},{zh:'津德尔区',en:'Zinder',longitude:8.9881},{zh:'塔瓦区',en:'Tahoua',longitude:5.2692},{zh:'马拉迪区',en:'Maradi',longitude:7.1017}],
+        ST: [{zh:'阿瓜格兰德区',en:'Agua Grande',longitude:6.7273},{zh:'梅索希区',en:'Me-Zochi',longitude:6.6070},{zh:'坎塔加洛区',en:'Cantagalo',longitude:7.3280},{zh:'普林西比自治区',en:'Principe',longitude:7.4110}],
+        SC: [{zh:'大安斯区',en:'Grand Anse Mahe',longitude:55.4500},{zh:'英吉利河区',en:'English River',longitude:55.4500},{zh:'贝拉扎尔区',en:'Bel Air',longitude:55.4540},{zh:'普拉兰区',en:'Baie Sainte Anne',longitude:55.7680}],
+        SL: [{zh:'西部区',en:'Western Area',longitude:-13.2317},{zh:'北部区',en:'Northern',longitude:-12.7900},{zh:'南部区',en:'Southern',longitude:-12.5050},{zh:'东部区',en:'Eastern',longitude:-10.7650}],
+        SO: [{zh:'巴纳迪尔区',en:'Banaadir',longitude:45.3182},{zh:'瓦北加勒贝德区',en:'Woqooyi Galbeed',longitude:44.0000},{zh:'努加尔区',en:'Nugaal',longitude:49.0830},{zh:'下朱巴区',en:'Lower Juba',longitude:42.5450}],
+        SS: [{zh:'中赤道州',en:'Central Equatoria',longitude:31.5825},{zh:'瓦乌州',en:'Western Bahr el Ghazal',longitude:28.0000},{zh:'琼莱州',en:'Jonglei',longitude:31.5600},{zh:'上尼罗州',en:'Upper Nile',longitude:32.6400}],
+        SD: [{zh:'喀土穆州',en:'Khartoum',longitude:32.5599},{zh:'红海州',en:'Red Sea',longitude:37.2164},{zh:'北达尔富尔州',en:'North Darfur',longitude:25.3500},{zh:'杰济拉州',en:'Al Jazirah',longitude:33.5110}],
+        TG: [{zh:'滨海区',en:'Maritime',longitude:1.2228},{zh:'高原区',en:'Plateaux',longitude:1.2000},{zh:'卡拉区',en:'Kara',longitude:1.1850},{zh:'草原区',en:'Savanes',longitude:0.9830}],
+        TN: [{zh:'突尼斯省',en:'Tunis',longitude:10.1815},{zh:'斯法克斯省',en:'Sfax',longitude:10.7603},{zh:'苏塞省',en:'Sousse',longitude:10.6369},{zh:'纳布勒省',en:'Nabeul',longitude:10.7350}],
+        ZM: [{zh:'卢萨卡省',en:'Lusaka',longitude:28.3228},{zh:'铜带省',en:'Copperbelt',longitude:28.2132},{zh:'南方省',en:'Southern',longitude:27.8570},{zh:'中部省',en:'Central',longitude:28.4460}],
+        ZW: [{zh:'哈拉雷省',en:'Harare',longitude:31.0530},{zh:'布拉瓦约省',en:'Bulawayo',longitude:28.5870},{zh:'马尼卡兰省',en:'Manicaland',longitude:32.6500},{zh:'马绍纳兰西省',en:'Mashonaland West',longitude:29.8140}],
         NG: [{zh:'拉各斯州',en:'Lagos',longitude:3.3792},{zh:'联邦首都区',en:'Federal Capital Territory',longitude:7.3986},{zh:'卡诺州',en:'Kano',longitude:8.5167},{zh:'河流州',en:'Rivers',longitude:6.9981},{zh:'奥约州',en:'Oyo',longitude:3.9470}],
         RW: [{zh:'基加利市',en:'Kigali',longitude:30.0619},{zh:'南部省',en:'Southern',longitude:29.7566},{zh:'西部省',en:'Western',longitude:29.3499},{zh:'东部省',en:'Eastern',longitude:30.4336}],
         SN: [{zh:'达喀尔区',en:'Dakar',longitude:-17.4677},{zh:'捷斯区',en:'Thies',longitude:-16.9256},{zh:'圣路易区',en:'Saint-Louis',longitude:-16.4896},{zh:'济金绍尔区',en:'Ziguinchor',longitude:-16.2719}],
@@ -3048,6 +3067,25 @@
         ML: { Bamako: ['Bamako'], Sikasso: ['Sikasso'], Mopti: ['Mopti'], Segou: ['Segou'] },
         MA: { 'Casablanca-Settat': ['Casablanca', 'Settat'], 'Rabat-Sale-Kenitra': ['Rabat', 'Sale'], 'Marrakesh-Safi': ['Marrakesh', 'Safi'], 'Fes-Meknes': ['Fes', 'Meknes'] },
         MZ: { Maputo: ['Maputo', 'Matola'], Nampula: ['Nampula', 'Nacala'], Sofala: ['Beira'], Zambezia: ['Quelimane'] },
+        TD: { "N'Djamena": ["N'Djamena", 'Farcha'], 'Logone Occidental': ['Moundou', 'Benoye'], Sila: ['Goz Beida', 'Adre'], Ouaddai: ['Abeche', 'Am Zoer'] },
+        KM: { 'Grande Comore': ['Moroni', 'Mitsamiouli'], Anjouan: ['Mutsamudu', 'Domoni'], Moheli: ['Fomboni', 'Nioumachoua'], Moroni: ['Moroni', 'Iconi'] },
+        SZ: { Hhohho: ['Mbabane', 'Pigg\'s Peak'], Manzini: ['Manzini', 'Matsapha'], Lubombo: ['Siteki', 'Mhlume'], Shiselweni: ['Nhlangano', 'Hluti'] },
+        GW: { Bissau: ['Bissau', 'Bissora'], Bafata: ['Bafata', 'Bambadinca'], Gabu: ['Gabu', 'Pirada'], Cacheu: ['Cacheu', 'Canchungo'] },
+        MW: { 'Central Region': ['Lilongwe', 'Kasungu'], 'Southern Region': ['Blantyre', 'Zomba'], 'Northern Region': ['Mzuzu', 'Karonga'], Lilongwe: ['Lilongwe', 'Area 25'] },
+        MR: { 'Nouakchott-Ouest': ['Nouakchott', 'Tevragh Zeina'], 'Dakhlet Nouadhibou': ['Nouadhibou', 'Chami'], Brakna: ['Aleg', 'Boghé'], 'Hodh Ech Chargui': ['Nema', 'Amourj'] },
+        MU: { 'Port Louis': ['Port Louis', 'Beau Bassin-Rose Hill'], 'Black River': ['Tamarin', 'Bambous'], 'Grand Port': ['Mahebourg', 'Rose Belle'], Moka: ['Moka', 'Saint Pierre'] },
+        NA: { Khomas: ['Windhoek', 'Katutura'], Erongo: ['Swakopmund', 'Walvis Bay'], Oshana: ['Oshakati', 'Ondangwa'], 'Kavango East': ['Rundu', 'Divundu'] },
+        NE: { Niamey: ['Niamey', 'Niamey V'], Zinder: ['Zinder', 'Mirriah'], Tahoua: ['Tahoua', 'Illéla'], Maradi: ['Maradi', 'Tessaoua'] },
+        ST: { 'Agua Grande': ['Sao Tome', 'Santana'], 'Me-Zochi': ['Trindade', 'Bombom'], Cantagalo: ['Santana', 'São João dos Angolares'], Principe: ['Santo Antonio', 'Sundy'] },
+        SC: { 'Grand Anse Mahe': ['Port Glaud', 'Grand Anse'], 'English River': ['Victoria', 'Mont Fleuri'], 'Bel Air': ['Bel Air', 'Anse Etoile'], 'Baie Sainte Anne': ['Baie Sainte Anne', 'Anse Volbert'] },
+        SL: { 'Western Area': ['Freetown', 'Waterloo'], Northern: ['Makeni', 'Port Loko'], Southern: ['Bo', 'Bonthe'], Eastern: ['Kenema', 'Koidu'] },
+        SO: { Banaadir: ['Mogadishu', 'Hamar Weyne'], 'Woqooyi Galbeed': ['Hargeisa', 'Berbera'], Nugaal: ['Garowe', 'Eyl'], 'Lower Juba': ['Kismayo', 'Jamaame'] },
+        SS: { 'Central Equatoria': ['Juba', 'Yei'], 'Western Bahr el Ghazal': ['Wau', 'Raja'], Jonglei: ['Bor', 'Akobo'], 'Upper Nile': ['Malakal', 'Renk'] },
+        SD: { Khartoum: ['Khartoum', 'Omdurman'], 'Red Sea': ['Port Sudan', 'Suakin'], 'North Darfur': ['El Fasher', 'Kutum'], 'Al Jazirah': ['Wad Madani', 'Al Hasaheisa'] },
+        TG: { Maritime: ['Lome', 'Aneho'], Plateaux: ['Atakpame', 'Kpalime'], Kara: ['Kara', 'Bassar'], Savanes: ['Dapaong', 'Mango'] },
+        TN: { Tunis: ['Tunis', 'La Marsa'], Sfax: ['Sfax', 'Sakiet Ezzit'], Sousse: ['Sousse', 'Akouda'], Nabeul: ['Nabeul', 'Hammamet'] },
+        ZM: { Lusaka: ['Lusaka', 'Chilanga'], Copperbelt: ['Ndola', 'Kitwe'], Southern: ['Livingstone', 'Choma'], Central: ['Kabwe', 'Kapiri Mposhi'] },
+        ZW: { Harare: ['Harare', 'Chitungwiza'], Bulawayo: ['Bulawayo', 'Luveve'], Manicaland: ['Mutare', 'Rusape'], 'Mashonaland West': ['Chinhoyi', 'Karoi'] },
         NG: { Lagos: ['Lagos', 'Ikeja'], 'Federal Capital Territory': ['Abuja'], Kano: ['Kano'], Rivers: ['Port Harcourt'], Oyo: ['Ibadan'] },
         RW: { Kigali: ['Kigali'], Southern: ['Huye'], Western: ['Rubavu'], Eastern: ['Rwamagana'] },
         SN: { Dakar: ['Dakar', 'Pikine'], Thies: ['Thies', 'Mbour'], 'Saint-Louis': ['Saint-Louis'], Ziguinchor: ['Ziguinchor'] },
@@ -3081,6 +3119,72 @@
         TO: { Tongatapu: ['Nuku\'alofa', 'Mu\'a'], 'Vava\'u': ['Neiafu', 'Pangaimotu'], 'Ha\'apai': ['Pangai', 'Lifuka'], Eua: ['Ohonua', 'Ta\'anga'] },
         TV: { Funafuti: ['Fongafale', 'Vaiaku'], Nanumea: ['Nanumea', 'Lakena'], Nui: ['Tanrake', 'Nui'], Nukufetau: ['Savave', 'Motulalo'] },
         VU: { Shefa: ['Port Vila', 'Mele'], Sanma: ['Luganville', 'Saraoutou'], Tafea: ['Isangel', 'Lenakel'], Malampa: ['Lakatoro', 'Norsup'] }
+    };
+    const supplementalNorthAmericaRegions = {
+        AG: [{zh:'圣约翰区',en:'Saint John',longitude:-61.8468},{zh:'圣乔治区',en:'Saint George',longitude:-61.8000},{zh:'圣玛丽区',en:'Saint Mary',longitude:-61.7550},{zh:'圣保罗区',en:'Saint Paul',longitude:-61.7000}],
+        BS: [{zh:'新普罗维登斯岛',en:'New Providence',longitude:-77.3554},{zh:'大巴哈马岛',en:'Grand Bahama',longitude:-78.6430},{zh:'阿巴科群岛',en:'Abaco',longitude:-77.0630},{zh:'伊柳塞拉岛',en:'Eleuthera',longitude:-76.1850}],
+        BB: [{zh:'圣米迦勒区',en:'Saint Michael',longitude:-59.6145},{zh:'基督城区',en:'Christ Church',longitude:-59.5432},{zh:'圣詹姆斯区',en:'Saint James',longitude:-59.6150},{zh:'圣彼得区',en:'Saint Peter',longitude:-59.6430}],
+        BZ: [{zh:'伯利兹区',en:'Belize',longitude:-88.7600},{zh:'卡约区',en:'Cayo',longitude:-89.0700},{zh:'科罗萨尔区',en:'Corozal',longitude:-88.3960},{zh:'斯坦港区',en:'Stann Creek',longitude:-88.3650}],
+        CR: [{zh:'圣何塞省',en:'San Jose',longitude:-84.0907},{zh:'阿拉胡埃拉省',en:'Alajuela',longitude:-84.2116},{zh:'埃雷迪亚省',en:'Heredia',longitude:-84.1165},{zh:'瓜纳卡斯特省',en:'Guanacaste',longitude:-85.4437}],
+        CU: [{zh:'哈瓦那省',en:'Havana',longitude:-82.3666},{zh:'圣地亚哥-德古巴省',en:'Santiago de Cuba',longitude:-75.8267},{zh:'马坦萨斯省',en:'Matanzas',longitude:-81.5775},{zh:'比亚克拉拉省',en:'Villa Clara',longitude:-79.9647}],
+        DM: [{zh:'圣乔治区',en:'Saint George',longitude:-61.3870},{zh:'圣保罗区',en:'Saint Paul',longitude:-61.3480},{zh:'圣彼得区',en:'Saint Peter',longitude:-61.4380},{zh:'圣约瑟夫区',en:'Saint Joseph',longitude:-61.4010}],
+        DO: [{zh:'国家特区',en:'National District',longitude:-69.9312},{zh:'圣地亚哥省',en:'Santiago',longitude:-70.6980},{zh:'圣多明各省',en:'Santo Domingo',longitude:-69.8290},{zh:'拉阿尔塔格拉西亚省',en:'La Altagracia',longitude:-68.7070}],
+        SV: [{zh:'圣萨尔瓦多省',en:'San Salvador',longitude:-89.2182},{zh:'拉利伯塔德省',en:'La Libertad',longitude:-89.3606},{zh:'圣安娜省',en:'Santa Ana',longitude:-89.5590},{zh:'圣米格尔省',en:'San Miguel',longitude:-88.1770}],
+        GD: [{zh:'圣乔治区',en:'Saint George',longitude:-61.7486},{zh:'圣安德鲁区',en:'Saint Andrew',longitude:-61.6730},{zh:'圣大卫区',en:'Saint David',longitude:-61.6510},{zh:'圣帕特里克区',en:'Saint Patrick',longitude:-61.6450}],
+        GT: [{zh:'危地马拉省',en:'Guatemala',longitude:-90.5069},{zh:'克萨尔特南戈省',en:'Quetzaltenango',longitude:-91.5180},{zh:'埃斯昆特拉省',en:'Escuintla',longitude:-90.7850},{zh:'萨卡特佩克斯省',en:'Sacatepequez',longitude:-90.7340}],
+        HT: [{zh:'西部省',en:'Ouest',longitude:-72.3347},{zh:'北部省',en:'Nord',longitude:-72.2008},{zh:'南部省',en:'Sud',longitude:-73.7460},{zh:'阿蒂博尼特省',en:'Artibonite',longitude:-72.2850}],
+        HN: [{zh:'弗朗西斯科-莫拉桑省',en:'Francisco Morazan',longitude:-87.2068},{zh:'科尔特斯省',en:'Cortes',longitude:-88.0300},{zh:'阿特兰蒂达省',en:'Atlantida',longitude:-86.7910},{zh:'乔卢特卡省',en:'Choluteca',longitude:-87.1900}],
+        JM: [{zh:'金斯敦区',en:'Kingston',longitude:-76.7936},{zh:'圣安德鲁区',en:'Saint Andrew',longitude:-76.7800},{zh:'圣詹姆斯区',en:'Saint James',longitude:-77.9200},{zh:'圣凯瑟琳区',en:'Saint Catherine',longitude:-76.9490}],
+        KN: [{zh:'圣乔治巴斯特尔区',en:'Saint George Basseterre',longitude:-62.7340},{zh:'圣彼得巴斯特尔区',en:'Saint Peter Basseterre',longitude:-62.7600},{zh:'圣詹姆斯温沃德区',en:'Saint James Windward',longitude:-62.5600},{zh:'查尔斯敦区',en:'Charlestown',longitude:-62.5830}],
+        LC: [{zh:'卡斯特里区',en:'Castries',longitude:-60.9875},{zh:'格罗斯伊斯勒区',en:'Gros Islet',longitude:-60.9530},{zh:'维约堡区',en:'Vieux Fort',longitude:-60.9540},{zh:'苏弗里耶尔区',en:'Soufriere',longitude:-61.0560}],
+        VC: [{zh:'圣乔治区',en:'Saint George',longitude:-61.2248},{zh:'夏洛特区',en:'Charlotte',longitude:-61.1400},{zh:'圣安德鲁区',en:'Saint Andrew',longitude:-61.1750},{zh:'圣帕特里克区',en:'Saint Patrick',longitude:-61.2000}],
+        NI: [{zh:'马那瓜省',en:'Managua',longitude:-86.2514},{zh:'莱昂省',en:'Leon',longitude:-86.8780},{zh:'格拉纳达省',en:'Granada',longitude:-85.9560},{zh:'马萨亚省',en:'Masaya',longitude:-86.0940}],
+        PA: [{zh:'巴拿马省',en:'Panama',longitude:-79.5199},{zh:'西巴拿马省',en:'West Panama',longitude:-79.9980},{zh:'奇里基省',en:'Chiriqui',longitude:-82.4300},{zh:'科隆省',en:'Colon',longitude:-79.8920}]
+    };
+    const supplementalNorthAmericaCities = {
+        AG: { 'Saint John': ['St. John\'s', 'All Saints'], 'Saint George': ['Potters Village', 'Piggotts'], 'Saint Mary': ['Bolans', 'Old Road'], 'Saint Paul': ['Falmouth', 'Liberta'] },
+        BS: { 'New Providence': ['Nassau', 'Paradise Island'], 'Grand Bahama': ['Freeport', 'West End'], Abaco: ['Marsh Harbour', 'Coopers Town'], Eleuthera: ['Governor\'s Harbour', 'Rock Sound'] },
+        BB: { 'Saint Michael': ['Bridgetown', 'Black Rock'], 'Christ Church': ['Oistins', 'Silver Sands'], 'Saint James': ['Holetown', 'Paynes Bay'], 'Saint Peter': ['Speightstown', 'Six Men\'s'] },
+        BZ: { Belize: ['Belize City', 'Ladyville'], Cayo: ['San Ignacio', 'Belmopan'], Corozal: ['Corozal Town', 'Orange Walk'], 'Stann Creek': ['Dangriga', 'Placencia'] },
+        CR: { 'San Jose': ['San Jose', 'Desamparados'], Alajuela: ['Alajuela', 'San Ramon'], Heredia: ['Heredia', 'Santo Domingo'], Guanacaste: ['Liberia', 'Nicoya'] },
+        CU: { Havana: ['Havana', 'Vedado'], 'Santiago de Cuba': ['Santiago de Cuba', 'Palma Soriano'], Matanzas: ['Matanzas', 'Varadero'], 'Villa Clara': ['Santa Clara', 'Sagua la Grande'] },
+        DM: { 'Saint George': ['Roseau', 'Canefield'], 'Saint Paul': ['Mahaut', 'Massacre'], 'Saint Peter': ['Portsmouth', 'Dublanc'], 'Saint Joseph': ['Saint Joseph', 'Mero'] },
+        DO: { 'National District': ['Santo Domingo', 'Gazcue'], Santiago: ['Santiago de los Caballeros', 'Tamboril'], 'Santo Domingo': ['Santo Domingo Este', 'Boca Chica'], 'La Altagracia': ['Higuey', 'Punta Cana'] },
+        SV: { 'San Salvador': ['San Salvador', 'Soyapango'], 'La Libertad': ['Santa Tecla', 'La Libertad'], 'Santa Ana': ['Santa Ana', 'Chalchuapa'], 'San Miguel': ['San Miguel', 'El Transito'] },
+        GD: { 'Saint George': ['St. George\'s', 'Grand Anse'], 'Saint Andrew': ['Grenville', 'Soubise'], 'Saint David': ['Crochu', 'Perdmontemps'], 'Saint Patrick': ['Sauteurs', 'Hermitage'] },
+        GT: { Guatemala: ['Guatemala City', 'Mixco'], Quetzaltenango: ['Quetzaltenango', 'Olintepeque'], Escuintla: ['Escuintla', 'Puerto San Jose'], Sacatepequez: ['Antigua Guatemala', 'Ciudad Vieja'] },
+        HT: { Ouest: ['Port-au-Prince', 'Petion-Ville'], Nord: ['Cap-Haitien', 'Limonade'], Sud: ['Les Cayes', 'Aquin'], Artibonite: ['Gonaives', 'Saint-Marc'] },
+        HN: { 'Francisco Morazan': ['Tegucigalpa', 'Comayaguela'], Cortes: ['San Pedro Sula', 'Puerto Cortes'], Atlantida: ['La Ceiba', 'Tela'], Choluteca: ['Choluteca', 'San Lorenzo'] },
+        JM: { Kingston: ['Kingston', 'New Kingston'], 'Saint Andrew': ['Half Way Tree', 'Papine'], 'Saint James': ['Montego Bay', 'Anchovy'], 'Saint Catherine': ['Spanish Town', 'Portmore'] },
+        KN: { 'Saint George Basseterre': ['Basseterre', 'Bird Rock'], 'Saint Peter Basseterre': ['Monkey Hill', 'Needsmust'], 'Saint James Windward': ['Newcastle', 'Butlers'], Charlestown: ['Charlestown', 'Bath'] },
+        LC: { Castries: ['Castries', 'Bisee'], 'Gros Islet': ['Rodney Bay', 'Gros Islet'], 'Vieux Fort': ['Vieux Fort', 'Augier'], Soufriere: ['Soufriere', 'Choiseul'] },
+        VC: { 'Saint George': ['Kingstown', 'Arnos Vale'], Charlotte: ['Georgetown', 'Byera Village'], 'Saint Andrew': ['Layou', 'Barrouallie'], 'Saint Patrick': ['Barrouallie', 'Chateaubelair'] },
+        NI: { Managua: ['Managua', 'Ciudad Sandino'], Leon: ['Leon', 'Nagarote'], Granada: ['Granada', 'Nandaime'], Masaya: ['Masaya', 'Nindiri'] },
+        PA: { Panama: ['Panama City', 'San Miguelito'], 'West Panama': ['La Chorrera', 'Arraijan'], Chiriqui: ['David', 'Boquete'], Colon: ['Colon', 'Sabanitas'] }
+    };
+    const supplementalSouthAmericaRegions = {
+        BO: [{zh:'拉巴斯省',en:'La Paz',longitude:-68.1193},{zh:'圣克鲁斯省',en:'Santa Cruz',longitude:-63.1800},{zh:'科恰班巴省',en:'Cochabamba',longitude:-66.1568},{zh:'塔里哈省',en:'Tarija',longitude:-64.7296}],
+        CL: [{zh:'圣地亚哥首都大区',en:'Santiago Metropolitan',longitude:-70.6693},{zh:'瓦尔帕莱索大区',en:'Valparaiso',longitude:-71.6127},{zh:'比奥比奥大区',en:'Biobio',longitude:-73.0500},{zh:'安托法加斯塔大区',en:'Antofagasta',longitude:-70.3980}],
+        CO: [{zh:'波哥大首都区',en:'Bogota',longitude:-74.0721},{zh:'安蒂奥基亚省',en:'Antioquia',longitude:-75.5636},{zh:'巴耶德尔考卡省',en:'Valle del Cauca',longitude:-76.5320},{zh:'大西洋省',en:'Atlantico',longitude:-74.7960}],
+        EC: [{zh:'皮钦查省',en:'Pichincha',longitude:-78.4678},{zh:'瓜亚斯省',en:'Guayas',longitude:-79.8891},{zh:'阿苏艾省',en:'Azuay',longitude:-78.9990},{zh:'马纳比省',en:'Manabi',longitude:-80.4530}],
+        GY: [{zh:'德梅拉拉-马海卡区',en:'Demerara-Mahaica',longitude:-58.1551},{zh:'东伯比斯-科兰太因区',en:'East Berbice-Corentyne',longitude:-57.5160},{zh:'埃塞奎博群岛-西德梅拉拉区',en:'Essequibo Islands-West Demerara',longitude:-58.2000},{zh:'波塔罗-西帕鲁尼区',en:'Potaro-Siparuni',longitude:-59.3000}],
+        PY: [{zh:'首都区',en:'Capital',longitude:-57.5759},{zh:'中央省',en:'Central',longitude:-57.4500},{zh:'上巴拉那省',en:'Alto Parana',longitude:-54.6160},{zh:'伊塔普阿省',en:'Itapua',longitude:-55.8660}],
+        PE: [{zh:'利马大区',en:'Lima',longitude:-77.0428},{zh:'阿雷基帕大区',en:'Arequipa',longitude:-71.5375},{zh:'拉利伯塔德大区',en:'La Libertad',longitude:-79.0300},{zh:'库斯科大区',en:'Cusco',longitude:-71.9675}],
+        SR: [{zh:'帕拉马里博区',en:'Paramaribo',longitude:-55.2038},{zh:'万尼卡区',en:'Wanica',longitude:-55.1700},{zh:'尼克里区',en:'Nickerie',longitude:-56.9750},{zh:'科默韦讷区',en:'Commewijne',longitude:-54.9000}],
+        UY: [{zh:'蒙得维的亚省',en:'Montevideo',longitude:-56.1645},{zh:'卡内洛内斯省',en:'Canelones',longitude:-56.2770},{zh:'马尔多纳多省',en:'Maldonado',longitude:-54.9500},{zh:'萨尔托省',en:'Salto',longitude:-57.9600}],
+        VE: [{zh:'首都区',en:'Capital District',longitude:-66.9036},{zh:'米兰达州',en:'Miranda',longitude:-66.6100},{zh:'苏利亚州',en:'Zulia',longitude:-71.6400},{zh:'卡拉沃沃州',en:'Carabobo',longitude:-68.0050}]
+    };
+    const supplementalSouthAmericaCities = {
+        BO: { 'La Paz': ['La Paz', 'El Alto'], 'Santa Cruz': ['Santa Cruz de la Sierra', 'Montero'], 'Cochabamba': ['Cochabamba', 'Quillacollo'], Tarija: ['Tarija', 'Yacuiba'] },
+        CL: { 'Santiago Metropolitan': ['Santiago', 'Puente Alto'], Valparaiso: ['Valparaiso', 'Vina del Mar'], Biobio: ['Concepcion', 'Los Angeles'], Antofagasta: ['Antofagasta', 'Calama'] },
+        CO: { Bogota: ['Bogota', 'Soacha'], Antioquia: ['Medellin', 'Bello'], 'Valle del Cauca': ['Cali', 'Palmira'], Atlantico: ['Barranquilla', 'Soledad'] },
+        EC: { Pichincha: ['Quito', 'Sangolqui'], Guayas: ['Guayaquil', 'Duran'], Azuay: ['Cuenca', 'Gualaceo'], Manabi: ['Manta', 'Portoviejo'] },
+        GY: { 'Demerara-Mahaica': ['Georgetown', 'Mahaica Village'], 'East Berbice-Corentyne': ['New Amsterdam', 'Skeldon'], 'Essequibo Islands-West Demerara': ['Vreed-en-Hoop', 'Parika'], 'Potaro-Siparuni': ['Mahdia', 'Tumatumari'] },
+        PY: { Capital: ['Asuncion', 'Lambare'], Central: ['San Lorenzo', 'Luque'], 'Alto Parana': ['Ciudad del Este', 'Hernandarias'], Itapua: ['Encarnacion', 'Cambyreta'] },
+        PE: { Lima: ['Lima', 'Callao'], Arequipa: ['Arequipa', 'Camana'], 'La Libertad': ['Trujillo', 'Chepen'], Cusco: ['Cusco', 'Urubamba'] },
+        SR: { Paramaribo: ['Paramaribo', 'Rainville'], Wanica: ['Lelydorp', 'Nieuw Nickerie'], Nickerie: ['Nieuw Nickerie', 'Wageningen'], Commewijne: ['Nieuw Amsterdam', 'Meerzorg'] },
+        UY: { Montevideo: ['Montevideo', 'Ciudad de la Costa'], Canelones: ['Las Piedras', 'Pando'], Maldonado: ['Maldonado', 'Punta del Este'], Salto: ['Salto', 'Dayman'] },
+        VE: { 'Capital District': ['Caracas', 'Catia'], Miranda: ['Petare', 'Guarenas'], Zulia: ['Maracaibo', 'Cabimas'], Carabobo: ['Valencia', 'Puerto Cabello'] }
     };
     const capitalCityFallbackByCountry = {
         AG: 'St. John\'s', BS: 'Nassau', BB: 'Bridgetown', BZ: 'Belmopan', CR: 'San Jose', CU: 'Havana', DM: 'Roseau', DO: 'Santo Domingo',
@@ -3121,6 +3225,18 @@
         if (!enhancedRegions[code]) enhancedRegions[code] = regions;
     });
     Object.entries(supplementalOceaniaCities).forEach(([code, regionMap]) => {
+        englishCitiesByCountryRegion[code] = { ...(englishCitiesByCountryRegion[code] || {}), ...regionMap };
+    });
+    Object.entries(supplementalNorthAmericaRegions).forEach(([code, regions]) => {
+        if (!enhancedRegions[code]) enhancedRegions[code] = regions;
+    });
+    Object.entries(supplementalNorthAmericaCities).forEach(([code, regionMap]) => {
+        englishCitiesByCountryRegion[code] = { ...(englishCitiesByCountryRegion[code] || {}), ...regionMap };
+    });
+    Object.entries(supplementalSouthAmericaRegions).forEach(([code, regions]) => {
+        if (!enhancedRegions[code]) enhancedRegions[code] = regions;
+    });
+    Object.entries(supplementalSouthAmericaCities).forEach(([code, regionMap]) => {
         englishCitiesByCountryRegion[code] = { ...(englishCitiesByCountryRegion[code] || {}), ...regionMap };
     });
     const chinaProvinceEnglish = {
