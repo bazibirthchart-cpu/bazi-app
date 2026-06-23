@@ -60,6 +60,8 @@ const supplementalNorthAmericaCities = extractObjectLiteral(html, 'supplementalN
 const supplementalSouthAmericaRegions = extractObjectLiteral(html, 'supplementalSouthAmericaRegions', 'supplementalSouthAmericaCities');
 const supplementalSouthAmericaCities = extractObjectLiteral(html, 'supplementalSouthAmericaCities', 'capitalCityFallbackByCountry');
 const capitalCityFallbackByCountry = extractObjectLiteral(html, 'capitalCityFallbackByCountry', 'yinyangByStem');
+const chinaProvinceEnglish = extractObjectLiteral(html, 'chinaProvinceEnglish', 'yinyangByStem');
+const chinaCityEnglish = extractObjectLiteral(html, 'chinaCityEnglish', 'yinyangByStem');
 
 for (const [code, regions] of Object.entries(supplementalEuropeanRegions)) {
   assert.ok(regions.length >= 1, `${code} should expose at least one supplemental region.`);
@@ -195,6 +197,12 @@ assert.ok(enhancedRegions.RU.length >= 5, 'Russia should expose more major regio
 assert.ok(englishCitiesByCountryRegion.BE.Antwerp.includes('Antwerp'), 'Belgium Antwerp should include Antwerp.');
 assert.ok(englishCitiesByCountryRegion.GB['Northern Ireland'].includes('Belfast'), 'United Kingdom Northern Ireland should include Belfast.');
 assert.ok(englishCitiesByCountryRegion.RU.Kazan.includes('Kazan'), 'Russia Kazan should include Kazan.');
+
+assert.equal(chinaProvinceEnglish['北京市'], 'Beijing', 'China province map should translate Beijing.');
+assert.equal(chinaProvinceEnglish['广东省'], 'Guangdong', 'China province map should translate Guangdong.');
+assert.equal(chinaCityEnglish['北京市'], 'Beijing', 'China city map should translate Beijing city.');
+assert.equal(chinaCityEnglish['广州市'], 'Guangzhou', 'China city map should translate Guangzhou.');
+assert.equal(chinaCityEnglish['深圳市'], 'Shenzhen', 'China city map should translate Shenzhen.');
 
 const europeCodes = englishCountriesByContinent.Europe;
 const unsupportedEurope = europeCodes.filter(code => !enhancedRegions[code] && !supplementalEuropeanRegions[code] && !capitalCityFallbackByCountry[code]);
