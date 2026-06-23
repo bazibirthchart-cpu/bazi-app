@@ -114,6 +114,8 @@ assert.ok(supplementalAfricaCities.TN.Tunis.includes('Tunis'), 'Tunisia Tunis sh
 assert.ok(supplementalAfricaCities.NA.Khomas.includes('Windhoek'), 'Namibia Khomas should include Windhoek.');
 assert.ok(supplementalAfricaCities.ZM.Lusaka.includes('Lusaka'), 'Zambia Lusaka should include Lusaka.');
 assert.ok(supplementalAfricaCities.ZW.Harare.includes('Harare'), 'Zimbabwe Harare should include Harare.');
+assert.ok(enhancedRegions.ZA.length >= 5, 'South Africa should expose more major provinces.');
+assert.ok(englishCitiesByCountryRegion.ZA['Eastern Cape'].includes('Gqeberha'), 'South Africa Eastern Cape should include Gqeberha.');
 
 for (const [code, regions] of Object.entries(supplementalOceaniaRegions)) {
   assert.ok(regions.length >= 4, `${code} should expose multiple Oceania regions.`);
@@ -145,6 +147,8 @@ assert.ok(supplementalNorthAmericaCities.CR['San Jose'].includes('San Jose'), 'C
 assert.ok(supplementalNorthAmericaCities.DO['National District'].includes('Santo Domingo'), 'Dominican Republic should include Santo Domingo.');
 assert.ok(supplementalNorthAmericaCities.GT.Guatemala.includes('Guatemala City'), 'Guatemala should include Guatemala City.');
 assert.ok(supplementalNorthAmericaCities.PA.Panama.includes('Panama City'), 'Panama should include Panama City.');
+assert.ok(enhancedRegions.MX.length >= 5, 'Mexico should expose more major states.');
+assert.ok(englishCitiesByCountryRegion.MX['State of Mexico'].includes('Toluca'), 'Mexico State of Mexico should include Toluca.');
 
 for (const [code, regions] of Object.entries(supplementalSouthAmericaRegions)) {
   assert.ok(regions.length >= 4, `${code} should expose multiple South America regions.`);
@@ -161,6 +165,10 @@ assert.ok(supplementalSouthAmericaCities.CL['Santiago Metropolitan'].includes('S
 assert.ok(supplementalSouthAmericaCities.CO.Bogota.includes('Bogota'), 'Colombia should include Bogota.');
 assert.ok(supplementalSouthAmericaCities.PE.Lima.includes('Lima'), 'Peru should include Lima.');
 assert.ok(supplementalSouthAmericaCities.UY.Montevideo.includes('Montevideo'), 'Uruguay should include Montevideo.');
+assert.ok(enhancedRegions.AR.length >= 5, 'Argentina should expose more major provinces.');
+assert.ok(enhancedRegions.BR.length >= 5, 'Brazil should expose more major states.');
+assert.ok(englishCitiesByCountryRegion.AR['Santa Fe'].includes('Rosario'), 'Argentina Santa Fe should include Rosario.');
+assert.ok(englishCitiesByCountryRegion.BR.Bahia.includes('Salvador'), 'Brazil Bahia should include Salvador.');
 
 const europeCodes = englishCountriesByContinent.Europe;
 const unsupportedEurope = europeCodes.filter(code => !enhancedRegions[code] && !supplementalEuropeanRegions[code] && !capitalCityFallbackByCountry[code]);
