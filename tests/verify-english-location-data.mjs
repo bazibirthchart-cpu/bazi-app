@@ -94,6 +94,23 @@ assert.ok(supplementalAsiaCities.IL['Tel Aviv'].length >= 3, 'Israel Tel Aviv di
 assert.ok(supplementalAsiaCities.OM.Muscat.length >= 2, 'Oman Muscat should expose multiple city choices.');
 assert.ok(supplementalAsiaCities.UZ.Fergana.length >= 3, 'Uzbekistan Fergana should expose multiple city choices.');
 assert.ok(supplementalAsiaCities.NP.Bagmati.length >= 3, 'Nepal Bagmati should expose multiple city choices.');
+assert.ok(enhancedRegions.AE.length >= 5, 'UAE should expose more emirates.');
+assert.ok(enhancedRegions.ID.length >= 5, 'Indonesia should expose more major provinces.');
+assert.ok(enhancedRegions.IN.length >= 5, 'India should expose more major states.');
+assert.ok(enhancedRegions.KR.length >= 5, 'South Korea should expose more major regions.');
+assert.ok(enhancedRegions.MY.length >= 5, 'Malaysia should expose more major regions.');
+assert.ok(enhancedRegions.PH.length >= 5, 'Philippines should expose more major regions.');
+assert.ok(enhancedRegions.SA.length >= 5, 'Saudi Arabia should expose more major regions.');
+assert.ok(enhancedRegions.SG.length >= 5, 'Singapore should expose all major regions.');
+assert.ok(enhancedRegions.TH.length >= 5, 'Thailand should expose more major regions.');
+assert.ok(enhancedRegions.TR.length >= 5, 'Turkey should expose more major provinces.');
+assert.ok(enhancedRegions.VN.length >= 5, 'Vietnam should expose more major regions.');
+assert.ok(supplementalAsiaRegions.HK.length >= 5, 'Hong Kong should expose more district groups.');
+assert.ok(englishCitiesByCountryRegion.IN.TamilNadu.includes('Chennai'), 'India Tamil Nadu should include Chennai.');
+assert.ok(englishCitiesByCountryRegion.KR.Incheon.includes('Incheon'), 'South Korea Incheon should include Incheon.');
+assert.ok(englishCitiesByCountryRegion.SG['North-East Region'].includes('Hougang'), 'Singapore North-East Region should include Hougang.');
+assert.ok(englishCitiesByCountryRegion.TR.Ankara.includes('Ankara'), 'Turkey Ankara should include Ankara.');
+assert.ok(supplementalAsiaCities.HK['Lantau and Islands'].includes('Tung Chung'), 'Hong Kong Lantau and Islands should include Tung Chung.');
 
 for (const [code, regions] of Object.entries(supplementalAfricaRegions)) {
   assert.ok(regions.length >= 4, `${code} should expose multiple African regions.`);
@@ -131,6 +148,8 @@ assert.ok(supplementalOceaniaCities.FJ['Central Division'].includes('Suva'), 'Fi
 assert.ok(supplementalOceaniaCities.PG['National Capital District'].includes('Port Moresby'), 'Papua New Guinea should include Port Moresby.');
 assert.ok(supplementalOceaniaCities.WS.Tuamasaga.includes('Apia'), 'Samoa Tuamasaga should include Apia.');
 assert.ok(supplementalOceaniaCities.VU.Shefa.includes('Port Vila'), 'Vanuatu Shefa should include Port Vila.');
+assert.ok(enhancedRegions.NZ.length >= 5, 'New Zealand should expose more major regions.');
+assert.ok(englishCitiesByCountryRegion.NZ.Waikato.includes('Hamilton'), 'New Zealand Waikato should include Hamilton.');
 
 for (const [code, regions] of Object.entries(supplementalNorthAmericaRegions)) {
   assert.ok(regions.length >= 4, `${code} should expose multiple North America regions.`);
@@ -169,6 +188,13 @@ assert.ok(enhancedRegions.AR.length >= 5, 'Argentina should expose more major pr
 assert.ok(enhancedRegions.BR.length >= 5, 'Brazil should expose more major states.');
 assert.ok(englishCitiesByCountryRegion.AR['Santa Fe'].includes('Rosario'), 'Argentina Santa Fe should include Rosario.');
 assert.ok(englishCitiesByCountryRegion.BR.Bahia.includes('Salvador'), 'Brazil Bahia should include Salvador.');
+
+assert.ok(enhancedRegions.BE.length >= 5, 'Belgium should expose more detailed regions.');
+assert.ok(enhancedRegions.GB.length >= 5, 'United Kingdom should expose more detailed regions.');
+assert.ok(enhancedRegions.RU.length >= 5, 'Russia should expose more major regions.');
+assert.ok(englishCitiesByCountryRegion.BE.Antwerp.includes('Antwerp'), 'Belgium Antwerp should include Antwerp.');
+assert.ok(englishCitiesByCountryRegion.GB['Northern Ireland'].includes('Belfast'), 'United Kingdom Northern Ireland should include Belfast.');
+assert.ok(englishCitiesByCountryRegion.RU.Kazan.includes('Kazan'), 'Russia Kazan should include Kazan.');
 
 const europeCodes = englishCountriesByContinent.Europe;
 const unsupportedEurope = europeCodes.filter(code => !enhancedRegions[code] && !supplementalEuropeanRegions[code] && !capitalCityFallbackByCountry[code]);
