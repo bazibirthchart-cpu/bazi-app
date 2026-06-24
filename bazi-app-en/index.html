@@ -6,7 +6,6 @@
     <title>BaZi Five Elements Reading</title>
     <script src="./vendor/lunar.js"></script>
     <script src="./vendor/html2canvas.min.js"></script>
-    <script src="./vendor/jspdf.umd.min.js"></script>
     <style>
         :root {
             --bg-color: #0d0e15;
@@ -1126,7 +1125,6 @@
 
         <div class="action-group">
             <button type="button" id="saveChartBtn" class="save-btn">保存专业排盘图片</button>
-            <button type="button" id="savePdfBtn" class="save-btn">Save Full PDF</button>
             <button type="button" id="shareReportBtn" class="save-btn share-btn">Share Report</button>
         </div>
 
@@ -1455,24 +1453,22 @@
         if (currentLang === 'zh') {
             return {
                 title: '完成付款后查看完整报告',
-                note: '基础信息与主盘可先查看。完整报告章节、完整 PDF 与完整分享会在付款成功后开放。',
+                note: '基础信息与主盘可先查看。完整报告章节与完整分享会在付款成功后开放。',
                 warning: '付款成功后，系统会提供一个可长期使用的专属报告链接。请保存该链接；若邮箱未收到，也可直接用该链接再次打开。',
                 cta: '前往付款',
                 unlocked: '付款已确认。当前报告可以直接查看，也可以通过专属链接再次打开。',
                 lockedAlert: '请先完成付款，再查看完整报告。',
-                pdfAlert: '请先完成付款，再保存完整 PDF。',
                 shareAlert: '请先完成付款，再分享完整报告。',
                 resumeError: '未能恢复已付款报告，请重新打开你的专属报告链接。'
             };
         }
         return {
             title: 'Complete payment to open the full report',
-            note: 'You can preview the basic chart first. Full report sections, full PDF, and full sharing open after payment succeeds.',
+            note: 'You can preview the basic chart first. Full report sections and full sharing open after payment succeeds.',
             warning: 'After payment, you will receive a permanent report link. Save that link in case your email does not arrive right away.',
             cta: 'Continue to payment',
             unlocked: 'Payment confirmed. This report is open, and the permanent link can reopen it later.',
             lockedAlert: 'Please complete payment before opening the full report.',
-            pdfAlert: 'Please complete payment before saving the full PDF.',
             shareAlert: 'Please complete payment before sharing the full report.',
             resumeError: 'We could not restore this paid report. Please reopen it from your permanent report link.'
         };
@@ -1633,9 +1629,7 @@
             tab.setAttribute('aria-disabled', locked ? 'true' : 'false');
         });
 
-        const savePdfBtn = document.getElementById('savePdfBtn');
         const shareReportBtn = document.getElementById('shareReportBtn');
-        if (savePdfBtn) savePdfBtn.disabled = !premiumUnlocked;
         if (shareReportBtn) shareReportBtn.disabled = !premiumUnlocked;
     }
 
@@ -2456,7 +2450,6 @@
             elementTitle: 'Five Element Percentages',
             promptTitle: 'Backend Prompt Preview',
             saveChart: 'Save Chart Image',
-            savePdf: 'Save Full PDF',
             shareReport: 'Share Report',
             chartHint: '',
             chartGlossaryTitle: 'Term Guide',
@@ -4484,7 +4477,6 @@
         setNodeText('elementTitle', t.elementTitle);
         setNodeText('promptTitle', t.promptTitle);
         setNodeText('saveChartBtn', t.saveChart);
-        setNodeText('savePdfBtn', t.savePdf || 'Save Full PDF');
         setNodeText('shareReportBtn', t.shareReport || 'Share Report');
         setNodeText('privacyNote', t.privacy);
         setNodeText('customNoteTitle', t.customNoteTitle);
@@ -4972,66 +4964,6 @@
             alert(currentLang === 'zh' ? '保存图片失败，请稍后再试。' : 'Unable to save the image right now. Please try again.');
         });
     };
-    function buildPdfExportPages() {
-        const report = document.getElementById('reportSection');
-        const exportWidth = Math.min(Math.max(report.offsetWidth || 900, 900), 1120);
-        const shell = document.createElement('div');
-        shell.id = 'pdfExportShell';
-        shell.style.position = 'fixed';
-        shell.style.left = '-20000px';
-        shell.style.top = '0';
-        shell.style.zIndex = '-1';
-        shell.style.pointerEvents = 'none';
-        shell.style.background = '#221f3f';
-        shell.style.padding = '24px';
-        shell.style.width = `${exportWidth + 48}px`;
-
-        const pages = [];
-        const pageIds = ['free', 'overview', 'career', 'relationship', 'year', 'action'];
-
-        pageIds.forEach((pageId, index) => {
-            const source = document.getElementById(`page-${pageId}`);
-            if (!source) return;
-
-            const pageWrap = document.createElement('div');
-            pageWrap.className = 'pdf-export-page';
-            pageWrap.style.width = `${exportWidth}px`;
-            pageWrap.style.margin = '0 0 24px 0';
-            pageWrap.style.padding = '0';
-            pageWrap.style.background = '#221f3f';
-            pageWrap.style.boxSizing = 'border-box';
-
-            const clone = source.cloneNode(true);
-            clone.id = `pdf-${pageId}`;
-            clone.classList.add('active');
-            clone.style.display = 'block';
-            clone.style.margin = '0';
-
-            if (pageId === 'free') {
-                const chartClone = document.getElementById('baziCaptureZone')?.cloneNode(true);
-                const infoCards = Array.from(source.querySelectorAll('.result-card')).map(node => node.cloneNode(true));
-                if (chartClone) pageWrap.appendChild(chartClone);
-                infoCards.forEach(card => pageWrap.appendChild(card));
-            } else {
-                pageWrap.appendChild(clone);
-            }
-
-            if (pageId === 'action') {
-                const serviceNote = report.querySelector('.service-note');
-                if (serviceNote) {
-                    const noteClone = serviceNote.cloneNode(true);
-                    noteClone.style.marginTop = '18px';
-                    pageWrap.appendChild(noteClone);
-                }
-            }
-
-            shell.appendChild(pageWrap);
-            pages.push(pageWrap);
-        });
-
-        document.body.appendChild(shell);
-        return { shell, pages, exportWidth };
-    }
     function openExportPreview(dataUrl, filename, kind) {
         const previewWindow = window.open('', '_blank');
         if (!previewWindow) {
@@ -5133,27 +5065,6 @@
             }
         };
     }
-    async function exportPdfViaApi() {
-        if (window.location.protocol === 'file:') return false;
-        const response = await fetch('/api/export-pdf', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(buildPdfApiPayload())
-        });
-        if (!response.ok) {
-            throw new Error(`PDF API failed with status ${response.status}`);
-        }
-        const pdfBlob = await response.blob();
-        const filename = currentLang === 'zh' ? `五行宇宙_完整报告_${Date.now()}.pdf` : `elements-palette-full-report-${Date.now()}.pdf`;
-        const pdfDataUrl = await new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(pdfBlob);
-        });
-        await persistExport(pdfBlob, filename, 'application/pdf', pdfDataUrl, 'pdf');
-        return true;
-    }
     function buildSharePayload() {
         const title = document.getElementById('title')?.textContent?.trim() || 'BaZi Five Elements Reading';
         const name = document.getElementById('nameText')?.textContent?.trim() || 'Your Reading';
@@ -5219,7 +5130,6 @@
     }
     function bindExportButtons() {
         const saveChartBtn = document.getElementById('saveChartBtn');
-        const savePdfBtn = document.getElementById('savePdfBtn');
         const shareReportBtn = document.getElementById('shareReportBtn');
         if (saveChartBtn) {
             saveChartBtn.onclick = function(event) {
@@ -5228,16 +5138,6 @@
                     event.stopPropagation();
                 }
                 window.captureAndSaveChart();
-                return false;
-            };
-        }
-        if (savePdfBtn) {
-            savePdfBtn.onclick = function(event) {
-                if (event) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                window.saveReportAsPdf();
                 return false;
             };
         }
@@ -5252,73 +5152,6 @@
             };
         }
     }
-    window.saveReportAsPdf = async function() {
-        if (!window.html2canvas || !window.jspdf || !window.jspdf.jsPDF) {
-            alert(currentLang === 'zh' ? 'PDF 导出组件未成功加载，请稍后再试。' : 'The PDF export library did not load. Please try again.');
-            return;
-        }
-        if (!premiumUnlocked) {
-            alert(getUnlockFlowCopy().pdfAlert);
-            return;
-        }
-        const target = document.getElementById('reportSection');
-        if (!target || target.style.display === 'none') {
-            alert(currentLang === 'zh' ? '请先生成报告，再保存 PDF。' : 'Please generate a report before saving the PDF.');
-            return;
-        }
-        try {
-            const exported = await exportPdfViaApi();
-            if (exported) return;
-        } catch (error) {
-            console.error(error);
-        }
-        const { jsPDF } = window.jspdf;
-        const { shell, pages, exportWidth } = buildPdfExportPages();
-        try {
-            const pdf = new jsPDF('p', 'pt', 'a4');
-            const pageWidth = pdf.internal.pageSize.getWidth();
-            const pageHeight = pdf.internal.pageSize.getHeight();
-            const margin = 18;
-            const usableWidth = pageWidth - (margin * 2);
-
-            for (let index = 0; index < pages.length; index += 1) {
-                const pageNode = pages[index];
-                const canvas = await html2canvas(pageNode, {
-                    backgroundColor: '#221f3f',
-                    scale: 2,
-                    useCORS: true,
-                    scrollX: 0,
-                    scrollY: 0,
-                    windowWidth: exportWidth,
-                    windowHeight: pageNode.scrollHeight
-                });
-                const imgData = canvas.toDataURL('image/png');
-                const widthScale = usableWidth / canvas.width;
-                const heightScale = (pageHeight - (margin * 2)) / canvas.height;
-                const scale = Math.min(widthScale, heightScale);
-                const renderWidth = canvas.width * scale;
-                const renderHeight = canvas.height * scale;
-                const offsetX = margin + ((usableWidth - renderWidth) / 2);
-                const offsetY = margin + (((pageHeight - (margin * 2)) - renderHeight) / 2);
-
-                if (index > 0) {
-                    pdf.addPage();
-                }
-
-                pdf.addImage(imgData, 'PNG', offsetX, offsetY, renderWidth, renderHeight, undefined, 'FAST');
-            }
-
-            const filename = currentLang === 'zh' ? `五行宇宙_完整报告_${Date.now()}.pdf` : `elements-palette-full-report-${Date.now()}.pdf`;
-            const pdfBlob = pdf.output('blob');
-            const pdfDataUrl = pdf.output('dataurlstring');
-            return persistExport(pdfBlob, filename, 'application/pdf', pdfDataUrl, 'pdf');
-        } catch (error) {
-            console.error(error);
-            alert(currentLang === 'zh' ? '保存 PDF 失败，请稍后再试。' : 'Unable to save the PDF right now. Please try again.');
-        } finally {
-            shell.remove();
-        }
-    };
     window.onload = function() {
         applyStandaloneMode();
         populateTimeSelectors();
