@@ -1,5 +1,54 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 
+const pdfGlossary = new Map([
+  ['偏印', 'Indirect Resource'],
+  ['正印', 'Direct Resource'],
+  ['比肩', 'Companion'],
+  ['劫财', 'Peer Rival'],
+  ['食神', 'Output Star'],
+  ['伤官', 'Hurting Officer'],
+  ['偏财', 'Indirect Wealth'],
+  ['正财', 'Direct Wealth'],
+  ['七杀', 'Seven Killings'],
+  ['正官', 'Direct Officer'],
+  ['元女', 'Day Master (Female)'],
+  ['元男', 'Day Master (Male)'],
+  ['甲', 'Jia '],
+  ['乙', 'Yi '],
+  ['丙', 'Bing '],
+  ['丁', 'Ding '],
+  ['戊', 'Wu '],
+  ['己', 'Ji '],
+  ['庚', 'Geng '],
+  ['辛', 'Xin '],
+  ['壬', 'Ren '],
+  ['癸', 'Gui '],
+  ['子', 'Zi '],
+  ['丑', 'Chou '],
+  ['寅', 'Yin '],
+  ['卯', 'Mao '],
+  ['辰', 'Chen '],
+  ['巳', 'Si '],
+  ['午', 'Wu '],
+  ['未', 'Wei '],
+  ['申', 'Shen '],
+  ['酉', 'You '],
+  ['戌', 'Xu '],
+  ['亥', 'Hai '],
+  ['鼠', 'Rat'],
+  ['牛', 'Ox'],
+  ['虎', 'Tiger'],
+  ['兔', 'Rabbit'],
+  ['龙', 'Dragon'],
+  ['蛇', 'Snake'],
+  ['马', 'Horse'],
+  ['羊', 'Goat'],
+  ['猴', 'Monkey'],
+  ['鸡', 'Rooster'],
+  ['狗', 'Dog'],
+  ['猪', 'Pig']
+]);
+
 function wrapText(text, maxChars) {
   const words = String(text || '').split(/\s+/);
   const lines = [];
@@ -15,6 +64,27 @@ function wrapText(text, maxChars) {
   });
   if (line) lines.push(line);
   return lines;
+}
+
+function sanitizeEnglishPdfText(text) {
+  if (!text) return '';
+  let output = String(text);
+  const glossaryEntries = [...pdfGlossary.entries()].sort((a, b) => b[0].length - a[0].length);
+  glossaryEntries.forEach(([source, target]) => {
+    output = output.split(source).join(target);
+  });
+  output = output
+    .replace(/[\u3400-\u9fff\uf900-\ufaff]/g, ' ')
+    .replace(/[ \t]{2,}/g, ' ')
+    .replace(/ *\n */g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+  return output;
+}
+
+function preparePdfText(text, language) {
+  if (language === 'en') return sanitizeEnglishPdfText(text);
+  return String(text || '');
 }
 
 export async function buildPdfBuffer(calculation, report, language = 'en') {
@@ -47,7 +117,7 @@ export async function buildPdfBuffer(calculation, report, language = 'en') {
       font: titleFont,
       color: rgb(0.96, 0.86, 0.56)
     });
-    page.drawText(report.lead, {
+    page.drawText(preparePdfText(report.lead, language), {
       x: 40,
       y: 724,
       size: 10,
@@ -59,11 +129,11 @@ export async function buildPdfBuffer(calculation, report, language = 'en') {
     page.drawText(`Name: ${calculation.input.name}`, { x: 40, y: 680, size: 10, font: bodyFont, color: rgb(1, 1, 1) });
     page.drawText(`Birth: ${calculation.input.rawBirthTime}`, { x: 220, y: 680, size: 10, font: bodyFont, color: rgb(1, 1, 1) });
     page.drawText(`True Solar Time: ${calculation.input.adjustedBirthTime}`, { x: 40, y: 662, size: 10, font: bodyFont, color: rgb(1, 1, 1) });
-    page.drawText(`Pillars: ${calculation.chart.pillars.year} ${calculation.chart.pillars.month} ${calculation.chart.pillars.day} ${calculation.chart.pillars.time}`, {
+    page.drawText(preparePdfText(`Pillars: ${calculation.chart.pillars.year} ${calculation.chart.pillars.month} ${calculation.chart.pillars.day} ${calculation.chart.pillars.time}`, language), {
       x: 40, y: 644, size: 10, font: bodyFont, color: rgb(1, 1, 1)
     });
 
-    const lines = wrapText(body, language === 'zh' ? 28 : 68);
+    const lines = wrapText(preparePdfText(body, language), language === 'zh' ? 28 : 68);
     let cursorY = 608;
     lines.forEach(line => {
       if (cursorY < 54) return;
